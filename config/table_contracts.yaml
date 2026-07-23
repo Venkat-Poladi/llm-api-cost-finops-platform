@@ -1,0 +1,93 @@
+version: 2
+currency: USD
+tables:
+  raw_ai_provider_usage:
+    layer: raw
+    grain:
+    - usage_date
+    - provider
+    - usage_type
+    - provider_project_id
+    - api_key_id
+    - model
+    - provider_service_tier
+    - is_batch
+    - context_window_tier
+  raw_ai_provider_cost:
+    layer: raw
+    grain:
+    - billing_period
+    - provider
+    - provider_project_id
+    - model
+    - line_item_type
+    - provider_line_item_id
+  fct_ai_request_telemetry:
+    layer: raw
+    grain:
+    - provider_request_id
+  bridge_ai_usage_attribution:
+    layer: raw
+    grain:
+    - provider
+    - provider_project_id
+    - api_key_id
+    - application_name
+    - department_name
+    - cost_center
+    - effective_start_date
+    - effective_end_date
+  dim_ai_model_map:
+    layer: raw
+    grain:
+    - provider
+    - usage_type
+    - provider_model_name
+    - model_snapshot
+    - effective_start
+    - effective_end
+  dim_ai_model_rate:
+    layer: raw
+    grain:
+    - provider
+    - usage_type
+    - model_snapshot
+    - normalized_processing_tier
+    - is_batch
+    - context_window_tier
+    - effective_start
+    - effective_end
+  dim_ai_experiment_control:
+    layer: raw
+    grain:
+    - experiment_id
+  fct_ai_experiment_decision:
+    layer: raw
+    grain:
+    - experiment_decision_id
+  fct_ai_usage_daily:
+    layer: core
+    grain:
+    - usage_date
+    - provider
+    - usage_type
+    - provider_project_id
+    - api_key_id
+    - model
+    - model_snapshot
+    - provider_service_tier
+    - normalized_processing_tier
+    - is_batch
+    - context_window_tier
+    - application_name
+    - department_name
+    - cost_center
+  fct_ai_cost_reconciliation:
+    layer: core
+    grain:
+    - billing_month
+    - provider
+    - provider_project_id
+    - model
+    - line_item_type
+    - provider_line_item_id

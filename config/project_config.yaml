@@ -1,0 +1,18 @@
+project:
+  name: llm-api-cost-finops-platform
+  version: 0.1.0
+  reporting_currency: USD
+  seed: 42
+  history_months: 18
+
+providers:
+  - openai
+  - anthropic
+
+bigquery:
+  location: US
+  raw_dataset: llm_finops_raw
+  staging_dataset: llm_finops_staging
+  core_dataset: llm_finops_core
+  mart_dataset: llm_finops_mart
+  control_dataset: llm_finops_control
