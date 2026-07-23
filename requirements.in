@@ -1,0 +1,9 @@
+google-cloud-bigquery
+numpy
+pandas
+pyarrow
+pydantic
+pytest
+pytest-cov
+pyyaml
+ruff
