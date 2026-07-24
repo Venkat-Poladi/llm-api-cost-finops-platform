@@ -1,0 +1,8 @@
+divergence_id,provider,provider_project_id,billing_month,line_item_scope,line_item_type,model,amount_rule,amount_value,variance_reason_code,is_restatement,expected_tolerance_status
+DIV001,openai,oa-project-customer,2025-03-01,model,usage,gpt-4o-mini,provider_reported_cost_pct_increase,0.014,LATE_USAGE,false,exception
+DIV002,anthropic,an-workspace-risk,2025-06-01,model,usage,claude-sonnet-4,provider_reported_cost_pct_decrease,0.018,INVOICE_CUTOFF,false,exception
+DIV003,openai,oa-project-growth,2025-09-01,project,credit,,fixed_usd,-850,SERVICE_CREDIT,false,not_applicable
+DIV004,anthropic,an-workspace-engineering,2025-12-01,project,commitment_true_up,,fixed_usd,1200,MINIMUM_COMMITMENT,false,not_applicable
+DIV005,openai,oa-project-enterprise,2026-01-01,invoice,tax,,invoice_usage_pct,0.045,TAX,false,not_applicable
+DIV006,anthropic,an-workspace-innovation,2026-03-01,project,correction,,fixed_usd,-600,HISTORICAL_CORRECTION,true,not_applicable
+DIV007,openai,oa-project-innovation,2026-05-01,project,adjustment,,fixed_usd,350,MANUAL_ADJUSTMENT,false,not_applicable

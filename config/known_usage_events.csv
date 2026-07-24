@@ -1,0 +1,7 @@
+event_id,event_date,workload_id,event_type,multiplier,duration_days,expected_signal,explanation
+EVT001,2025-03-17,W001,request_spike,3.5,2,usage_and_cost_spike,A product release increases support demand.
+EVT002,2025-07-08,W003,retry_storm,4.0,1,retry_cost_and_failure_spike,Transient provider errors trigger repeated batch attempts.
+EVT003,2025-11-28,W002,embedding_spike,3.0,3,embedding_token_spike,Holiday catalog re-indexing increases embedding volume.
+EVT004,2026-02-12,W009,long_context_spike,4.5,2,high_input_cost_spike,A fraud investigation sends unusually large case files.
+EVT005,2026-03-05,W011,cache_drop,0.15,4,cache_read_share_drop_and_cost_increase,A prompt-template change invalidates reusable cache prefixes.
+EVT006,2026-05-05,W005,runaway_experiment,6.0,1,experiment_limit_breach,An experiment loop creates repeated model calls.

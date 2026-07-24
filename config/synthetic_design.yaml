@@ -1,0 +1,130 @@
+design_version: 1
+reporting_period:
+  start_date: '2025-01-01'
+  end_date: '2026-06-30'
+  complete_months: 18
+  reporting_currency: USD
+randomness:
+  master_seed: 42
+  streams:
+    provider_usage: 4101
+    provider_cost: 4201
+    request_telemetry: 4301
+    attribution: 4401
+    experiments: 4501
+  rule: Each source uses a separate deterministic random-number stream. Sources share business configuration
+    but are not copied from one another.
+source_targets:
+  provider_usage_daily_rows:
+    minimum: 4000
+    maximum: 9000
+  request_telemetry_attempt_rows:
+    minimum: 150000
+    maximum: 450000
+  note: Targets control project size only. The generator must report the actual seeded result and must
+    never tune output backward to hit a desired metric.
+request_generation:
+  distribution: negative_binomial
+  dispersion: 14
+  minimum_daily_requests_for_active_workload: 1
+  calendar_profiles:
+    customer:
+      weekday_multiplier: 1.0
+      weekend_multiplier: 0.78
+    business:
+      weekday_multiplier: 1.0
+      weekend_multiplier: 0.28
+    campaign:
+      weekday_multiplier: 1.0
+      weekend_multiplier: 0.55
+    risk:
+      weekday_multiplier: 1.0
+      weekend_multiplier: 0.6
+  monthly_seasonality:
+    '1': 0.92
+    '2': 0.96
+    '3': 1.0
+    '4': 1.02
+    '5': 1.04
+    '6': 0.98
+    '7': 0.95
+    '8': 1.0
+    '9': 1.07
+    '10': 1.12
+    '11': 1.24
+    '12': 1.16
+token_generation:
+  distribution: lognormal
+  input_sigma: 0.55
+  output_sigma: 0.5
+  hard_rules:
+  - reasoning_tokens must be less than or equal to output_tokens
+  - embedding rows have output_tokens equal to zero
+  - OpenAI cached input tokens are a subset of input tokens
+  - Anthropic cache categories remain separate from uncached input
+  - batch rows carry zero cache-token quantities in v1
+telemetry_generation:
+  grain: one row per provider request attempt
+  coverage_is_incomplete: true
+  failure_stages:
+    rejected_pre_processing: 0.35
+    mid_generation_error: 0.65
+  cancelled_share_of_unsuccessful_attempts: 0.08
+  maximum_attempts_per_logical_request: 4
+  retry_reason_values:
+  - rate_limit
+  - timeout
+  - provider_5xx
+  - network_error
+  - content_filter_retry
+  rule: Provider usage and telemetry must be reconcilable but not identical. Missing telemetry remains
+    visible through calculated coverage.
+cost_generation:
+  provider_reported_cost:
+    usage_line_rounding_pct_range:
+    - -0.0025
+    - 0.0025
+    late_usage_month_probability: 0.2
+    late_usage_pct_range:
+    - 0.004
+    - 0.018
+    invoice_cutoff_month_probability: 0.12
+    invoice_cutoff_pct_range:
+    - 0.003
+    - 0.015
+  invoice_billed_cost:
+    usage_invoice_adjustment_pct_range:
+    - -0.006
+    - 0.006
+    non_usage_line_types:
+    - credit
+    - commitment_true_up
+    - correction
+    - adjustment
+    - tax
+  reconciliation_tolerance:
+    absolute_usd: 1.0
+    relative_pct: 0.01
+    rule: A row passes if either absolute variance is at most the absolute threshold or relative variance
+      is at most the relative threshold.
+  exception_rule: Every intentional tolerance miss must carry a variance_reason_code. No unexplained reconciliation
+    exception is allowed.
+allocation_generation:
+  percentage_storage: decimal
+  zero_denominator_rule:
+    allocated_cost: 0
+    unallocated_cost: source_cost
+    allocation_status: No eligible driver
+  reconciliation_rule: allocated_cost + unallocated_cost = source_cost
+experiment_generation:
+  allowed_limit_periods:
+  - day
+  - month
+  - lifetime
+  allowed_decisions:
+  - Stop
+  - Continue
+  - Modify
+  - Scale
+  financial_basis: allocated invoice_billed_cost from eligible usage lines only
+  non_usage_lines_excluded: true

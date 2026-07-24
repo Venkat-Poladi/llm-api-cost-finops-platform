@@ -1,0 +1,14 @@
+mapping_id,provider,provider_project_id,api_key_id,application_name,department_name,cost_center,allocation_percentage,effective_start_date,effective_end_date,mapping_status,allocation_method,allocation_confidence,mapping_recorded_date
+MAP001,openai,oa-project-customer,oa-key-support,Customer Support Copilot,Customer Operations,CC100,1.00,2025-01-01,2026-06-30,active,direct_key,high,2025-01-01
+MAP002,openai,oa-project-commerce,oa-key-embedding,Product Search,Digital Commerce,CC200,1.00,2025-01-01,2026-06-30,active,direct_key,high,2025-01-01
+MAP003,openai,oa-project-growth,oa-key-marketing,Marketing Content Studio,Marketing,CC300,1.00,2025-04-01,2026-06-30,active,direct_key,high,2025-04-01
+MAP004,openai,oa-project-enterprise,oa-key-executive,Executive Insight Assistant,Corporate Strategy,CC350,1.00,2025-08-07,2026-06-30,active,direct_key,high,2025-08-07
+MAP005,openai,oa-project-innovation,oa-key-lab,Model Evaluation Lab,Innovation,CC600,1.00,2025-09-01,2026-06-30,active,direct_key,medium,2025-09-01
+MAP006,openai,oa-project-growth,oa-key-shared,Campaign Assistant,Marketing,CC300,0.60,2025-01-01,2026-06-30,active,shared_key_percentage,medium,2025-01-01
+MAP007,openai,oa-project-growth,oa-key-shared,Growth Experiment Assistant,Innovation,CC600,0.30,2025-01-01,2026-06-30,active,shared_key_percentage,medium,2025-01-01
+MAP008,openai,oa-project-customer,oa-key-prompt-test,Customer Support Copilot,Customer Operations,CC100,1.00,2026-04-01,2026-05-31,active,direct_key,high,2026-04-01
+MAP009,anthropic,an-workspace-engineering,an-key-developer,Developer Assistant,Engineering,CC400,1.00,2025-05-14,2025-12-31,superseded,direct_key,high,2025-05-14
+MAP010,anthropic,an-workspace-engineering,an-key-developer,Developer Assistant,Platform Engineering,CC410,1.00,2026-01-01,2026-06-30,active,ownership_change,high,2026-01-01
+MAP011,anthropic,an-workspace-risk,an-key-risk,Fraud Review Assistant,Risk and Compliance,CC500,1.00,2025-05-14,2026-06-30,active,direct_key,high,2025-05-14
+MAP012,anthropic,an-workspace-operations,an-key-batch,Document Summarization,Business Operations,CC250,1.00,2025-06-01,2026-06-30,active,direct_key,high,2025-06-01
+MAP013,anthropic,an-workspace-innovation,an-key-lab,Cache Strategy Lab,Innovation,CC600,1.00,2025-09-01,2026-03-31,late_restatement,late_mapping,medium,2026-02-01
