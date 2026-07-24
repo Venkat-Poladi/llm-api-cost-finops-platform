@@ -1,0 +1,9 @@
+focus_version: '1.4'
+status: published
+ratified_date: '2026-06-04'
+retrieved_date: '2026-07-21'
+official_source: https://focus.finops.org/focus-specification/v1-4/
+project_use:
+  financial_fields: Map eligible billing and invoice semantics to FOCUS 1.4.
+  operational_fields: Keep token, cache, reasoning, request, retry, and experiment
+    fields as project extensions.

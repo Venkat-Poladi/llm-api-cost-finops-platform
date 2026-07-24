@@ -1,0 +1,49 @@
+generator_usage_policy:
+  openai:
+    allowed_provider_service_tiers:
+    - default
+    allowed_batch_values:
+    - false
+    - true
+    note: OpenAI exposes batch separately from service_tier in the organization usage
+      API.
+  anthropic:
+    allowed_provider_service_tiers:
+    - standard
+    - batch
+    allowed_batch_values:
+    - false
+    - true
+    note: Anthropic batch service_tier is normalized to processing tier standard plus
+      is_batch=true.
+normalization:
+- provider: openai
+  provider_service_tier: default
+  normalized_processing_tier: standard
+  is_batch_rule: Use source batch boolean.
+  used_in_v1: true
+- provider: openai
+  provider_service_tier: flex
+  normalized_processing_tier: flex
+  is_batch_rule: 'false'
+  used_in_v1: false
+- provider: openai
+  provider_service_tier: priority
+  normalized_processing_tier: priority
+  is_batch_rule: 'false'
+  used_in_v1: false
+- provider: anthropic
+  provider_service_tier: standard
+  normalized_processing_tier: standard
+  is_batch_rule: 'false'
+  used_in_v1: true
+- provider: anthropic
+  provider_service_tier: batch
+  normalized_processing_tier: standard
+  is_batch_rule: 'true'
+  used_in_v1: true
+- provider: anthropic
+  provider_service_tier: priority
+  normalized_processing_tier: priority
+  is_batch_rule: 'false'
+  used_in_v1: false
