@@ -1,0 +1,452 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  staging: llm_finops_staging
+  core: llm_finops_core
+  mart: llm_finops_mart
+  control: llm_finops_control
+tables:
+  raw_ai_provider_usage:
+    source_file: data/generated/raw_ai_provider_usage.csv
+    partition_field: usage_date
+    clustering_fields:
+    - provider
+    - usage_type
+    - model
+    - provider_project_id
+    schema:
+    - - usage_date
+      - DATE
+      - REQUIRED
+    - - provider
+      - STRING
+      - REQUIRED
+    - - usage_type
+      - STRING
+      - REQUIRED
+    - - provider_project_id
+      - STRING
+      - REQUIRED
+    - - api_key_id
+      - STRING
+      - REQUIRED
+    - - model
+      - STRING
+      - REQUIRED
+    - - provider_service_tier
+      - STRING
+      - REQUIRED
+    - - is_batch
+      - BOOL
+      - REQUIRED
+    - - context_window_tier
+      - STRING
+      - REQUIRED
+    - - request_count
+      - INT64
+      - NULLABLE
+    - - input_tokens
+      - INT64
+      - NULLABLE
+    - - output_tokens
+      - INT64
+      - REQUIRED
+    - - reasoning_tokens
+      - INT64
+      - NULLABLE
+    - - cached_input_tokens
+      - INT64
+      - NULLABLE
+    - - uncached_input_tokens
+      - INT64
+      - NULLABLE
+    - - cache_read_input_tokens
+      - INT64
+      - NULLABLE
+    - - cache_creation_5m_tokens
+      - INT64
+      - NULLABLE
+    - - cache_creation_1h_tokens
+      - INT64
+      - NULLABLE
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  raw_ai_provider_cost:
+    source_file: data/generated/raw_ai_provider_cost.csv
+    partition_field: billing_period
+    clustering_fields:
+    - provider
+    - provider_project_id
+    - line_item_type
+    - model
+    schema:
+    - - billing_period
+      - DATE
+      - REQUIRED
+    - - provider
+      - STRING
+      - REQUIRED
+    - - provider_project_id
+      - STRING
+      - REQUIRED
+    - - model
+      - STRING
+      - NULLABLE
+    - - line_item_scope
+      - STRING
+      - REQUIRED
+    - - line_item_type
+      - STRING
+      - REQUIRED
+    - - provider_line_item_id
+      - STRING
+      - REQUIRED
+    - - provider_reported_cost
+      - NUMERIC
+      - REQUIRED
+    - - invoice_billed_cost
+      - NUMERIC
+      - REQUIRED
+    - - billing_currency
+      - STRING
+      - REQUIRED
+    - - credit_amount
+      - NUMERIC
+      - REQUIRED
+    - - adjustment_reason
+      - STRING
+      - NULLABLE
+    - - invoice_issue_date
+      - DATE
+      - REQUIRED
+    - - is_restatement
+      - BOOL
+      - REQUIRED
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  fct_ai_request_telemetry:
+    source_file: data/generated/fct_ai_request_telemetry.csv
+    partition_field: usage_date
+    clustering_fields:
+    - provider
+    - model
+    - provider_project_id
+    - application_name
+    schema:
+    - - logical_request_id
+      - STRING
+      - REQUIRED
+    - - provider_request_id
+      - STRING
+      - REQUIRED
+    - - attempt_number
+      - INT64
+      - REQUIRED
+    - - attempt_status
+      - STRING
+      - REQUIRED
+    - - is_final_attempt
+      - BOOL
+      - REQUIRED
+    - - final_request_status
+      - STRING
+      - REQUIRED
+    - - retry_reason
+      - STRING
+      - NULLABLE
+    - - usage_date
+      - DATE
+      - REQUIRED
+    - - provider
+      - STRING
+      - REQUIRED
+    - - provider_project_id
+      - STRING
+      - REQUIRED
+    - - api_key_id
+      - STRING
+      - REQUIRED
+    - - application_name
+      - STRING
+      - REQUIRED
+    - - experiment_id
+      - STRING
+      - NULLABLE
+    - - model
+      - STRING
+      - REQUIRED
+    - - failure_stage
+      - STRING
+      - NULLABLE
+    - - input_tokens
+      - INT64
+      - REQUIRED
+    - - output_tokens
+      - INT64
+      - REQUIRED
+    - - reasoning_tokens
+      - INT64
+      - REQUIRED
+    - - cached_input_tokens
+      - INT64
+      - REQUIRED
+    - - uncached_input_tokens
+      - INT64
+      - REQUIRED
+    - - cache_read_input_tokens
+      - INT64
+      - REQUIRED
+    - - cache_creation_5m_tokens
+      - INT64
+      - REQUIRED
+    - - cache_creation_1h_tokens
+      - INT64
+      - REQUIRED
+    - - usage_cost_estimate
+      - NUMERIC
+      - REQUIRED
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  bridge_ai_usage_attribution:
+    source_file: data/generated/bridge_ai_usage_attribution.csv
+    partition_field: null
+    clustering_fields:
+    - provider
+    - provider_project_id
+    - api_key_id
+    schema:
+    - - mapping_id
+      - STRING
+      - REQUIRED
+    - - provider
+      - STRING
+      - REQUIRED
+    - - provider_project_id
+      - STRING
+      - REQUIRED
+    - - api_key_id
+      - STRING
+      - REQUIRED
+    - - application_name
+      - STRING
+      - REQUIRED
+    - - department_name
+      - STRING
+      - REQUIRED
+    - - cost_center
+      - STRING
+      - REQUIRED
+    - - allocation_percentage
+      - NUMERIC
+      - REQUIRED
+    - - effective_start_date
+      - DATE
+      - REQUIRED
+    - - effective_end_date
+      - DATE
+      - REQUIRED
+    - - mapping_status
+      - STRING
+      - REQUIRED
+    - - allocation_method
+      - STRING
+      - REQUIRED
+    - - allocation_confidence
+      - STRING
+      - REQUIRED
+    - - mapping_recorded_date
+      - DATE
+      - REQUIRED
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  dim_ai_experiment_control:
+    source_file: data/generated/dim_ai_experiment_control.csv
+    partition_field: null
+    clustering_fields:
+    - application_name
+    - cost_center
+    - current_status
+    schema:
+    - - experiment_id
+      - STRING
+      - REQUIRED
+    - - owner
+      - STRING
+      - REQUIRED
+    - - approver
+      - STRING
+      - REQUIRED
+    - - hypothesis
+      - STRING
+      - REQUIRED
+    - - application_name
+      - STRING
+      - REQUIRED
+    - - cost_center
+      - STRING
+      - REQUIRED
+    - - spending_limit
+      - NUMERIC
+      - REQUIRED
+    - - spending_limit_period
+      - STRING
+      - REQUIRED
+    - - limit_currency
+      - STRING
+      - REQUIRED
+    - - warning_threshold
+      - NUMERIC
+      - REQUIRED
+    - - hard_stop_threshold
+      - NUMERIC
+      - REQUIRED
+    - - start_date
+      - DATE
+      - REQUIRED
+    - - planned_end_date
+      - DATE
+      - REQUIRED
+    - - current_status
+      - STRING
+      - REQUIRED
+    - - override_reason
+      - STRING
+      - NULLABLE
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  fct_ai_experiment_decision:
+    source_file: data/generated/fct_ai_experiment_decision.csv
+    partition_field: decision_date
+    clustering_fields:
+    - experiment_id
+    - decision
+    - new_status
+    schema:
+    - - experiment_decision_id
+      - STRING
+      - REQUIRED
+    - - experiment_id
+      - STRING
+      - REQUIRED
+    - - decision
+      - STRING
+      - REQUIRED
+    - - decision_date
+      - DATE
+      - REQUIRED
+    - - decided_by
+      - STRING
+      - REQUIRED
+    - - rationale
+      - STRING
+      - REQUIRED
+    - - previous_status
+      - STRING
+      - REQUIRED
+    - - new_status
+      - STRING
+      - REQUIRED
+    - - is_synthetic
+      - BOOL
+      - REQUIRED
+  dim_ai_model_map:
+    source_file: config/model_map.csv
+    partition_field: null
+    clustering_fields:
+    - provider
+    - usage_type
+    - provider_model_name
+    schema:
+    - - provider
+      - STRING
+      - REQUIRED
+    - - usage_type
+      - STRING
+      - REQUIRED
+    - - provider_model_name
+      - STRING
+      - REQUIRED
+    - - model_snapshot
+      - STRING
+      - REQUIRED
+    - - effective_start
+      - DATE
+      - REQUIRED
+    - - effective_end
+      - DATE
+      - REQUIRED
+    - - reasoning_capable
+      - BOOL
+      - REQUIRED
+  dim_ai_model_rate:
+    source_file: config/model_rates.csv
+    partition_field: null
+    clustering_fields:
+    - provider
+    - usage_type
+    - model_snapshot
+    - normalized_processing_tier
+    schema:
+    - - provider
+      - STRING
+      - REQUIRED
+    - - usage_type
+      - STRING
+      - REQUIRED
+    - - model_snapshot
+      - STRING
+      - REQUIRED
+    - - normalized_processing_tier
+      - STRING
+      - REQUIRED
+    - - is_batch
+      - BOOL
+      - REQUIRED
+    - - context_window_tier
+      - STRING
+      - REQUIRED
+    - - effective_start
+      - DATE
+      - REQUIRED
+    - - effective_end
+      - DATE
+      - REQUIRED
+    - - input_rate_per_million
+      - NUMERIC
+      - REQUIRED
+    - - cached_input_rate_per_million
+      - NUMERIC
+      - NULLABLE
+    - - cache_write_5m_rate_per_million
+      - NUMERIC
+      - NULLABLE
+    - - cache_write_1h_rate_per_million
+      - NUMERIC
+      - NULLABLE
+    - - output_rate_per_million
+      - NUMERIC
+      - REQUIRED
+    - - contracted_discount
+      - NUMERIC
+      - REQUIRED
+    - - rate_currency
+      - STRING
+      - REQUIRED
+    - - rate_basis
+      - STRING
+      - REQUIRED
+    - - rate_source
+      - STRING
+      - REQUIRED
+    - - retrieved_date
+      - DATE
+      - REQUIRED
+    - - rate_status
+      - STRING
+      - REQUIRED
