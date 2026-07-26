@@ -1,0 +1,18 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  staging: llm_finops_staging
+  control: llm_finops_control
+sql_files:
+- sql/02_staging/01_service_tier_map.sql
+- sql/02_staging/02_usage_normalized.sql
+- sql/02_staging/03_usage_priced.sql
+- sql/02_staging/04_provider_cost.sql
+- sql/02_staging/05_request_telemetry.sql
+expected_objects:
+- dim_ai_service_tier_map
+- stg_ai_provider_usage_normalized
+- stg_ai_provider_usage_priced
+- stg_ai_provider_cost
+- stg_ai_request_telemetry
