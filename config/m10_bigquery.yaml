@@ -1,0 +1,17 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  staging: llm_finops_staging
+  core: llm_finops_core
+  mart: llm_finops_mart
+  control: llm_finops_control
+tolerance:
+  token_coverage_lower_bound: 0.95
+  token_coverage_upper_bound: 1.05
+  request_variance_pct_absolute_max: 0.05
+sql_files:
+- sql/03_core/04_telemetry_reconciliation_daily.sql
+- sql/04_marts/01_telemetry_coverage_monthly.sql
+expected_objects:
+- llm_finops_core.fct_ai_telemetry_reconciliation_daily
+- llm_finops_mart.mart_ai_telemetry_coverage_monthly
