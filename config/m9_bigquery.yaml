@@ -1,0 +1,19 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  staging: llm_finops_staging
+  core: llm_finops_core
+  control: llm_finops_control
+sql_files:
+- sql/03_core/03_usage_daily_allocation.sql
+expected_objects:
+- llm_finops_core.fct_ai_usage_daily
+allocation_rules:
+  percentage_storage: decimal
+  unallocated_application: Unallocated
+  unallocated_department: Unallocated
+  unallocated_cost_center: UNALLOCATED
+  source_anchor_rule: Source measures are populated on exactly one row per source_usage_key. Allocated and unallocated
+    measures are populated on their respective rows.
+  reconciliation_rule: allocated measure + unallocated measure = source measure for each source_usage_key
