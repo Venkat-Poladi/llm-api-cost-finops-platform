@@ -1,0 +1,22 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  staging: llm_finops_staging
+  core: llm_finops_core
+  mart: llm_finops_mart
+  control: llm_finops_control
+financial_basis: invoice_billed_cost
+sql_files:
+- sql/02_staging/06_application_invoice_driver_monthly.sql
+- sql/04_marts/03_application_cost.sql
+expected_objects:
+- llm_finops_staging.stg_ai_application_invoice_driver_monthly
+- llm_finops_mart.mart_ai_application_cost
+allocation_policy:
+  usage_lines: Allocate within billing month + provider + provider project + model using each application row's
+    share of usage_cost_estimate.
+  non_usage_lines: Retain at project or invoice scope in the Unallocated bucket. Do not silently assign tax, credit,
+    true-up, correction, or adjustment lines to applications.
+  zero_denominator: Allocate zero to applications and retain the complete source amount as Unallocated with status
+    No eligible driver.
+  reconciliation: allocated cost + unallocated cost = source cost for every financial scope
