@@ -1,0 +1,18 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  staging: llm_finops_staging
+  mart: llm_finops_mart
+  control: llm_finops_control
+financial_basis: usage_cost_estimate
+sql_files:
+- sql/04_marts/02_token_economics.sql
+expected_objects:
+- llm_finops_mart.mart_ai_token_economics
+metric_rules:
+  cache_read_share: normalized_cache_read_tokens / normalized_total_input_tokens; NULL when total input is zero
+  reasoning_overhead_pct: reasoning_tokens / output_tokens; NULL when output is zero
+  batch_adoption_pct: batch request count / total request count; NULL when total requests are zero
+  cost_per_million_total_tokens: usage_cost_estimate / total tokens * 1,000,000; NULL when total tokens are zero
+  failed_request_cost_basis: telemetry usage_cost_estimate
