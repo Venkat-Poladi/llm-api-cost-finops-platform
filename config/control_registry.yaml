@@ -1,0 +1,114 @@
+version: 1
+project_id: finops-learning-lab
+location: US
+failure_rule: M16 fails when any technical control has a nonzero violation count. Explained business exceptions
+  are allowed and remain visible in their source marts.
+controls:
+- control_id: E2E-01
+  control_name: Raw usage reaches priced staging
+  control_domain: Completeness
+  severity: CRITICAL
+  data_layer: Raw to staging
+  description: Raw provider usage and priced staging contain the same number of rows.
+- control_id: E2E-02
+  control_name: Raw cost reaches reconciliation
+  control_domain: Completeness
+  severity: CRITICAL
+  data_layer: Raw to core
+  description: Raw provider cost and the reconciliation fact contain the same number of rows.
+- control_id: E2E-03
+  control_name: Raw telemetry reaches staging
+  control_domain: Completeness
+  severity: CRITICAL
+  data_layer: Raw to staging
+  description: Raw and staged request telemetry contain the same number of attempts.
+- control_id: E2E-04
+  control_name: Provider usage grain is unique
+  control_domain: Grain
+  severity: CRITICAL
+  data_layer: Raw
+  description: Provider usage contains no duplicate records at its locked grain.
+- control_id: E2E-05
+  control_name: Provider cost grain is unique
+  control_domain: Grain
+  severity: CRITICAL
+  data_layer: Raw
+  description: Provider cost contains no duplicate records at its locked grain.
+- control_id: E2E-06
+  control_name: Telemetry attempt grain is unique
+  control_domain: Grain
+  severity: CRITICAL
+  data_layer: Raw
+  description: Every provider request attempt has one unique provider request ID.
+- control_id: E2E-07
+  control_name: Usage pricing resolves historically
+  control_domain: Pricing
+  severity: CRITICAL
+  data_layer: Staging
+  description: Every usage row resolves one model, one tier, one historical rate, and a valid price.
+- control_id: E2E-08
+  control_name: Usage estimate reconciles monthly
+  control_domain: Financial reconciliation
+  severity: CRITICAL
+  data_layer: Staging to core
+  description: Monthly reconciliation retains the complete token-derived usage estimate.
+- control_id: E2E-09
+  control_name: Provider-reported cost reconciles
+  control_domain: Financial reconciliation
+  severity: CRITICAL
+  data_layer: Staging to core
+  description: Provider-reported cost totals reconcile to the provider cost source.
+- control_id: E2E-10
+  control_name: Invoice-billed cost reconciles
+  control_domain: Financial reconciliation
+  severity: CRITICAL
+  data_layer: Staging to core
+  description: Invoice-billed cost totals reconcile to the provider cost source.
+- control_id: E2E-11
+  control_name: Daily allocation reconciles
+  control_domain: Allocation
+  severity: CRITICAL
+  data_layer: Core
+  description: Allocated plus unallocated daily usage cost equals source usage cost for every source row.
+- control_id: E2E-12
+  control_name: Telemetry reconciliation preserves provider cost
+  control_domain: Telemetry
+  severity: CRITICAL
+  data_layer: Core
+  description: The telemetry reconciliation fact preserves the complete provider usage-cost estimate.
+- control_id: E2E-13
+  control_name: Token economics reconciles
+  control_domain: Token economics
+  severity: CRITICAL
+  data_layer: Mart
+  description: Token-economics cost and token totals reconcile to historically priced usage.
+- control_id: E2E-14
+  control_name: Application chargeback reconciles
+  control_domain: Chargeback
+  severity: CRITICAL
+  data_layer: Mart
+  description: Allocated plus unallocated application invoice cost equals source invoice cost.
+- control_id: E2E-15
+  control_name: Savings stages remain governed
+  control_domain: Optimization governance
+  severity: CRITICAL
+  data_layer: Mart
+  description: M13 does not falsely populate approved, implemented, or realized savings.
+- control_id: E2E-16
+  control_name: Unit economics is financially governed
+  control_domain: Unit economics
+  severity: CRITICAL
+  data_layer: Mart
+  description: Invoice usage cost reconciles and weak telemetry withholds governed request-cost metrics.
+- control_id: E2E-17
+  control_name: Experiment governance is complete
+  control_domain: Experiment governance
+  severity: CRITICAL
+  data_layer: Mart
+  description: Every controlled experiment is present and every governance exception has a reason.
+- control_id: E2E-18
+  control_name: Required cloud pipelines passed
+  control_domain: Pipeline health
+  severity: CRITICAL
+  data_layer: Control
+  description: The latest M6 through M15 pipeline runs all exist and have PASS status.

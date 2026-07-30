@@ -1,0 +1,21 @@
+project_id: finops-learning-lab
+location: US
+expected_previous_pipelines:
+- M6_BIGQUERY_RAW_LAYER
+- M7_STAGING_NORMALIZATION_PRICING
+- M8_MONTHLY_COST_RECONCILIATION
+- M9_DAILY_USAGE_ALLOCATION
+- M10_TELEMETRY_RECONCILIATION
+- M11_TOKEN_ECONOMICS
+- M12_APPLICATION_COST_CHARGEBACK
+- M13_OPTIMIZATION_EVALUATION_GATE
+- M14_UNIT_ECONOMICS
+- M15_EXPERIMENT_GOVERNANCE
+sql_files:
+- sql/04_marts/07_control_status.sql
+- sql/04_marts/08_pipeline_status.sql
+expected_objects:
+- llm_finops_control.dim_ai_control_catalog
+- llm_finops_control.m16_end_to_end_control_result
+- llm_finops_mart.mart_ai_control_status
+- llm_finops_mart.mart_ai_pipeline_status
