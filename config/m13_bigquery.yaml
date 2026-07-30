@@ -1,0 +1,23 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  mart: llm_finops_mart
+  control: llm_finops_control
+financial_basis: usage_cost_estimate
+sql_files:
+- sql/04_marts/04_optimization.sql
+expected_objects:
+- llm_finops_mart.mart_ai_optimization
+policies:
+  batch_minimum_monthly_savings_usd: 5.0
+  retry_minimum_monthly_cost_usd: 5.0
+  retry_reduction_target_pct: 0.5
+  telemetry_minimum_coverage_pct: 0.95
+  telemetry_cost_at_risk_threshold_usd: 1.0
+  cache_read_share_benchmark: 0.2
+  annualization_months: 12
+savings_stage_rule:
+  identified: Modeled opportunity only.
+  approved: Zero until an authorized decision is recorded.
+  implemented: Zero until the change is deployed.
+  realized: Zero until measured against an approved baseline.
