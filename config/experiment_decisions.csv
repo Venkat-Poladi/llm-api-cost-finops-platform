@@ -1,0 +1,10 @@
+experiment_decision_id,experiment_id,decision,decision_date,decided_by,rationale,previous_status,new_status
+DEC001,EXP-CACHE-001,Continue,2025-09-01,VP Engineering,Begin the approved controlled test.,planned,active
+DEC002,EXP-CACHE-001,Modify,2025-11-15,AI Platform Manager,Increase reusable prompt-prefix coverage.,active,modified
+DEC003,EXP-CACHE-001,Scale,2026-02-15,VP Engineering,The cost-side result supports broader rollout.,modified,scaled
+DEC004,EXP-BATCH-002,Continue,2025-04-01,CMO Finance Partner,Begin the monthly controlled test.,planned,active
+DEC005,EXP-BATCH-002,Scale,2025-08-20,CMO Finance Partner,Move eligible non-urgent workloads to batch.,active,scaled
+DEC006,EXP-MODEL-003,Continue,2025-09-01,Head of Innovation,Start the model-comparison test.,planned,active
+DEC007,EXP-MODEL-003,Modify,2026-01-10,AI Product Manager,Reduce traffic after spending accelerated.,active,modified
+DEC008,EXP-PROMPT-004,Continue,2026-04-01,Director Customer Operations,Begin the short-prompt test.,planned,active
+DEC009,EXP-PROMPT-004,Stop,2026-05-05,Director Customer Operations,Stop after the daily spending limit was breached.,active,stopped

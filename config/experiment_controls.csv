@@ -1,0 +1,5 @@
+experiment_id,owner,approver,hypothesis,application_name,cost_center,spending_limit,spending_limit_period,limit_currency,warning_threshold,hard_stop_threshold,start_date,planned_end_date,current_status,override_reason
+EXP-CACHE-001,AI Platform Manager,VP Engineering,Prompt caching will lower estimated input cost without changing output.,Cache Strategy Lab,CC600,4000,lifetime,USD,0.80,1.00,2025-09-01,2026-03-31,scaled,
+EXP-BATCH-002,Marketing Technology Lead,CMO Finance Partner,Batch processing will reduce non-urgent content-generation cost.,Marketing Content Studio,CC300,1000,month,USD,0.75,1.00,2025-04-01,2025-09-30,scaled,
+EXP-MODEL-003,AI Product Manager,Head of Innovation,A higher-capability model may justify its higher cost for complex tasks.,Model Evaluation Lab,CC600,6000,lifetime,USD,0.80,1.00,2025-09-01,2026-06-30,modified,
+EXP-PROMPT-004,Customer AI Lead,Director Customer Operations,A shorter prompt will reduce tokens per support response.,Customer Support Copilot,CC100,200,day,USD,0.70,1.00,2026-04-01,2026-05-31,stopped,

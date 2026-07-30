@@ -1,0 +1,30 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  staging: llm_finops_staging
+  core: llm_finops_core
+  mart: llm_finops_mart
+  control: llm_finops_control
+financial_basis: allocated_invoice_billed_cost_usage_lines_only
+operational_basis: request_telemetry_usage_cost_estimate
+telemetry_quality_gate:
+  minimum_token_coverage_pct: 0.95
+  maximum_token_coverage_pct: 1.05
+sql_files:
+- sql/02_staging/07_experiment_invoice_driver_daily.sql
+- sql/04_marts/06_experiments.sql
+expected_objects:
+- llm_finops_staging.stg_ai_experiment_invoice_driver_daily
+- llm_finops_mart.mart_ai_experiments
+governance_rules:
+  limit_periods:
+  - day
+  - month
+  - lifetime
+  warning_status: WARNING_REVIEW_REQUIRED
+  hard_stop_status: HARD_STOP_ACTION_REQUIRED
+  financial_evidence_rule: A decision rationale that claims a spending-limit breach must be supported by a calculated
+    hard-stop breach in the applicable limit period.
+  limited_measurement_rule: Experiment spend remains visible, but is labeled LOWER_BOUND when telemetry token coverage
+    is outside 95%-105%.
