@@ -1,0 +1,17 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  core: llm_finops_core
+  mart: llm_finops_mart
+  control: llm_finops_control
+financial_basis: invoice_billed_cost_usage_lines
+operational_basis: usage_cost_estimate
+telemetry_quality_gate:
+  minimum_token_coverage_pct: 0.95
+  maximum_token_coverage_pct: 1.05
+  rule: Telemetry-dependent financial metrics are published only when monthly token coverage is between 95% and
+    105%.
+sql_files:
+- sql/04_marts/05_unit_economics.sql
+expected_objects:
+- llm_finops_mart.mart_ai_unit_economics
