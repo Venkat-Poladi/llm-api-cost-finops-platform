@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_experiment_invoice_driver_daily`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_experiment_invoice_driver_daily`
 PARTITION BY usage_date
 CLUSTER BY experiment_id, provider, provider_project_id, model
 AS
@@ -22,7 +22,7 @@ WITH experiment_telemetry_daily AS (
     SUM(IF(is_retry_attempt, usage_cost_estimate, 0))
       AS estimated_retry_cost
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_request_telemetry`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_request_telemetry`
   WHERE telemetry_validation_status = 'Valid'
     AND experiment_id IS NOT NULL
   GROUP BY
@@ -43,7 +43,7 @@ invoice_usage_scope AS (
     SUM(provider_reported_cost) AS monthly_provider_reported_usage_cost,
     SUM(invoice_billed_cost) AS monthly_invoice_billed_usage_cost,
     ANY_VALUE(billing_currency) AS billing_currency
-  FROM `{{PROJECT_ID}}.llm_finops_core.fct_ai_cost_reconciliation`
+  FROM `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_cost_reconciliation`
   WHERE line_item_type = 'usage'
   GROUP BY
     billing_month,
@@ -59,7 +59,7 @@ coverage AS (
     model,
     telemetry_token_coverage_pct
   FROM
-    `{{PROJECT_ID}}.llm_finops_mart.mart_ai_telemetry_coverage_monthly`
+    `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_telemetry_coverage_monthly`
 ),
 joined AS (
   SELECT

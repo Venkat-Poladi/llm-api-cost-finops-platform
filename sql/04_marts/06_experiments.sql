@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_experiments`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_experiments`
 PARTITION BY evaluation_date
 CLUSTER BY experiment_id, spending_limit_period, threshold_status, governance_action_status
 AS
@@ -20,7 +20,7 @@ WITH controls AS (
     planned_end_date,
     current_status AS source_current_status,
     override_reason
-  FROM `{{PROJECT_ID}}.llm_finops_raw.dim_ai_experiment_control`
+  FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.dim_ai_experiment_control`
 ),
 calendar AS (
   SELECT
@@ -64,7 +64,7 @@ daily AS (
     END AS daily_spend_quality_label
   FROM calendar AS c
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_experiment_invoice_driver_daily`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_experiment_invoice_driver_daily`
       AS d
     ON c.experiment_id = d.experiment_id
     AND c.calendar_date = d.usage_date
@@ -317,7 +317,7 @@ resolved AS (
     d.new_status AS decision_status_as_of_date
   FROM history AS h
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_raw.fct_ai_experiment_decision` AS d
+    `{{PROJECT_ID}}.{{RAW_DATASET}}.fct_ai_experiment_decision` AS d
     ON d.experiment_id = h.experiment_id
     AND d.decision_date <= h.evaluation_date
   QUALIFY ROW_NUMBER() OVER (

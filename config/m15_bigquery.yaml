@@ -15,8 +15,8 @@ sql_files:
 - sql/02_staging/07_experiment_invoice_driver_daily.sql
 - sql/04_marts/06_experiments.sql
 expected_objects:
-- llm_finops_staging.stg_ai_experiment_invoice_driver_daily
-- llm_finops_mart.mart_ai_experiments
+- "{{STAGING_DATASET}}.stg_ai_experiment_invoice_driver_daily"
+- "{{MART_DATASET}}.mart_ai_experiments"
 governance_rules:
   limit_periods:
   - day
