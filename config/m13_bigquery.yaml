@@ -7,7 +7,7 @@ financial_basis: usage_cost_estimate
 sql_files:
 - sql/04_marts/04_optimization.sql
 expected_objects:
-- llm_finops_mart.mart_ai_optimization
+- "{{MART_DATASET}}.mart_ai_optimization"
 policies:
   batch_minimum_monthly_savings_usd: 5.0
   retry_minimum_monthly_cost_usd: 5.0

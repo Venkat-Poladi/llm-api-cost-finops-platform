@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_optimization`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_optimization`
 PARTITION BY billing_month
 CLUSTER BY provider, optimization_type, evaluation_gate_status, model
 AS
@@ -27,9 +27,9 @@ WITH token_base AS (
       AS telemetry_token_coverage_pct,
     COALESCE(c.untraceable_provider_usage_cost_estimate, 0)
       AS untraceable_provider_usage_cost_estimate
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics` AS t
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics` AS t
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_mart.mart_ai_telemetry_coverage_monthly` AS c
+    `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_telemetry_coverage_monthly` AS c
     ON t.billing_month = c.billing_month
     AND t.provider = c.provider
     AND t.provider_project_id = c.provider_project_id
