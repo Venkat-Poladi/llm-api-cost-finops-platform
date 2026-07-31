@@ -1,0 +1,35 @@
+project_id: finops-learning-lab
+location: US
+datasets:
+  raw: llm_finops_raw
+  mart: llm_finops_mart
+  control: llm_finops_control
+sql_files:
+- sql/06_semantic/01_dim_date.sql
+- sql/06_semantic/02_dim_provider.sql
+- sql/06_semantic/03_dim_model.sql
+- sql/06_semantic/04_dim_application.sql
+- sql/06_semantic/05_dim_experiment.sql
+- sql/06_semantic/06_fact_financial_monthly.sql
+- sql/06_semantic/07_fact_usage_monthly.sql
+- sql/06_semantic/08_fact_unit_economics_monthly.sql
+- sql/06_semantic/09_fact_optimization_monthly.sql
+- sql/06_semantic/10_fact_experiment_current.sql
+expected_objects:
+- dim_ai_date
+- dim_ai_provider
+- dim_ai_model
+- dim_ai_application
+- dim_ai_experiment
+- fact_ai_financial_monthly
+- fact_ai_usage_monthly
+- fact_ai_unit_economics_monthly
+- fact_ai_optimization_monthly
+- fact_ai_experiment_current
+semantic_rules:
+  relationship_direction: single
+  relationship_cardinality: one_to_many
+  fact_to_fact_relationships: prohibited
+  measures_table: _Measures
+  explicit_measures_only: true
+  technical_keys_hidden: true
