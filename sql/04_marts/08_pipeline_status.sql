@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_pipeline_status`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_pipeline_status`
 CLUSTER BY status, pipeline_name
 AS
 WITH expected AS (
@@ -24,7 +24,7 @@ latest AS (
       PARTITION BY pipeline_name
       ORDER BY completed_at DESC, pipeline_run_id DESC
     ) AS latest_row_number
-  FROM `{{PROJECT_ID}}.llm_finops_control.pipeline_run_log`
+  FROM `{{PROJECT_ID}}.{{CONTROL_DATASET}}.pipeline_run_log`
 )
 SELECT
   e.pipeline_name,

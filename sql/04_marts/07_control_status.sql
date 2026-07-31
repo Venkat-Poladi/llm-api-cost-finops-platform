@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_control_status`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_control_status`
 CLUSTER BY status, severity, control_domain
 AS
 WITH latest AS (
@@ -10,7 +10,7 @@ WITH latest AS (
       ORDER BY checked_at DESC, pipeline_run_id DESC
     ) AS latest_row_number
   FROM
-    `{{PROJECT_ID}}.llm_finops_control.m16_end_to_end_control_result`
+    `{{PROJECT_ID}}.{{CONTROL_DATASET}}.m16_end_to_end_control_result`
 )
 SELECT
   c.control_id,
@@ -25,7 +25,7 @@ SELECT
   l.checked_at,
   IF(l.status = 'PASS', 1, 0) AS pass_flag,
   IF(l.status = 'FAIL', 1, 0) AS fail_flag
-FROM `{{PROJECT_ID}}.llm_finops_control.dim_ai_control_catalog` AS c
+FROM `{{PROJECT_ID}}.{{CONTROL_DATASET}}.dim_ai_control_catalog` AS c
 LEFT JOIN latest AS l
   ON c.control_id = l.control_id
   AND l.latest_row_number = 1;

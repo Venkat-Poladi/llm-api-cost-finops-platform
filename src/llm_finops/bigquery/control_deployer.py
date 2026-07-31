@@ -16,13 +16,44 @@ def load_yaml(path: Path) -> dict[str, Any]:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
-def render_sql(path: Path, project_id: str) -> str:
+def render_sql(
+    path: Path,
+    project_id: str,
+    datasets: dict[str, str],
+) -> str:
     if not path.exists():
         raise FileNotFoundError(f"Missing SQL file: {path}")
-    return path.read_text(encoding="utf-8").replace(
-        "{{PROJECT_ID}}",
-        project_id,
-    )
+
+    replacements = {
+        "{{PROJECT_ID}}": project_id,
+        "{{RAW_DATASET}}": datasets["raw"],
+        "{{STAGING_DATASET}}": datasets["staging"],
+        "{{CORE_DATASET}}": datasets["core"],
+        "{{MART_DATASET}}": datasets["mart"],
+        "{{CONTROL_DATASET}}": datasets["control"],
+    }
+
+    sql = path.read_text(encoding="utf-8")
+
+    for placeholder, value in replacements.items():
+        sql = sql.replace(placeholder, value)
+
+    return sql
+
+
+def render_object_name(
+    value: str,
+    datasets: dict[str, str],
+) -> str:
+    replacements = {
+        "{{MART_DATASET}}": datasets["mart"],
+        "{{CONTROL_DATASET}}": datasets["control"],
+    }
+
+    for placeholder, replacement in replacements.items():
+        value = value.replace(placeholder, replacement)
+
+    return value
 
 
 def query_scalar(
@@ -36,12 +67,15 @@ def query_scalar(
     return int(rows[0]["violation_count"])
 
 
-def end_to_end_queries(project_id: str) -> dict[str, str]:
-    raw = f"`{project_id}.llm_finops_raw"
-    staging = f"`{project_id}.llm_finops_staging"
-    core = f"`{project_id}.llm_finops_core"
-    mart = f"`{project_id}.llm_finops_mart"
-    control = f"`{project_id}.llm_finops_control"
+def end_to_end_queries(
+    project_id: str,
+    datasets: dict[str, str],
+) -> dict[str, str]:
+    raw = f"`{project_id}.{datasets['raw']}"
+    staging = f"`{project_id}.{datasets['staging']}"
+    core = f"`{project_id}.{datasets['core']}"
+    mart = f"`{project_id}.{datasets['mart']}"
+    control = f"`{project_id}.{datasets['control']}"
 
     return {
         "E2E-01": f"""
@@ -345,9 +379,10 @@ def end_to_end_queries(project_id: str) -> dict[str, str]:
 def replace_control_catalog(
     client: bigquery.Client,
     project_id: str,
+    control_dataset: str,
     controls: list[dict[str, Any]],
 ) -> None:
-    table_id = f"{project_id}.llm_finops_control.dim_ai_control_catalog"
+    table_id = f"{project_id}.{control_dataset}.dim_ai_control_catalog"
     client.delete_table(table_id, not_found_ok=True)
     table = bigquery.Table(
         table_id,
@@ -369,9 +404,10 @@ def replace_control_catalog(
 def ensure_result_table(
     client: bigquery.Client,
     project_id: str,
+    control_dataset: str,
 ) -> None:
     table = bigquery.Table(
-        f"{project_id}.llm_finops_control.m16_end_to_end_control_result",
+        f"{project_id}.{control_dataset}.m16_end_to_end_control_result",
         schema=[
             bigquery.SchemaField("pipeline_run_id", "STRING", mode="REQUIRED"),
             bigquery.SchemaField("control_id", "STRING", mode="REQUIRED"),
@@ -394,10 +430,11 @@ def deploy_m16(
     registry = load_yaml(registry_path)
     project_id = project_id_override or config["project_id"]
     location = config["location"]
+    datasets = config["datasets"]
     client = bigquery.Client(project=project_id)
 
     catalog_rows = registry["controls"]
-    query_map = end_to_end_queries(project_id)
+    query_map = end_to_end_queries(project_id, datasets)
     catalog_ids = [row["control_id"] for row in catalog_rows]
 
     if len(catalog_ids) != 18 or len(set(catalog_ids)) != 18:
@@ -408,8 +445,17 @@ def deploy_m16(
     pipeline_run_id = str(uuid.uuid4())
     started_at = datetime.now(timezone.utc)
 
-    replace_control_catalog(client, project_id, catalog_rows)
-    ensure_result_table(client, project_id)
+    replace_control_catalog(
+        client,
+        project_id,
+        datasets["control"],
+        catalog_rows,
+    )
+    ensure_result_table(
+        client,
+        project_id,
+        datasets["control"],
+    )
 
     checked_at = datetime.now(timezone.utc)
     result_rows: list[dict[str, Any]] = []
@@ -431,7 +477,10 @@ def deploy_m16(
         )
 
     insert_errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.m16_end_to_end_control_result",
+        (
+            f"{project_id}.{datasets['control']}."
+            "m16_end_to_end_control_result"
+        ),
         result_rows,
     )
     if insert_errors:
@@ -443,7 +492,7 @@ def deploy_m16(
     if failed:
         completed_at = datetime.now(timezone.utc)
         client.insert_rows_json(
-            f"{project_id}.llm_finops_control.pipeline_run_log",
+            f"{project_id}.{datasets['control']}.pipeline_run_log",
             [
                 {
                     "pipeline_run_id": pipeline_run_id,
@@ -460,13 +509,17 @@ def deploy_m16(
 
     for relative_path in config["sql_files"]:
         client.query(
-            render_sql(project_root / relative_path, project_id),
+            render_sql(
+                project_root / relative_path,
+                project_id,
+                datasets,
+            ),
             location=location,
         ).result()
 
     completed_at = datetime.now(timezone.utc)
     run_errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.pipeline_run_log",
+        f"{project_id}.{datasets['control']}.pipeline_run_log",
         [
             {
                 "pipeline_run_id": pipeline_run_id,
@@ -501,7 +554,10 @@ def deploy_m16(
         "started_at": started_at.isoformat(),
         "completed_at": completed_at.isoformat(),
         "status": "PASS",
-        "created_objects": config["expected_objects"],
+        "created_objects": [
+            render_object_name(object_name, datasets)
+            for object_name in config["expected_objects"]
+        ],
         "controls": result_rows,
         "summary": summary,
     }

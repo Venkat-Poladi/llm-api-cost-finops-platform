@@ -73,8 +73,8 @@ def test_m16_creates_four_control_objects() -> None:
 
     assert len(objects) == 4
     assert len(objects) == len(set(objects))
-    assert "llm_finops_mart.mart_ai_control_status" in objects
-    assert "llm_finops_mart.mart_ai_pipeline_status" in objects
+    assert "{{MART_DATASET}}.mart_ai_control_status" in objects
+    assert "{{MART_DATASET}}.mart_ai_pipeline_status" in objects
 
 
 def test_m16_sql_files_exist() -> None:
