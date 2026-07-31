@@ -28,7 +28,7 @@ def test_m9_has_one_allocation_sql_file() -> None:
 
 def test_m9_creates_the_daily_usage_fact() -> None:
     assert load_config()["expected_objects"] == [
-        "llm_finops_core.fct_ai_usage_daily"
+        "{{CORE_DATASET}}.fct_ai_usage_daily"
     ]
 
 

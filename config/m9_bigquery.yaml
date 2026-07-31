@@ -8,7 +8,7 @@ datasets:
 sql_files:
 - sql/03_core/03_usage_daily_allocation.sql
 expected_objects:
-- llm_finops_core.fct_ai_usage_daily
+- "{{CORE_DATASET}}.fct_ai_usage_daily"
 allocation_rules:
   percentage_storage: decimal
   unallocated_application: Unallocated

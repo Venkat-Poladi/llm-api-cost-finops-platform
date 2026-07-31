@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_core.fct_ai_usage_daily`
+  `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_usage_daily`
 PARTITION BY usage_date
 CLUSTER BY provider, application_name, department_name, model_snapshot
 AS
@@ -30,7 +30,7 @@ WITH usage_source AS (
     rate_currency,
     is_synthetic
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_priced`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_priced`
   WHERE pricing_status = 'Priced'
 ),
 matched_mappings AS (
@@ -51,7 +51,7 @@ matched_mappings AS (
       AND u.usage_date < b.mapping_recorded_date
       AS is_historical_restatement
   FROM usage_source AS u
-  JOIN `{{PROJECT_ID}}.llm_finops_raw.bridge_ai_usage_attribution` AS b
+  JOIN `{{PROJECT_ID}}.{{RAW_DATASET}}.bridge_ai_usage_attribution` AS b
     ON u.provider = b.provider
     AND u.provider_project_id = b.provider_project_id
     AND u.api_key_id = b.api_key_id
