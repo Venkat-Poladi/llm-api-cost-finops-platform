@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_core.fct_ai_telemetry_reconciliation_daily`
+  `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_telemetry_reconciliation_daily`
 PARTITION BY usage_date
 CLUSTER BY provider, provider_project_id, model, coverage_status
 AS
@@ -18,7 +18,7 @@ WITH provider_usage AS (
     SUM(usage_cost_estimate) AS provider_usage_cost_estimate,
     COUNT(*) AS provider_usage_row_count
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_priced`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_priced`
   WHERE pricing_status = 'Priced'
   GROUP BY
     usage_date,
@@ -58,7 +58,7 @@ telemetry AS (
     ) AS telemetry_mid_generation_failure_cost_estimate,
     COUNT(*) AS telemetry_row_count
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_request_telemetry`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_request_telemetry`
   WHERE telemetry_validation_status = 'Valid'
   GROUP BY
     usage_date,

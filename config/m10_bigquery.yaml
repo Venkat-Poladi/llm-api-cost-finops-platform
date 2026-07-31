@@ -13,5 +13,5 @@ sql_files:
 - sql/03_core/04_telemetry_reconciliation_daily.sql
 - sql/04_marts/01_telemetry_coverage_monthly.sql
 expected_objects:
-- llm_finops_core.fct_ai_telemetry_reconciliation_daily
-- llm_finops_mart.mart_ai_telemetry_coverage_monthly
+- "{{CORE_DATASET}}.fct_ai_telemetry_reconciliation_daily"
+- "{{MART_DATASET}}.mart_ai_telemetry_coverage_monthly"

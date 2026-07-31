@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_telemetry_coverage_monthly`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_telemetry_coverage_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, model
 AS
@@ -40,7 +40,7 @@ SELECT
   COUNTIF(reconciliation_status = 'EXCEPTION') AS exception_day_count,
   COUNT(*) AS observed_day_count
 FROM
-  `{{PROJECT_ID}}.llm_finops_core.fct_ai_telemetry_reconciliation_daily`
+  `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_telemetry_reconciliation_daily`
 GROUP BY
   billing_month,
   provider,
