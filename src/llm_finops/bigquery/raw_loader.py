@@ -11,6 +11,10 @@ import yaml
 from google.api_core.exceptions import NotFound
 from google.cloud import bigquery
 
+from llm_finops.bigquery.identifiers import (
+    validate_bigquery_identifiers,
+)
+
 
 def load_configuration(path: Path) -> dict[str, Any]:
     if not path.exists():
@@ -258,6 +262,12 @@ def execute_raw_load(
     project_id = project_id_override or config["project_id"]
     location = config["location"]
     datasets = config["datasets"]
+
+    validate_bigquery_identifiers(
+        project_id,
+        datasets,
+        table_names=config.get("tables", {}).keys(),
+    )
 
     client = bigquery.Client(project=project_id)
     started_at = datetime.now(timezone.utc)

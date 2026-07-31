@@ -51,7 +51,7 @@ def test_pipeline_guard_logs_failure(
     config_path.write_text(
         "project_id: configured-project\n"
         "datasets:\n"
-        "  control: configured-control\n",
+        "  control: configured_control\n",
         encoding="utf-8",
     )
 
@@ -82,7 +82,7 @@ def test_pipeline_guard_logs_failure(
 
     table_id, rows = FakeClient.inserted_rows[0]
     assert table_id == (
-        "override-project.configured-control.pipeline_run_log"
+        "override-project.configured_control.pipeline_run_log"
     )
     assert len(rows) == 1
     assert rows[0]["pipeline_name"] == "TEST_PIPELINE"
@@ -99,7 +99,7 @@ def test_pipeline_guard_does_not_mask_original_failure(
     config_path.write_text(
         "project_id: configured-project\n"
         "datasets:\n"
-        "  control: configured-control\n",
+        "  control: configured_control\n",
         encoding="utf-8",
     )
 

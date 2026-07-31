@@ -11,6 +11,10 @@ import uuid
 import yaml
 from google.cloud import bigquery
 
+from llm_finops.bigquery.identifiers import (
+    validate_bigquery_identifiers,
+)
+
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -43,20 +47,36 @@ def current_pipeline_started_at() -> datetime:
     return started_at
 
 
-def _load_failure_destination(
+def _load_bound_configuration(
     function: Callable[..., Any],
     args: tuple[Any, ...],
     kwargs: dict[str, Any],
-) -> tuple[str, str]:
+) -> tuple[str, dict[str, str]]:
     bound = signature(function).bind_partial(*args, **kwargs)
     config_path = Path(bound.arguments["config_path"])
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
 
     project_id_override = bound.arguments.get("project_id_override")
     project_id = project_id_override or config["project_id"]
-    control_dataset = config["datasets"]["control"]
+    datasets = config["datasets"]
 
-    return project_id, control_dataset
+    validate_bigquery_identifiers(project_id, datasets)
+
+    return project_id, datasets
+
+
+def _load_failure_destination(
+    function: Callable[..., Any],
+    args: tuple[Any, ...],
+    kwargs: dict[str, Any],
+) -> tuple[str, str]:
+    project_id, datasets = _load_bound_configuration(
+        function,
+        args,
+        kwargs,
+    )
+
+    return project_id, datasets["control"]
 
 
 def _attach_logging_note(
@@ -131,6 +151,11 @@ def pipeline_run_guard(
             started_at_token = _PIPELINE_STARTED_AT.set(started_at)
 
             try:
+                _load_bound_configuration(
+                    function,
+                    args,
+                    kwargs,
+                )
                 return function(*args, **kwargs)
             except Exception as error:
                 _write_failure_row(
