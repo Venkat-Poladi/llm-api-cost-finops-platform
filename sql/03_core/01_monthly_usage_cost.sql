@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_usage_cost_monthly`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_usage_cost_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, model
 AS
@@ -24,7 +24,7 @@ SELECT
   ROUND(SUM(usage_cost_estimate), 9) AS usage_cost_estimate,
   COUNTIF(pricing_status != 'Priced') AS unpriced_daily_row_count,
   'USD' AS estimate_currency
-FROM `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_priced`
+FROM `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_priced`
 GROUP BY
   billing_month,
   provider,

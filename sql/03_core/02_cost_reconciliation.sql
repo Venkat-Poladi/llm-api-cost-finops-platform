@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_core.fct_ai_cost_reconciliation`
+  `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_cost_reconciliation`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, line_item_type, model
 AS
@@ -55,9 +55,9 @@ WITH joined AS (
       AS estimate_currency,
     IF(c.line_item_type = 'usage', u.unpriced_daily_row_count, NULL)
       AS unpriced_daily_row_count
-  FROM `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_cost` AS c
+  FROM `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_cost` AS c
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_usage_cost_monthly` AS u
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_usage_cost_monthly` AS u
     ON c.line_item_type = 'usage'
     AND c.billing_month = u.billing_month
     AND c.provider = u.provider

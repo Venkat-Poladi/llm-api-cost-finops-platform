@@ -12,5 +12,5 @@ sql_files:
 - sql/03_core/01_monthly_usage_cost.sql
 - sql/03_core/02_cost_reconciliation.sql
 expected_objects:
-- llm_finops_staging.stg_ai_usage_cost_monthly
-- llm_finops_core.fct_ai_cost_reconciliation
+- "{{STAGING_DATASET}}.stg_ai_usage_cost_monthly"
+- "{{CORE_DATASET}}.fct_ai_cost_reconciliation"
