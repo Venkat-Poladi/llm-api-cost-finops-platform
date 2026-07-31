@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, model, usage_type
 AS
@@ -11,7 +11,7 @@ WITH usage_with_batch_rate AS (
         r.input_rate_per_million,
         r.output_rate_per_million,
         r.contracted_discount
-      FROM `{{PROJECT_ID}}.llm_finops_raw.dim_ai_model_rate` AS r
+      FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.dim_ai_model_rate` AS r
       WHERE r.provider = u.provider
         AND r.usage_type = u.usage_type
         AND r.model_snapshot = u.model_snapshot
@@ -21,7 +21,7 @@ WITH usage_with_batch_rate AS (
         AND u.usage_date BETWEEN r.effective_start AND r.effective_end
     ) AS batch_rate_matches
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_priced` AS u
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_priced` AS u
   WHERE u.pricing_status = 'Priced'
 ),
 usage_components AS (
@@ -166,7 +166,7 @@ telemetry_monthly AS (
       )
     ) AS estimated_mid_generation_failure_cost
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_request_telemetry`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_request_telemetry`
   WHERE telemetry_validation_status = 'Valid'
   GROUP BY
     billing_month,

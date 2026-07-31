@@ -9,7 +9,7 @@ financial_basis: usage_cost_estimate
 sql_files:
 - sql/04_marts/02_token_economics.sql
 expected_objects:
-- llm_finops_mart.mart_ai_token_economics
+- "{{MART_DATASET}}.mart_ai_token_economics"
 metric_rules:
   cache_read_share: normalized_cache_read_tokens / normalized_total_input_tokens; NULL when total input is zero
   reasoning_overhead_pct: reasoning_tokens / output_tokens; NULL when output is zero

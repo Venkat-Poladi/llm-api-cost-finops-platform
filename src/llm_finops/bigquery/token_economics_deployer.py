@@ -17,12 +17,36 @@ def load_config(path: Path) -> dict[str, Any]:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
-def render_sql(path: Path, project_id: str) -> str:
+def render_sql(
+    path: Path,
+    project_id: str,
+    datasets: dict[str, str],
+) -> str:
     if not path.exists():
         raise FileNotFoundError(f"Missing SQL file: {path}")
-    return path.read_text(encoding="utf-8").replace(
-        "{{PROJECT_ID}}",
-        project_id,
+
+    replacements = {
+        "{{PROJECT_ID}}": project_id,
+        "{{RAW_DATASET}}": datasets["raw"],
+        "{{STAGING_DATASET}}": datasets["staging"],
+        "{{MART_DATASET}}": datasets["mart"],
+    }
+
+    sql = path.read_text(encoding="utf-8")
+
+    for placeholder, value in replacements.items():
+        sql = sql.replace(placeholder, value)
+
+    return sql
+
+
+def render_object_name(
+    value: str,
+    datasets: dict[str, str],
+) -> str:
+    return value.replace(
+        "{{MART_DATASET}}",
+        datasets["mart"],
     )
 
 
@@ -37,9 +61,12 @@ def query_scalar(
     return int(rows[0]["violation_count"])
 
 
-def control_queries(project_id: str) -> dict[str, str]:
-    staging = f"`{project_id}.llm_finops_staging"
-    mart = f"`{project_id}.llm_finops_mart"
+def control_queries(
+    project_id: str,
+    datasets: dict[str, str],
+) -> dict[str, str]:
+    staging = f"`{project_id}.{datasets['staging']}"
+    mart = f"`{project_id}.{datasets['mart']}"
 
     return {
         "token_economics_grain_is_unique": f"""
@@ -228,9 +255,10 @@ def control_queries(project_id: str) -> dict[str, str]:
 def ensure_control_table(
     client: bigquery.Client,
     project_id: str,
+    control_dataset: str,
 ) -> None:
     table = bigquery.Table(
-        f"{project_id}.llm_finops_control.m11_token_control_result",
+        f"{project_id}.{control_dataset}.m11_token_control_result",
         schema=[
             bigquery.SchemaField("pipeline_run_id", "STRING", mode="REQUIRED"),
             bigquery.SchemaField("control_name", "STRING", mode="REQUIRED"),
@@ -251,6 +279,7 @@ def json_safe(value: Any) -> Any:
 def token_summary(
     client: bigquery.Client,
     project_id: str,
+    mart_dataset: str,
     location: str,
 ) -> dict[str, Any]:
     sql = f"""
@@ -277,7 +306,7 @@ def token_summary(
         SUM(estimated_failed_attempt_cost)
           AS estimated_failed_attempt_cost,
         SUM(estimated_retry_cost) AS estimated_retry_cost
-      FROM `{project_id}.llm_finops_mart.mart_ai_token_economics`
+      FROM `{project_id}.{mart_dataset}.mart_ai_token_economics`
     """
     rows = list(client.query(sql, location=location).result())
     if len(rows) != 1:
@@ -297,6 +326,7 @@ def deploy_m11(
     config = load_config(config_path)
     project_id = project_id_override or config["project_id"]
     location = config["location"]
+    datasets = config["datasets"]
     client = bigquery.Client(project=project_id)
 
     pipeline_run_id = str(uuid.uuid4())
@@ -304,16 +334,27 @@ def deploy_m11(
 
     for relative_path in config["sql_files"]:
         client.query(
-            render_sql(project_root / relative_path, project_id),
+            render_sql(
+                project_root / relative_path,
+                project_id,
+                datasets,
+            ),
             location=location,
         ).result()
 
-    ensure_control_table(client, project_id)
+    ensure_control_table(
+        client,
+        project_id,
+        datasets["control"],
+    )
 
     checked_at = datetime.now(timezone.utc)
     control_rows: list[dict[str, Any]] = []
 
-    for control_name, sql in control_queries(project_id).items():
+    for control_name, sql in control_queries(
+        project_id,
+        datasets,
+    ).items():
         violation_count = query_scalar(client, sql, location)
         control_rows.append(
             {
@@ -326,7 +367,10 @@ def deploy_m11(
         )
 
     insert_errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.m11_token_control_result",
+        (
+            f"{project_id}.{datasets['control']}."
+            "m11_token_control_result"
+        ),
         control_rows,
     )
     if insert_errors:
@@ -338,7 +382,12 @@ def deploy_m11(
     if failed:
         raise RuntimeError(f"M11 controls failed: {failed}")
 
-    summary = token_summary(client, project_id, location)
+    summary = token_summary(
+        client,
+        project_id,
+        datasets["mart"],
+        location,
+    )
     completed_at = datetime.now(timezone.utc)
 
     manifest = {
@@ -349,7 +398,10 @@ def deploy_m11(
         "started_at": started_at.isoformat(),
         "completed_at": completed_at.isoformat(),
         "status": "PASS",
-        "created_objects": config["expected_objects"],
+        "created_objects": [
+            render_object_name(object_name, datasets)
+            for object_name in config["expected_objects"]
+        ],
         "controls": control_rows,
         "summary": summary,
     }
@@ -366,7 +418,7 @@ def deploy_m11(
     )
 
     run_errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.pipeline_run_log",
+        f"{project_id}.{datasets['control']}.pipeline_run_log",
         [
             {
                 "pipeline_run_id": pipeline_run_id,
