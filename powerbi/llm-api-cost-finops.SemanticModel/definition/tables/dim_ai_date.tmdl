@@ -1,0 +1,158 @@
+table dim_ai_date
+	lineageTag: 94e90715-9dbf-45d9-9a69-abe714ce3823
+	dataCategory: Time
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a0ce60df-48c7-4211-ac84-9e584d6e9ab5
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 54613049-9f28-4b81-a0cf-d95712e36b4a
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: e72ce2c8-bc86-4a0b-916a-2509ae5bbe8e
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 430d1774-970d-4b84-be8b-8f48e37d253f
+		summarizeBy: sum
+		sourceColumn: quarter_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_name
+		dataType: string
+		lineageTag: 17558a4c-77d9-41c1-895a-28e2770be710
+		summarizeBy: none
+		sourceColumn: quarter_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 09098089-e4b1-439e-9a94-565bffd21459
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 6fdd7f30-69b8-4f42-ad01-736de5baf55d
+		summarizeBy: none
+		sourceColumn: month_name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_short_name
+		dataType: string
+		lineageTag: 9280d3c9-eb5a-4684-895b-b321b9213b45
+		summarizeBy: none
+		sourceColumn: month_short_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: a87c4e71-9460-40a8-99d6-94b3f53cb518
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_sort
+		dataType: int64
+		formatString: 0
+		lineageTag: 6de12e5a-f30b-4a28-99d4-a0990eeb60a3
+		summarizeBy: sum
+		sourceColumn: year_month_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0a8b8bf3-fa47-498c-a56a-3480bbf5ff9d
+		summarizeBy: none
+		sourceColumn: month_start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column month_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4be504bb-94c5-4e16-b13f-838a541383f7
+		summarizeBy: none
+		sourceColumn: month_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: d222f79b-7c60-439b-a130-cd5d7343ba48
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 766ae376-cea2-4511-b061-3e5a37a86e2e
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_number
+		dataType: int64
+		formatString: 0
+		lineageTag: f68ee2bb-b97f-40bd-98af-1a9a54f51711
+		summarizeBy: sum
+		sourceColumn: day_of_week_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_ai_date = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    dim_ai_date_Table = llm_finops_mart_Schema{[Name="dim_ai_date",Kind="Table"]}[Data]
+				in
+				    dim_ai_date_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

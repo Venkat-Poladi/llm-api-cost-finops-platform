@@ -1,0 +1,60 @@
+relationship b7ec6357-8f68-32dd-c2c9-22529821b3d0
+	fromColumn: fact_ai_financial_monthly.date_key
+	toColumn: dim_ai_date.date_key
+
+relationship 5cd968f6-b467-5c06-2837-84459d743f42
+	fromColumn: fact_ai_optimization_monthly.date_key
+	toColumn: dim_ai_date.date_key
+
+relationship 348535bf-1416-04f2-337b-c816ed15b0d4
+	fromColumn: fact_ai_unit_economics_monthly.date_key
+	toColumn: dim_ai_date.date_key
+
+relationship 1f45dda4-8aec-b28d-61f3-c4aa163d994d
+	fromColumn: fact_ai_experiment_current.date_key
+	toColumn: dim_ai_date.date_key
+
+relationship d2e366de-f72b-bb23-4ef6-e0cadbf88639
+	fromColumn: fact_ai_financial_monthly.provider_key
+	toColumn: dim_ai_provider.provider_key
+
+relationship 46801ca4-986a-3dd9-c213-283ee90a1bed
+	fromColumn: fact_ai_usage_monthly.provider_key
+	toColumn: dim_ai_provider.provider_key
+
+relationship b52baa93-3d4d-c871-cf60-85400f64e12a
+	fromColumn: fact_ai_optimization_monthly.provider_key
+	toColumn: dim_ai_provider.provider_key
+
+relationship 24ad5065-3fda-f8d4-1afa-b4c6ddcc9cb0
+	fromColumn: fact_ai_usage_monthly.date_key
+	toColumn: dim_ai_date.date_key
+
+relationship 01071cbd-79ce-4ea2-0770-477aefa934e1
+	fromColumn: fact_ai_unit_economics_monthly.provider_key
+	toColumn: dim_ai_provider.provider_key
+
+relationship 909e56e3-2244-43bb-5cd4-8d0063fe822b
+	fromColumn: fact_ai_financial_monthly.model_key
+	toColumn: dim_ai_model.model_key
+
+relationship b5beae0a-8114-8166-438c-d82358a7f6f8
+	fromColumn: fact_ai_usage_monthly.model_key
+	toColumn: dim_ai_model.model_key
+
+relationship 5bde5341-4adc-fa3c-b825-59b8a98eb4a1
+	fromColumn: fact_ai_unit_economics_monthly.model_key
+	toColumn: dim_ai_model.model_key
+
+relationship 943a97fc-ac12-dc89-aff8-1dc6829c09c3
+	fromColumn: fact_ai_optimization_monthly.model_key
+	toColumn: dim_ai_model.model_key
+
+relationship 2fb03e51-11c0-6c70-60ec-9f4e91d24090
+	fromColumn: fact_ai_financial_monthly.application_key
+	toColumn: dim_ai_application.application_key
+
+relationship 6bedd3ea-7342-b3d5-7660-035d8305847a
+	fromColumn: fact_ai_experiment_current.experiment_key
+	toColumn: dim_ai_experiment.experiment_key
+

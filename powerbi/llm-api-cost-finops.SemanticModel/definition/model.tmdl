@@ -1,0 +1,37 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["dim_ai_date","mart_ai_application_cost","mart_ai_optimization","mart_ai_token_economics","mart_ai_unit_economics","mart_ai_telemetry_coverage_monthly","fct_ai_cost_reconciliation","dim_ai_experiment","dim_ai_model","dim_ai_provider","dim_ai_application","fact_ai_financial_monthly","fact_ai_usage_monthly","fact_ai_unit_economics_monthly","fact_ai_experiment_current","fact_ai_optimization_monthly","mart_ai_control_status","mart_ai_pipeline_status"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_ai_date
+ref table mart_ai_application_cost
+ref table mart_ai_optimization
+ref table mart_ai_token_economics
+ref table mart_ai_unit_economics
+ref table mart_ai_telemetry_coverage_monthly
+ref table fct_ai_cost_reconciliation
+ref table dim_ai_experiment
+ref table dim_ai_model
+ref table dim_ai_provider
+ref table dim_ai_application
+ref table fact_ai_financial_monthly
+ref table fact_ai_usage_monthly
+ref table fact_ai_unit_economics_monthly
+ref table fact_ai_experiment_current
+ref table fact_ai_optimization_monthly
+ref table _Measures
+ref table mart_ai_control_status
+ref table mart_ai_pipeline_status
+ref table 'Reconciliation Stage'
+
+ref cultureInfo en-US
+

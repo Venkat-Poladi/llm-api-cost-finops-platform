@@ -1,0 +1,93 @@
+table mart_ai_pipeline_status
+	lineageTag: 722bf564-4283-422a-a319-1e2db2bbcc2c
+
+	column pipeline_name
+		dataType: string
+		lineageTag: fd6d20be-5aba-441b-b0e8-9cbd57e6b89c
+		summarizeBy: none
+		sourceColumn: pipeline_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column pipeline_run_id
+		dataType: string
+		lineageTag: fccace23-086e-4f9b-943b-95e5c1cbcb07
+		summarizeBy: none
+		sourceColumn: pipeline_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column started_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dc2da1ce-9b06-4d84-adfb-7cdcb409189e
+		summarizeBy: none
+		sourceColumn: started_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column completed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9b4fbf91-2d29-4992-9e4e-665775ae74b0
+		summarizeBy: none
+		sourceColumn: completed_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 60266067-d284-4e1b-bac7-e04d77977d09
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_table_count
+		dataType: int64
+		formatString: 0
+		lineageTag: ec9ec361-ee5a-4173-8fd5-2afcdb10099a
+		summarizeBy: sum
+		sourceColumn: loaded_table_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column error_message
+		dataType: string
+		lineageTag: 85b3d543-ba3f-49d1-baf6-323d0fa5aecb
+		summarizeBy: none
+		sourceColumn: error_message
+
+		annotation SummarizationSetBy = Automatic
+
+	column pass_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: cbca049d-173d-4eda-b368-4b9c844d56a0
+		summarizeBy: sum
+		sourceColumn: pass_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column attention_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d82fdee-d2fe-4aa2-8398-9db710911715
+		summarizeBy: sum
+		sourceColumn: attention_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_ai_pipeline_status = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    mart_ai_pipeline_status_Table = llm_finops_mart_Schema{[Name="mart_ai_pipeline_status",Kind="Table"]}[Data]
+				in
+				    mart_ai_pipeline_status_Table
+
+	annotation PBI_ResultType = Table
+

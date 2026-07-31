@@ -1,0 +1,357 @@
+table fct_ai_cost_reconciliation
+	lineageTag: d9770607-cb12-4b9f-8e24-864a51844200
+
+	column reconciliation_fact_id
+		dataType: string
+		lineageTag: bfc0edd3-55d0-47c0-9288-8c27339a5405
+		summarizeBy: none
+		sourceColumn: reconciliation_fact_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_period
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 62d42ff2-cf14-41ab-8d2f-23ac7bc73114
+		summarizeBy: none
+		sourceColumn: billing_period
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c4dde300-044d-4f31-90a0-becc49c7fa63
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider
+		dataType: string
+		lineageTag: 271c3778-6efb-4334-987c-b5e1028b4055
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: bba5bcf2-f18c-41cb-aaa4-c6c62dea5111
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 74082d70-ac6e-4e73-9a2a-89c61ec9796c
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_scope
+		dataType: string
+		lineageTag: 6b415c55-223b-4b54-a335-7711b6c4054c
+		summarizeBy: none
+		sourceColumn: line_item_scope
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_type
+		dataType: string
+		lineageTag: f98e323e-49fd-44a2-9fb2-cf9f5c223069
+		summarizeBy: none
+		sourceColumn: line_item_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_line_item_id
+		dataType: string
+		lineageTag: c1f3642a-24b8-4a7d-8b6f-ae17f235a7f0
+		summarizeBy: none
+		sourceColumn: provider_line_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_reported_cost
+		dataType: double
+		lineageTag: 743332b1-e580-4176-ad48-061b81716968
+		summarizeBy: sum
+		sourceColumn: provider_reported_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_billed_cost
+		dataType: double
+		lineageTag: 42023b98-ab20-4685-a5b8-d1c8e1ba764c
+		summarizeBy: sum
+		sourceColumn: invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billing_currency
+		dataType: string
+		lineageTag: 456710a7-8feb-48bd-a02c-446f60f9ee3f
+		summarizeBy: none
+		sourceColumn: billing_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_amount
+		dataType: double
+		lineageTag: d8936009-0983-4704-a263-4b997e37a2ab
+		summarizeBy: sum
+		sourceColumn: credit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column source_adjustment_reason
+		dataType: string
+		lineageTag: 31031264-cc60-45a2-a93a-1f1f15c897e1
+		summarizeBy: none
+		sourceColumn: source_adjustment_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_issue_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1d47cfda-a49a-4f4c-830c-e4d007ce8392
+		summarizeBy: none
+		sourceColumn: invoice_issue_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_restatement
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0dd1390f-f360-40b6-862c-42899fa3a9bc
+		summarizeBy: none
+		sourceColumn: is_restatement
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7c58f893-37d4-4989-946d-4f1b640fcbd8
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_reconciliation_applicability
+		dataType: string
+		lineageTag: d7e04a1c-3ce3-4a31-bbf1-a85e749328e1
+		summarizeBy: none
+		sourceColumn: usage_reconciliation_applicability
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_rollup_match_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a5a278c0-0d99-45cf-ac86-1a05784a0589
+		summarizeBy: sum
+		sourceColumn: usage_rollup_match_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_daily_row_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b0c801c-ab93-4426-a616-4164df936aa8
+		summarizeBy: sum
+		sourceColumn: source_daily_row_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column distinct_api_key_count
+		dataType: int64
+		formatString: 0
+		lineageTag: d0a4f5a5-9b14-49f9-b6f5-55a2d6ce8918
+		summarizeBy: sum
+		sourceColumn: distinct_api_key_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a1172401-00fb-4ef2-bd4c-73fec1e86199
+		summarizeBy: sum
+		sourceColumn: request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column normalized_total_input_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 33741918-63fc-492d-926b-5b9edfcceefa
+		summarizeBy: sum
+		sourceColumn: normalized_total_input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column output_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: c7e706ce-6257-4f3c-875e-62f40e5675ee
+		summarizeBy: sum
+		sourceColumn: output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column reasoning_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 6235ebdd-3063-4ffa-b567-fdb848a841da
+		summarizeBy: sum
+		sourceColumn: reasoning_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_cost_estimate
+		dataType: double
+		lineageTag: 4cffb72c-6429-457d-a5c4-2b88eb2f78b3
+		summarizeBy: sum
+		sourceColumn: usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimate_currency
+		dataType: string
+		lineageTag: 541b3a42-a8ca-45d5-bd66-a8ccd1eb6960
+		summarizeBy: none
+		sourceColumn: estimate_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column unpriced_daily_row_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a97dea2b-37b6-475f-a47b-4d6ed9aaed70
+		summarizeBy: sum
+		sourceColumn: unpriced_daily_row_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_to_reported_variance
+		dataType: double
+		lineageTag: 704b037b-550c-4246-80eb-24ec2647d585
+		summarizeBy: sum
+		sourceColumn: usage_to_reported_variance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reported_to_invoice_variance
+		dataType: double
+		lineageTag: 17b1590d-d14d-4099-a3c7-442452f76f75
+		summarizeBy: sum
+		sourceColumn: reported_to_invoice_variance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column usage_to_reported_variance_pct
+		dataType: double
+		lineageTag: 4dc6f419-9a61-4a75-b0fd-a64146b7d0c9
+		summarizeBy: sum
+		sourceColumn: usage_to_reported_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reported_to_invoice_variance_pct
+		dataType: double
+		lineageTag: ad6f1e1c-ad1b-4b9e-ab2f-dddcd52e797f
+		summarizeBy: sum
+		sourceColumn: reported_to_invoice_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column usage_reconciliation_status
+		dataType: string
+		lineageTag: d3743562-d647-4d2f-ae75-89e68ff3ae86
+		summarizeBy: none
+		sourceColumn: usage_reconciliation_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_reconciliation_status
+		dataType: string
+		lineageTag: 9f45cf2e-b875-40cf-acdd-6532294abefd
+		summarizeBy: none
+		sourceColumn: invoice_reconciliation_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_variance_reason_code
+		dataType: string
+		lineageTag: 25b5492d-9ed3-46e5-8bde-5282874900dc
+		summarizeBy: none
+		sourceColumn: usage_variance_reason_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_variance_reason_code
+		dataType: string
+		lineageTag: e238b6c9-58ab-4cdf-8823-73dd540d539e
+		summarizeBy: none
+		sourceColumn: invoice_variance_reason_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column variance_reason_code
+		dataType: string
+		lineageTag: e0a78c42-9d89-4263-8499-fd3d3b022ec3
+		summarizeBy: none
+		sourceColumn: variance_reason_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column exception_status
+		dataType: string
+		lineageTag: cfecd470-5a13-4b23-bc31-6ab009d52050
+		summarizeBy: none
+		sourceColumn: exception_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_ai_cost_reconciliation = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_core_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_core",Kind="Schema"]}[Data],
+				    fct_ai_cost_reconciliation_Table = llm_finops_core_Schema{[Name="fct_ai_cost_reconciliation",Kind="Table"]}[Data]
+				in
+				    fct_ai_cost_reconciliation_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

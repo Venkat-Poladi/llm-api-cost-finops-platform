@@ -1,0 +1,1025 @@
+table _Measures
+	lineageTag: 813d4331-6d9a-492f-bf88-a33f7539f900
+
+	measure 'Total Invoice Cost' =
+			
+			SUM(
+			    fact_ai_financial_monthly[invoice_billed_cost]
+			)
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: 5d5871f3-d629-45eb-87a0-284ee99b106a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Provider Reported Cost' =
+			
+			SUM(
+			    fact_ai_financial_monthly[provider_reported_cost]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2b200643-d470-4422-a2bf-70e17246a400
+
+	measure 'Total Usage Invoice Cost' =
+			
+			CALCULATE(
+			    [Total Invoice Cost],
+			    fact_ai_financial_monthly[line_item_type] = "usage"
+			)
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: ae92888b-f0f3-4da8-adf9-70abae506f7f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Usage Cost Estimate' =
+			
+			SUM(
+			    fact_ai_financial_monthly[usage_cost_estimate]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: e333b342-e7f2-4cae-acc8-4a54e013461b
+
+	measure 'Non-Usage Invoice Cost' =
+			
+			CALCULATE(
+			    [Total Invoice Cost],
+			    fact_ai_financial_monthly[line_item_type] <> "usage"
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 92d56d99-7676-442b-b63a-fd3bafce69d3
+
+	measure 'Unallocated Usage Invoice Cost' =
+			
+			CALCULATE(
+			    SUM(
+			        fact_ai_financial_monthly[unallocated_invoice_billed_cost]
+			    ),
+			    fact_ai_financial_monthly[line_item_type] = "usage"
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 68f6a55d-5b3b-482c-a05b-cf20df1332e2
+
+	measure 'Allocated Usage Invoice Cost' =
+			
+			CALCULATE(
+			    SUM(
+			        fact_ai_financial_monthly[allocated_invoice_billed_cost]
+			    ),
+			    fact_ai_financial_monthly[line_item_type] = "usage"
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 525d38d0-154e-4863-afa4-db953eff414b
+
+	measure 'Allocation Coverage %' =
+			
+			DIVIDE(
+			    [Allocated Usage Invoice Cost],
+			    [Total Usage Invoice Cost]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b9131daf-3cb0-41cb-b82f-f06d3069da5e
+
+	measure 'Invoice vs Estimate Variance' =
+			
+			[Total Usage Invoice Cost]
+			    - [Total Usage Cost Estimate]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 60e414b8-4598-4d0b-90d7-103da411d75d
+
+	measure 'Invoice vs Estimate Variance %' =
+			
+			DIVIDE(
+			    [Invoice vs Estimate Variance],
+			    [Total Usage Cost Estimate]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b28c63bb-1a4c-4c51-a1e9-dadbb5756c6c
+
+	measure 'Total Provider Requests' =
+			
+			SUM(
+			    fact_ai_usage_monthly[request_count]
+			)
+		formatString: 0
+		lineageTag: 3de628a1-881d-49fc-8581-bf52492972e7
+
+	measure 'Total Tokens' =
+			
+			SUM(
+			    fact_ai_usage_monthly[total_tokens]
+			)
+		formatString: 0.0
+		lineageTag: 1a08d766-ecf9-4f66-94d9-6e70d394f946
+
+	measure 'Total Input Tokens' =
+			
+			SUM(
+			    fact_ai_usage_monthly[normalized_total_input_tokens]
+			)
+		formatString: 0
+		lineageTag: 94bb23b8-34da-414f-be41-97adca914a48
+
+	measure 'Total Output Tokens' =
+			
+			SUM(
+			    fact_ai_usage_monthly[output_tokens]
+			)
+		formatString: 0
+		lineageTag: 5f60db06-aff9-4ac5-8090-c6b8a6dd37b3
+
+	measure 'Cache Read Tokens' =
+			
+			SUM(
+			    fact_ai_usage_monthly[normalized_cache_read_tokens]
+			)
+		formatString: 0
+		lineageTag: 43ecbf9a-b690-415a-b969-acdd42ed34ff
+
+	measure 'Cache Utilization %' =
+			
+			DIVIDE(
+			    [Cache Read Tokens],
+			    [Total Input Tokens]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 83cfede7-a2a3-46af-9c30-7442c04ea0c9
+
+	measure 'Batch Requests' =
+			
+			SUM(
+			    fact_ai_usage_monthly[batch_request_count]
+			)
+		formatString: 0
+		lineageTag: 5c1392c1-71bb-4eef-853d-8f26987e309f
+
+	measure 'Batch Adoption %' =
+			
+			DIVIDE(
+			    [Batch Requests],
+			    [Total Provider Requests]
+			)
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 6032c99f-b1db-4c10-af35-af7d7837cecf
+
+	measure 'Estimated Cache Savings' =
+			
+			SUM(
+			    fact_ai_usage_monthly[estimated_cache_savings]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 1088a9aa-a149-4ded-b186-d896b4a3beb8
+
+	measure 'Estimated Batch Savings Opportunity' =
+			
+			SUM(
+			    fact_ai_usage_monthly[estimated_batch_savings_opportunity]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a6a3b32b-49e0-40da-920f-301a5241be02
+
+	measure 'Retry Attempts' =
+			
+			SUM(
+			    fact_ai_usage_monthly[retry_attempt_count]
+			)
+		formatString: 0
+		lineageTag: 9bdc8e3a-dd6d-4758-866c-e15918754dec
+
+	measure 'Retry Rate %' =
+			
+			DIVIDE(
+			    [Retry Attempts],
+			    SUM(
+			        fact_ai_usage_monthly[telemetry_attempt_count]
+			    )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: caafeb0c-f734-4e40-99b9-b6e34d2fe8fc
+
+	measure 'Identified Annualized Savings' =
+			
+			SUM(
+			    fact_ai_optimization_monthly[identified_annualized_savings]
+			)
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: dba26011-7f26-4368-8232-45844705a8de
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Realized Savings' =
+			
+			SUM(
+			    fact_ai_optimization_monthly[realized_savings]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 66d01886-6720-4a46-aa29-8ef8cce192e9
+
+	measure 'Passed Controls' =
+			
+			CALCULATE(
+			    COUNTROWS(mart_ai_control_status),
+			    mart_ai_control_status[status] = "PASS"
+			)
+		lineageTag: 1c5eb2fb-cfff-4d6d-adb8-7d405cd9eadf
+
+	measure 'Failed Controls' =
+			
+			CALCULATE(
+			    COUNTROWS(mart_ai_control_status),
+			    mart_ai_control_status[status] = "FAIL"
+			)
+		formatString: 0
+		lineageTag: 79c87c0c-232c-4b68-9ff5-da354ea433d6
+
+	measure 'Control Pass %' =
+			
+			DIVIDE(
+			    [Passed Controls],
+			    [Passed Controls] + [Failed Controls]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: ab85ad1f-3c01-4641-a049-5ef4f0a89d46
+
+	measure 'Attention Pipelines' =
+			
+			CALCULATE(
+			    COUNTROWS(mart_ai_pipeline_status),
+			    mart_ai_pipeline_status[status] <> "PASS"
+			)
+		formatString: 0
+		lineageTag: ce147f8c-06b7-447b-bae8-aa3792b23fe8
+
+	measure 'Experiments at Warning' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(
+			        fact_ai_experiment_current[experiment_id]
+			    ),
+			    fact_ai_experiment_current[threshold_status] = "WARNING"
+			)
+		formatString: 0
+		lineageTag: 64e25765-1ccf-40ea-9c5e-9276df86054e
+
+	measure 'Experiments at Hard Stop' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(
+			        fact_ai_experiment_current[experiment_id]
+			    ),
+			    fact_ai_experiment_current[threshold_status] = "HARD_STOP"
+			)
+		formatString: 0
+		lineageTag: 53730e76-1c98-4358-b852-0a197c31d882
+
+	measure 'Latest Month Invoice Cost' =
+			
+			VAR LatestMonth =
+			    MAX(dim_ai_date[month_start_date])
+			RETURN
+			    CALCULATE(
+			        [Total Invoice Cost],
+			        REMOVEFILTERS(dim_ai_date),
+			        dim_ai_date[month_start_date] = LatestMonth
+			    )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 857ba3ad-3cec-4ab8-a600-6d8a0d29ba5a
+
+	measure 'Previous Month Invoice Cost' =
+			
+			VAR LatestMonth =
+			    MAX(dim_ai_date[month_start_date])
+			
+			VAR PriorMonthStart =
+			    EDATE(LatestMonth, -1)
+			
+			RETURN
+			    CALCULATE(
+			        [Total Invoice Cost],
+			        REMOVEFILTERS(dim_ai_date),
+			        dim_ai_date[month_start_date] = PriorMonthStart
+			    )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: e6c7fef4-e4f4-4940-83af-554d8d595ec6
+
+	measure 'Invoice Cost MoM %' =
+			
+			DIVIDE(
+			    [Latest Month Invoice Cost]
+			        - [Previous Month Invoice Cost],
+			    [Previous Month Invoice Cost]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1c60552a-4a55-405d-8919-b55c8b24b704
+
+	measure 'Executive Readout' =
+			
+			VAR NL =
+			    UNICHAR(10)
+			
+			VAR Bullet =
+			    UNICHAR(8226) & " "
+			
+			VAR LatestCost =
+			    [Latest Month Invoice Cost]
+			
+			VAR MoMPct =
+			    [Invoice Cost MoM %]
+			
+			VAR LatestCostText =
+			    SWITCH(
+			        TRUE(),
+			        ABS(LatestCost) >= 1000000,
+			            FORMAT(LatestCost / 1000000, "$0.00M"),
+			        ABS(LatestCost) >= 1000,
+			            FORMAT(LatestCost / 1000, "$0.00K"),
+			        FORMAT(LatestCost, "$#,0.00")
+			    )
+			
+			VAR MovementText =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(MoMPct),
+			            "has no prior-month comparison",
+			        MoMPct < 0,
+			            "fell " & FORMAT(ABS(MoMPct), "0.0%"),
+			        MoMPct > 0,
+			            "rose " & FORMAT(ABS(MoMPct), "0.0%"),
+			        "was unchanged"
+			    )
+			
+			VAR ApplicationTable =
+			    FILTER(
+			        ADDCOLUMNS(
+			            ALLSELECTED(
+			                dim_ai_application[application_name]
+			            ),
+			            "__ApplicationCost",
+			                [Total Usage Invoice Cost]
+			        ),
+			        [__ApplicationCost] > 0
+			    )
+			
+			VAR TopApplicationTable =
+			    TOPN(
+			        1,
+			        ApplicationTable,
+			        [__ApplicationCost], DESC,
+			        dim_ai_application[application_name], ASC
+			    )
+			
+			VAR TopApplication =
+			    CONCATENATEX(
+			        TopApplicationTable,
+			        dim_ai_application[application_name],
+			        ""
+			    )
+			
+			VAR TopApplicationCost =
+			    MAXX(
+			        TopApplicationTable,
+			        [__ApplicationCost]
+			    )
+			
+			VAR TotalApplicationCost =
+			    CALCULATE(
+			        [Total Usage Invoice Cost],
+			        ALLSELECTED(dim_ai_application)
+			    )
+			
+			VAR TopApplicationShare =
+			    DIVIDE(
+			        TopApplicationCost,
+			        TotalApplicationCost
+			    )
+			
+			VAR RecommendationTable =
+			    FILTER(
+			        ADDCOLUMNS(
+			            ALLSELECTED(
+			                fact_ai_optimization_monthly[recommendation_title]
+			            ),
+			            "__Opportunity",
+			                [Identified Annualized Savings]
+			        ),
+			        [__Opportunity] > 0
+			    )
+			
+			VAR TopRecommendationTable =
+			    TOPN(
+			        1,
+			        RecommendationTable,
+			        [__Opportunity], DESC,
+			        fact_ai_optimization_monthly[recommendation_title], ASC
+			    )
+			
+			VAR TopRecommendation =
+			    CONCATENATEX(
+			        TopRecommendationTable,
+			        fact_ai_optimization_monthly[recommendation_title],
+			        ""
+			    )
+			
+			VAR TopRecommendationOpportunity =
+			    MAXX(
+			        TopRecommendationTable,
+			        [__Opportunity]
+			    )
+			
+			VAR TotalOpportunity =
+			    [Identified Annualized Savings]
+			
+			VAR TotalOpportunityText =
+			    SWITCH(
+			        TRUE(),
+			        ABS(TotalOpportunity) >= 1000000,
+			            FORMAT(TotalOpportunity / 1000000, "$0.00M"),
+			        ABS(TotalOpportunity) >= 1000,
+			            FORMAT(TotalOpportunity / 1000, "$0.00K"),
+			        FORMAT(TotalOpportunity, "$#,0.00")
+			    )
+			
+			VAR TopRecommendationShare =
+			    DIVIDE(
+			        TopRecommendationOpportunity,
+			        TotalOpportunity
+			    )
+			
+			VAR OpportunityType =
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(
+			            LOWER(TopRecommendation),
+			            "batch"
+			        ),
+			            "batch migration",
+			        CONTAINSSTRING(
+			            LOWER(TopRecommendation),
+			            "retry"
+			        ),
+			            "retry reduction",
+			        TopRecommendation
+			    )
+			
+			VAR ReconciliationPct =
+			    [Usage-to-Reported Variance %]
+			
+			VAR ReconciliationText =
+			    SWITCH(
+			        TRUE(),
+			        ReconciliationPct < 0,
+			            FORMAT(
+			                ABS(ReconciliationPct),
+			                "0.0%"
+			            )
+			                & " below the usage estimate",
+			        ReconciliationPct > 0,
+			            FORMAT(
+			                ABS(ReconciliationPct),
+			                "0.0%"
+			            )
+			                & " above the usage estimate",
+			        "aligned with the usage estimate"
+			    )
+			
+			RETURN
+			    "SPEND SIGNAL"
+			        & NL
+			        & Bullet
+			        & "Latest invoice cost "
+			        & MovementText
+			        & " to "
+			        & LatestCostText
+			        & ". Validate whether the movement reflects demand, model mix or efficiency."
+			        & NL
+			        & NL
+			        & "CONCENTRATION RISK"
+			        & NL
+			        & Bullet
+			        & TopApplication
+			        & " represents "
+			        & FORMAT(
+			            TopApplicationShare,
+			            "0.0%"
+			        )
+			        & " of usage cost and should be the first workload investigated."
+			        & NL
+			        & NL
+			        & "DECISION PRIORITY"
+			        & NL
+			        & Bullet
+			        & TotalOpportunityText
+			        & " of modeled annualized opportunity is identified. "
+			        & FORMAT(
+			            TopRecommendationShare,
+			            "0%"
+			        )
+			        & " is driven by "
+			        & OpportunityType
+			        & ". Provider-reported usage is "
+			        & ReconciliationText
+			        & ", so validate pricing before approval."
+		lineageTag: b69c0b01-1ce2-4aa9-aa8a-3ffd2802d4fc
+
+	measure 'Cost per 1M Tokens' =
+			
+			DIVIDE(
+			    [Total Usage Invoice Cost],
+			    [Total Tokens]
+			) * 1000000
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 36f3c8d1-3572-476f-88de-5abec6bb9f51
+
+	measure 'High-Confidence Allocation %' =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [Allocated Usage Invoice Cost],
+			        fact_ai_financial_monthly[allocation_confidence] = "high"
+			    ),
+			    [Allocated Usage Invoice Cost]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0a092dc4-3cf7-4ecf-9960-b1d2e57a9c02
+
+	measure 'Applications Requiring Review' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(
+			        fact_ai_financial_monthly[application_key]
+			    ),
+			    fact_ai_financial_monthly[allocation_status] = "Allocated",
+			    KEEPFILTERS(
+			        FILTER(
+			            fact_ai_financial_monthly,
+			            fact_ai_financial_monthly[allocation_confidence] = "medium"
+			                || fact_ai_financial_monthly[has_historical_restatement]
+			                    = TRUE()
+			        )
+			    )
+			)
+		lineageTag: aa3b9f0e-2513-4ef7-992b-d8b53e3a3ef2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Distributed Requests' =
+			
+			SUM(
+			    fact_ai_financial_monthly[distributed_request_count]
+			)
+		lineageTag: e319842d-7c52-49a0-b623-cfcd4abc8ff3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Distributed Tokens' = ```
+			
+			    SUM(
+			        fact_ai_financial_monthly[distributed_total_input_tokens]
+			    )
+			    + SUM(
+			        fact_ai_financial_monthly[distributed_output_tokens]
+			    )
+			    + SUM(
+			        fact_ai_financial_monthly[distributed_reasoning_tokens]
+			    )
+			```
+		lineageTag: 771e263f-e863-49dc-81a2-5154edcfdc0e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Experiment Spend to Limit %' =
+			
+			MAX(
+			    fact_ai_experiment_current[spend_to_limit_pct]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 17199fbe-276f-432a-a6c4-61d01b7c143d
+
+	measure 'Current Experiments' =
+			
+			DISTINCTCOUNT(
+			    fact_ai_experiment_current[experiment_id]
+			)
+		formatString: 0
+		lineageTag: f30a68b1-d5fe-4a57-bbb5-05c929b32697
+
+	measure 'Experiments Within Limit' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(
+			        fact_ai_experiment_current[experiment_id]
+			    ),
+			    fact_ai_experiment_current[threshold_status] = "WITHIN_LIMIT"
+			)
+		formatString: 0
+		lineageTag: 928f9f55-9e19-45cf-aa8e-2f3aa30eab7f
+
+	measure 'Experiments Within Guardrail %' =
+			
+			DIVIDE(
+			    [Experiments Within Limit],
+			    [Current Experiments]
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 6b2dfb5a-e13a-4bf8-a223-859502d7eb52
+
+	measure 'Experiments Requiring Action' =
+			
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT(
+			            fact_ai_experiment_current[experiment_id]
+			        ),
+			        fact_ai_experiment_current[threshold_status]
+			            IN { "WARNING", "HARD_STOP" }
+			    ),
+			    0
+			)
+		formatString: 0
+		lineageTag: 99bf8e09-d53c-4b74-b90a-0cf990cb76d5
+
+	measure 'Ready Recommendations' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(
+			        fact_ai_optimization_monthly[recommendation_id]
+			    ),
+			    fact_ai_optimization_monthly[evaluation_gate_status]
+			        = "READY_FOR_EVALUATION"
+			)
+		formatString: 0
+		lineageTag: 12a9884b-f8cc-4a6a-a9d4-81c37705f071
+
+	measure 'Chargeback Usage Invoice Cost' =
+			
+			[Allocated Usage Invoice Cost]
+			    + [Unallocated Usage Invoice Cost]
+		lineageTag: d6374129-d0a5-4ab7-995a-4cc43d09fae9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Reconciliation Usage Estimate' = ```
+			
+			SUM(
+			    fact_ai_cost_reconciliation 
+			)
+			```
+		lineageTag: 68673205-adf4-4d29-b0ea-47974aaec24f
+
+	measure 'Usage Estimate - Usage Lines' =
+			
+			CALCULATE(
+			    [Total Usage Cost Estimate],
+			    fact_ai_financial_monthly[line_item_type] = "usage"
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: bdf2e8db-8066-4c96-acd1-1221e019dd42
+
+	measure 'Provider Reported Cost - Usage Lines' =
+			
+			CALCULATE(
+			    [Total Provider Reported Cost],
+			    KEEPFILTERS(
+			        fact_ai_financial_monthly[line_item_type] = "usage"
+			    )
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 77923115-0827-4805-8b9c-61e9d584bbb0
+
+	measure 'Usage-to-Reported Variance' =
+			
+			[Provider Reported Cost - Usage Lines]
+			    - [Usage Estimate - Usage Lines]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3afe0442-72fd-47bd-a580-6ce6009adb7c
+
+	measure 'Usage-to-Reported Variance %' =
+			
+			DIVIDE(
+			    [Usage-to-Reported Variance],
+			    ABS([Usage Estimate - Usage Lines])
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2ab7156f-8991-4712-b758-42184edb6989
+
+	measure 'Reported-to-Invoice Variance' =
+			
+			[Total Invoice Cost]
+			    - [Total Provider Reported Cost]
+		lineageTag: f125a36a-2f48-47ac-8a3e-2f84e0377e59
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Reported-to-Invoice Variance %' =
+			
+			DIVIDE(
+			    [Reported-to-Invoice Variance],
+			    ABS([Total Provider Reported Cost])
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 4d709b03-db26-41a0-88ad-21fd6f70e258
+
+	measure 'Unallocated Usage %' =
+			
+			DIVIDE(
+			    [Unallocated Usage Invoice Cost],
+			    [Chargeback Usage Invoice Cost]
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: eb8c153d-b483-4ef0-8fec-855d353dbdde
+
+	measure 'Non-Usage Provider Reported Cost' =
+			
+			[Total Provider Reported Cost]
+			    - [Provider Reported Cost - Usage Lines]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 61a3f613-2866-4b82-8d60-9ec6b098c4d4
+
+	measure 'Reconciliation Bridge Amount' =
+			
+			SWITCH(
+			    SELECTEDVALUE(
+			        'Reconciliation Stage'[Stage]
+			    ),
+			    "Usage Estimate",
+			        [Usage Estimate - Usage Lines],
+			    "Usage → Reported Variance",
+			        [Usage-to-Reported Variance],
+			    "Non-Usage Reported Cost",
+			        [Non-Usage Provider Reported Cost],
+			    "Reported → Invoice Variance",
+			        [Reported-to-Invoice Variance],
+			    BLANK()
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 80f5551f-9dd0-4ed0-8b00-5f2ff6d7c734
+
+	measure 'Usage Invoice Cost Share %' =
+			
+			DIVIDE(
+			    [Total Usage Invoice Cost],
+			    CALCULATE(
+			        [Total Usage Invoice Cost],
+			        REMOVEFILTERS(dim_ai_application)
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f17fcade-7c10-47a5-a277-9e4cc8fae2ec
+
+	measure 'Spend Signal Insight' =
+			
+			VAR LatestCost =
+			    [Latest Month Invoice Cost]
+			
+			VAR MoMPct =
+			    [Invoice Cost MoM %]
+			
+			VAR CostText =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(LatestCost), "N/A",
+			        ABS(LatestCost) >= 1000000,
+			            FORMAT(LatestCost / 1000000, "$0.00M"),
+			        ABS(LatestCost) >= 1000,
+			            FORMAT(LatestCost / 1000, "$0.00K"),
+			        FORMAT(LatestCost, "$#,0.00")
+			    )
+			
+			VAR MovementText =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(MoMPct),
+			            "has no prior-month comparison",
+			        MoMPct < 0,
+			            "fell " & FORMAT(ABS(MoMPct), "0.0%"),
+			        MoMPct > 0,
+			            "rose " & FORMAT(ABS(MoMPct), "0.0%"),
+			        "was unchanged"
+			    )
+			
+			VAR MovementName =
+			    SWITCH(
+			        TRUE(),
+			        MoMPct < 0, "decline",
+			        MoMPct > 0, "increase",
+			        "movement"
+			    )
+			
+			RETURN
+			    "Latest invoice cost "
+			        & MovementText
+			        & " to "
+			        & CostText
+			        & "."
+			        & UNICHAR(10)
+			        & "Validate whether demand, model mix or efficiency caused the "
+			        & MovementName
+			        & "."
+		lineageTag: 5a3fe257-cd61-43f6-b771-aac819e0b193
+
+	measure 'Concentration Risk Insight' =
+			
+			VAR ApplicationTable =
+			    FILTER(
+			        ADDCOLUMNS(
+			            ALL(
+			                dim_ai_application[application_name]
+			            ),
+			            "__UsageCost",
+			                [Total Usage Invoice Cost]
+			        ),
+			        [__UsageCost] > 0
+			    )
+			
+			VAR TopApplicationRow =
+			    TOPN(
+			        1,
+			        ApplicationTable,
+			        [__UsageCost], DESC,
+			        dim_ai_application[application_name], ASC
+			    )
+			
+			VAR TopApplication =
+			    CONCATENATEX(
+			        TopApplicationRow,
+			        dim_ai_application[application_name],
+			        ""
+			    )
+			
+			VAR TopApplicationCost =
+			    MAXX(
+			        TopApplicationRow,
+			        [__UsageCost]
+			    )
+			
+			VAR TotalUsageCost =
+			    CALCULATE(
+			        [Total Usage Invoice Cost],
+			        REMOVEFILTERS(dim_ai_application)
+			    )
+			
+			VAR TopApplicationShare =
+			    DIVIDE(
+			        TopApplicationCost,
+			        TotalUsageCost
+			    )
+			
+			RETURN
+			    TopApplication
+			        & " drives "
+			        & FORMAT(TopApplicationShare, "0.0%")
+			        & " of usage cost."
+			        & UNICHAR(10)
+			        & "Prioritize this workload for cost and architecture review."
+		lineageTag: 447dfc62-f854-41ef-b341-a2c25791bd7b
+
+	measure 'Decision Priority Insight' =
+			
+			VAR OpportunityTable =
+			    FILTER(
+			        ADDCOLUMNS(
+			            ALL(
+			                fact_ai_optimization_monthly[optimization_type]
+			            ),
+			            "__Opportunity",
+			                [Identified Annualized Savings]
+			        ),
+			        [__Opportunity] > 0
+			    )
+			
+			VAR TopOpportunityRow =
+			    TOPN(
+			        1,
+			        OpportunityTable,
+			        [__Opportunity], DESC,
+			        fact_ai_optimization_monthly[optimization_type], ASC
+			    )
+			
+			VAR TopOpportunityType =
+			    CONCATENATEX(
+			        TopOpportunityRow,
+			        fact_ai_optimization_monthly[optimization_type],
+			        ""
+			    )
+			
+			VAR TopOpportunityAmount =
+			    MAXX(
+			        TopOpportunityRow,
+			        [__Opportunity]
+			    )
+			
+			VAR TotalOpportunity =
+			    CALCULATE(
+			        [Identified Annualized Savings],
+			        REMOVEFILTERS(
+			            fact_ai_optimization_monthly[optimization_type]
+			        )
+			    )
+			
+			VAR TotalOpportunityText =
+			    SWITCH(
+			        TRUE(),
+			        ABS(TotalOpportunity) >= 1000000,
+			            FORMAT(TotalOpportunity / 1000000, "$0.00M"),
+			        ABS(TotalOpportunity) >= 1000,
+			            FORMAT(TotalOpportunity / 1000, "$0.00K"),
+			        FORMAT(TotalOpportunity, "$#,0.00")
+			    )
+			
+			VAR TopOpportunityShare =
+			    DIVIDE(
+			        TopOpportunityAmount,
+			        TotalOpportunity
+			    )
+			
+			VAR OpportunityName =
+			    SWITCH(
+			        TopOpportunityType,
+			        "BATCH_MIGRATION", "batch migration",
+			        "RETRY_REDUCTION", "retry reduction",
+			        "CACHE_REUSE_ASSESSMENT", "cache reuse",
+			        "MODEL_RIGHTSIZING", "model right-sizing",
+			        "TELEMETRY_COVERAGE", "telemetry coverage",
+			        LOWER(TopOpportunityType)
+			    )
+			
+			VAR PricingGap =
+			    ABS(
+			        [Usage-to-Reported Variance %]
+			    )
+			
+			RETURN
+			    TotalOpportunityText
+			        & " modeled annualized opportunity; "
+			        & FORMAT(TopOpportunityShare, "0%")
+			        & " comes from "
+			        & OpportunityName
+			        & "."
+			        & UNICHAR(10)
+			        & "Validate the "
+			        & FORMAT(PricingGap, "0.0%")
+			        & " pricing gap before approval."
+		lineageTag: 0ca78c5f-49a8-4e56-9f0f-fa243a20c3ec
+
+	measure 'Total Tokens Card Display' =
+			
+			FORMAT(
+			    DIVIDE(
+			        [Total Tokens],
+			        1000000000
+			    ),
+			    "0.0"
+			) & "B"
+		lineageTag: 89d54a4e-006c-41ec-a547-ae1705edc984
+
+	measure 'Quantified Annualized Opportunity' =
+			
+			VAR Opportunity =
+			    [Identified Annualized Savings]
+			RETURN
+			    IF(
+			        Opportunity > 0,
+			        Opportunity,
+			        BLANK()
+			    )
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: f29b98ee-17ae-4e9a-8844-d9a7ce7f22f5
+
+	measure 'Quantified Recommendation Actions' =
+			
+			COUNTROWS(
+			    FILTER(
+			        SUMMARIZE(
+			            fact_ai_optimization_monthly,
+			            fact_ai_optimization_monthly[recommendation_title],
+			            fact_ai_optimization_monthly[provider],
+			            fact_ai_optimization_monthly[model]
+			        ),
+			        CALCULATE(
+			            [Identified Annualized Savings]
+			        ) > 0
+			    )
+			)
+		formatString: 0
+		lineageTag: 71e02b6e-348e-40cb-aa49-c41fad2aff90
+
+	column '_Measure Holder'
+		lineageTag: 665a0745-7fef-46d9-be52-4eb84645ec32
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [_Measure Holder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "_Measure Holder",
+				    STRING,
+				    {
+				        { "Measures" }
+				    }
+				)
+
+	annotation PBI_Id = dde717c8c47b42b0af4f38752930eb35
+

@@ -1,0 +1,587 @@
+table mart_ai_unit_economics
+	lineageTag: 16efd4e4-eb13-4c85-a234-69ad2f2bfb42
+
+	column unit_economics_id
+		dataType: string
+		lineageTag: 5e618895-a60b-477d-984a-6224197ebd63
+		summarizeBy: none
+		sourceColumn: unit_economics_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f1563079-b2d9-4797-a124-97986326c8f3
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider
+		dataType: string
+		lineageTag: de2f7035-4d0f-4bb3-ace5-1a96d95ec84a
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: 01f4b9c6-337e-4b40-abc8-ef3458ec31fe
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: b253f700-b18b-4f94-870b-75cf31fc9639
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_snapshot
+		dataType: string
+		lineageTag: 25c541c0-414e-4b3e-8fa7-0427c9fe636c
+		summarizeBy: none
+		sourceColumn: model_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: dfaf3bab-9761-482d-be2b-7708ae3bea26
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_usage_line_count
+		dataType: int64
+		formatString: 0
+		lineageTag: dc93dadd-1adb-410d-a8c1-178d419f6b9d
+		summarizeBy: sum
+		sourceColumn: financial_usage_line_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 8132e039-b049-4f28-b7f5-b31cea71d7ca
+		summarizeBy: sum
+		sourceColumn: provider_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column normalized_total_input_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 5993f905-c23f-4154-a350-8e1c7e0dc193
+		summarizeBy: sum
+		sourceColumn: normalized_total_input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column output_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 7897974d-5848-49ac-8ad2-b8112bf0357d
+		summarizeBy: sum
+		sourceColumn: output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column reasoning_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b5c07a1-118c-43bf-90a7-b2f34f1db2c4
+		summarizeBy: sum
+		sourceColumn: reasoning_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column visible_output_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f75cc53-3123-4514-b5d4-9a6a50c40123
+		summarizeBy: sum
+		sourceColumn: visible_output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: b16c54ab-cebd-4507-bc56-0288e1716290
+		summarizeBy: sum
+		sourceColumn: total_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_cost_estimate
+		dataType: double
+		lineageTag: 9d16c030-6c39-406d-9898-ff78bb41a512
+		summarizeBy: sum
+		sourceColumn: usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reconciled_usage_cost_estimate
+		dataType: double
+		lineageTag: f8b270f1-d32a-43cb-b1a7-cf54a350e9b7
+		summarizeBy: sum
+		sourceColumn: reconciled_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column provider_reported_usage_cost
+		dataType: double
+		lineageTag: 13160063-1f03-4079-865b-7d83cf019db5
+		summarizeBy: sum
+		sourceColumn: provider_reported_usage_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_billed_usage_cost
+		dataType: double
+		lineageTag: e6bbe8e0-b118-42d7-8b4a-54eaf9e50fd3
+		summarizeBy: sum
+		sourceColumn: invoice_billed_usage_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_to_estimate_variance
+		dataType: double
+		lineageTag: 1f44c25a-f5bf-4ed9-be41-59548a6e47a7
+		summarizeBy: sum
+		sourceColumn: invoice_to_estimate_variance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_to_estimate_variance_pct
+		dataType: double
+		lineageTag: f3ec7825-49ad-4c06-b69b-d46fd856ddee
+		summarizeBy: sum
+		sourceColumn: invoice_to_estimate_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 18c5df10-9dd9-42d7-ad42-1b72de1f4368
+		summarizeBy: sum
+		sourceColumn: telemetry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 524b3beb-0c0f-4a0b-bcda-c8b0f4eb15c4
+		summarizeBy: sum
+		sourceColumn: telemetry_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column successful_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 06f79134-3018-48dd-a023-229d2c5019ad
+		summarizeBy: sum
+		sourceColumn: successful_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column retry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e2981b9-ee8d-4b1d-8e6c-68c2f7a146af
+		summarizeBy: sum
+		sourceColumn: retry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column failed_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 3fa89338-9b7b-4872-96d0-a62bdbda5874
+		summarizeBy: sum
+		sourceColumn: failed_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_usage_cost_estimate
+		dataType: double
+		lineageTag: c183de41-00f3-44cf-9fcb-96783eba88ec
+		summarizeBy: sum
+		sourceColumn: telemetry_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_retry_cost
+		dataType: double
+		lineageTag: 2428ff61-0e4c-432f-bbf9-6220d2488a04
+		summarizeBy: sum
+		sourceColumn: estimated_retry_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_failed_attempt_cost
+		dataType: double
+		lineageTag: 09538eb6-a2bc-4865-b86f-2711a129a046
+		summarizeBy: sum
+		sourceColumn: estimated_failed_attempt_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_mid_generation_failure_cost
+		dataType: double
+		lineageTag: 9696cd75-1ac0-4ef8-b705-d9522a2eec73
+		summarizeBy: sum
+		sourceColumn: estimated_mid_generation_failure_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_token_coverage_pct
+		dataType: double
+		lineageTag: 26e48585-71c6-43e2-8610-2269fe7612bd
+		summarizeBy: sum
+		sourceColumn: telemetry_token_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_request_coverage_pct
+		dataType: double
+		lineageTag: 0c745ba6-7703-4f77-9285-98f0a8ed36d8
+		summarizeBy: sum
+		sourceColumn: telemetry_request_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column untraceable_provider_usage_cost_estimate
+		dataType: double
+		lineageTag: fd67d3ad-61b6-4962-b3f6-13a72093258a
+		summarizeBy: sum
+		sourceColumn: untraceable_provider_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column exception_day_count
+		dataType: int64
+		formatString: 0
+		lineageTag: c72c07ec-2285-4f78-8149-b800a8fed00f
+		summarizeBy: sum
+		sourceColumn: exception_day_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column observed_day_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d910deb-4e34-44d3-a0db-e9c6fe44b29a
+		summarizeBy: sum
+		sourceColumn: observed_day_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_currency
+		dataType: string
+		lineageTag: 2b9fa0a3-eeed-41f8-8f4b-324cc806cf78
+		summarizeBy: none
+		sourceColumn: billing_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9efd0b50-cb14-4218-8dcd-2dad0c4d41e4
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_quality_gate_passed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d636daf1-5373-4b58-a930-5dfeacd2efab
+		summarizeBy: none
+		sourceColumn: telemetry_quality_gate_passed
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_cost_per_provider_request
+		dataType: double
+		lineageTag: bcb65afb-d6aa-42e3-bbce-d3768ce49e98
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_provider_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_cost_per_thousand_provider_requests
+		dataType: double
+		lineageTag: afe03b67-a426-41d8-a374-bc7faf78e37c
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_thousand_provider_requests
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_cost_per_million_total_tokens
+		dataType: double
+		lineageTag: fe54a216-ad3d-4d7a-b33e-176b82228bec
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_million_total_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_cost_per_million_input_tokens
+		dataType: double
+		lineageTag: f935b267-8646-4443-a0eb-2b1c12771ae1
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_million_input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_cost_per_million_output_tokens
+		dataType: double
+		lineageTag: 5d3de1a1-6a10-45a5-abaf-927da71e3937
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_million_output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column governed_invoice_cost_per_logical_request
+		dataType: double
+		lineageTag: 8701aa8f-46b6-4bbe-8020-c49a62831232
+		summarizeBy: sum
+		sourceColumn: governed_invoice_cost_per_logical_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column governed_invoice_cost_per_successful_request
+		dataType: double
+		lineageTag: 4ca8fe12-0e76-4a6b-a6b7-e3ffe95369d2
+		summarizeBy: sum
+		sourceColumn: governed_invoice_cost_per_successful_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_success_rate
+		dataType: double
+		lineageTag: 98d0369c-3211-4b5a-841a-7374c0ddf045
+		summarizeBy: sum
+		sourceColumn: observed_success_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_retry_attempt_rate
+		dataType: double
+		lineageTag: b286d466-5d20-4663-b1af-b346425ab37a
+		summarizeBy: sum
+		sourceColumn: observed_retry_attempt_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_failed_attempt_rate
+		dataType: double
+		lineageTag: 4d68dac4-eb3d-47ec-9a8d-3d475e765fe2
+		summarizeBy: sum
+		sourceColumn: observed_failed_attempt_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_attempts_per_logical_request
+		dataType: double
+		lineageTag: 0866d675-4e17-43cf-9cec-f51fcc4fd760
+		summarizeBy: sum
+		sourceColumn: observed_attempts_per_logical_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_tokens_per_provider_request
+		dataType: double
+		lineageTag: 7c25ca73-af68-4781-a55b-67fa1fc88475
+		summarizeBy: sum
+		sourceColumn: average_tokens_per_provider_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_input_tokens_per_provider_request
+		dataType: double
+		lineageTag: e11226dc-a859-4410-9ec3-f77fa3e4ab7d
+		summarizeBy: sum
+		sourceColumn: average_input_tokens_per_provider_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_output_tokens_per_provider_request
+		dataType: double
+		lineageTag: 01996093-544a-483e-b62f-799490b62304
+		summarizeBy: sum
+		sourceColumn: average_output_tokens_per_provider_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column reasoning_overhead_pct
+		dataType: double
+		lineageTag: 69622251-f7b3-4901-8a7f-dcf9e4924906
+		summarizeBy: sum
+		sourceColumn: reasoning_overhead_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_retry_cost_share
+		dataType: double
+		lineageTag: 74d8065c-70fe-4b8d-a038-85e5e31d4cac
+		summarizeBy: sum
+		sourceColumn: estimated_retry_cost_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_failed_attempt_cost_share
+		dataType: double
+		lineageTag: 06a13d5e-5057-414c-b65d-e696d491f9bd
+		summarizeBy: sum
+		sourceColumn: estimated_failed_attempt_cost_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column governed_retry_cost_per_successful_request
+		dataType: double
+		lineageTag: 53e4086e-baac-4968-b23f-b509519c7060
+		summarizeBy: sum
+		sourceColumn: governed_retry_cost_per_successful_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column measurement_quality_status
+		dataType: string
+		lineageTag: c8841627-66a1-4621-9b6c-d1bb3e6c7fa9
+		summarizeBy: none
+		sourceColumn: measurement_quality_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_economics_status
+		dataType: string
+		lineageTag: 6136f492-f649-4a4d-99c8-a3671fa49bf7
+		summarizeBy: none
+		sourceColumn: unit_economics_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column measurement_quality_note
+		dataType: string
+		lineageTag: 9bf8f496-977a-4451-a542-e15145d5747f
+		summarizeBy: none
+		sourceColumn: measurement_quality_note
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_basis
+		dataType: string
+		lineageTag: a4614e2d-3743-4eec-9db4-f3189ffd26ea
+		summarizeBy: none
+		sourceColumn: financial_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column operational_cost_basis
+		dataType: string
+		lineageTag: 19e89766-6f8a-4e6c-8af3-976a4f69ecf6
+		summarizeBy: none
+		sourceColumn: operational_cost_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column retry_and_failure_cost_label
+		dataType: string
+		lineageTag: 59f8973f-1077-440f-b70e-3bfa8c32a243
+		summarizeBy: none
+		sourceColumn: retry_and_failure_cost_label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_ai_unit_economics = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    mart_ai_unit_economics_Table = llm_finops_mart_Schema{[Name="mart_ai_unit_economics",Kind="Table"]}[Data]
+				in
+				    mart_ai_unit_economics_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

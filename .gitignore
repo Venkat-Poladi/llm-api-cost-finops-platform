@@ -16,3 +16,22 @@ data/raw/*
 *.pbit
 .DS_Store
 Thumbs.db
+
+# Local editor settings
+.vscode/
+
+# Recovery and troubleshooting artifacts
+M15_FINAL_REPAIR.md
+M15_M17_RECOVERY_V2.md
+M17_SEMANTIC_RECOVERY_V3.md
+m10-full-output.txt
+m6-full-error.txt
+scripts/recover_m15_to_m17*
+scripts/recover_m17_v3*
+
+# Python runtime artifacts
+__pycache__/
+*.pyc
+M*_INSTALL.md
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

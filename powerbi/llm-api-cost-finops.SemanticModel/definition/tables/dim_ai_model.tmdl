@@ -1,0 +1,82 @@
+table dim_ai_model
+	lineageTag: 2f41e286-d990-4fc9-bfd1-efdb0b594b4f
+
+	column model_key
+		dataType: string
+		lineageTag: 9e473d4e-46b8-4031-87c3-c06e30b27ea1
+		summarizeBy: none
+		sourceColumn: model_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider
+		dataType: string
+		lineageTag: ff003f1d-ca93-4efe-9bdf-89214bdcba4a
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 74e18ac7-4d28-415f-8b93-ed537e18200b
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_snapshot
+		dataType: string
+		lineageTag: 7de93259-3553-4650-8d39-de179075c05a
+		summarizeBy: none
+		sourceColumn: model_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: dea5fb07-06bd-4450-a0ea-4f235c966dfc
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_model_label
+		dataType: string
+		lineageTag: bbdd0171-a44a-4a02-8db7-abdb12a94273
+		summarizeBy: none
+		sourceColumn: provider_model_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model Display' =
+			
+			SWITCH(
+			    dim_ai_model[model],
+			    "claude-sonnet-4", "Claude Sonnet 4",
+			    "gpt-5", "GPT-5",
+			    "claude-3-5-haiku", "Claude 3.5 Haiku",
+			    "gpt-4o-mini", "GPT-4o Mini",
+			    "text-embedding-3-small", "Text Embedding 3 Small",
+			    dim_ai_model[model]
+			)
+		lineageTag: 8256929d-a07c-49a7-b76d-16faaf569a66
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_ai_model = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    dim_ai_model_Table = llm_finops_mart_Schema{[Name="dim_ai_model",Kind="Table"]}[Data]
+				in
+				    dim_ai_model_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

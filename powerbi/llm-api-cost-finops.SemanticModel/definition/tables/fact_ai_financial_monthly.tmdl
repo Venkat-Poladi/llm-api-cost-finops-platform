@@ -1,0 +1,289 @@
+table fact_ai_financial_monthly
+	lineageTag: 34033a49-4609-44b9-bb70-5cf598daf2b4
+
+	column financial_monthly_id
+		dataType: string
+		lineageTag: a018be99-a278-4419-b161-8124e2b74e0d
+		summarizeBy: none
+		sourceColumn: financial_monthly_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 65b77e36-58c8-4ada-a5f1-edd4207927bc
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 719ffb4d-9a22-4782-9a36-63b2bacf9ebc
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider_key
+		dataType: string
+		lineageTag: cbc95bb5-9761-4849-9c0d-d2908ab98e23
+		summarizeBy: none
+		sourceColumn: provider_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_key
+		dataType: string
+		lineageTag: 1463ba19-07a2-4153-a381-fe92e94eb232
+		summarizeBy: none
+		sourceColumn: model_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column application_key
+		dataType: string
+		lineageTag: 2934e95e-6c7a-4d25-affd-e5aa9dab6999
+		summarizeBy: none
+		sourceColumn: application_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider
+		dataType: string
+		lineageTag: deed7073-335e-4994-a5ce-59e4c02062be
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: 624e5295-52c5-46fb-b7ee-ceecf1441267
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 1f0dfa45-d51a-4519-a65d-2f52684a9dca
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_snapshot
+		dataType: string
+		lineageTag: 618b8068-6e55-4883-9498-39a9e863871d
+		summarizeBy: none
+		sourceColumn: model_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: 705d4bd9-35c5-4f15-8d11-7709550063d2
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_scope
+		dataType: string
+		lineageTag: 1549b265-9b64-4f3e-8164-f7a5700b8494
+		summarizeBy: none
+		sourceColumn: line_item_scope
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_type
+		dataType: string
+		lineageTag: c956e6d1-eb5d-442f-9cf5-d4a16e61a0e6
+		summarizeBy: none
+		sourceColumn: line_item_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column application_name
+		dataType: string
+		lineageTag: 2d93827a-d61d-48d8-b886-733d5e80c2d4
+		summarizeBy: none
+		sourceColumn: application_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_name
+		dataType: string
+		lineageTag: fc6421a1-cd43-4b23-8e05-ba2e5950ad79
+		summarizeBy: none
+		sourceColumn: department_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center
+		dataType: string
+		lineageTag: 2b20abef-0561-4158-8381-6f2708d23f8c
+		summarizeBy: none
+		sourceColumn: cost_center
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_status
+		dataType: string
+		lineageTag: b8956750-f0f4-425e-be23-ad9bd96b1a1d
+		summarizeBy: none
+		sourceColumn: allocation_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_method
+		dataType: string
+		lineageTag: 1152c01a-09f3-42f7-9095-1513ffd6ffef
+		summarizeBy: none
+		sourceColumn: allocation_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_confidence
+		dataType: string
+		lineageTag: e1182e77-1431-428e-b527-84879fb2bb70
+		summarizeBy: none
+		sourceColumn: allocation_confidence
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_historical_restatement
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d328ba4a-2fd4-4fe4-a307-7eeb3879cbc3
+		summarizeBy: none
+		sourceColumn: has_historical_restatement
+
+		annotation SummarizationSetBy = Automatic
+
+	column distributed_request_count
+		dataType: double
+		lineageTag: 6094c3db-c53e-402a-875a-8d5ea61c8c7f
+		summarizeBy: sum
+		sourceColumn: distributed_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_total_input_tokens
+		dataType: double
+		lineageTag: a881a9fb-b705-4512-84e8-80f6833d3b13
+		summarizeBy: sum
+		sourceColumn: distributed_total_input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_output_tokens
+		dataType: double
+		lineageTag: 878f90a1-df0d-4fb8-9a63-d4fd051b81a9
+		summarizeBy: sum
+		sourceColumn: distributed_output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_reasoning_tokens
+		dataType: double
+		lineageTag: 480d97bb-48e8-4362-bedd-f286de25415c
+		summarizeBy: sum
+		sourceColumn: distributed_reasoning_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column usage_cost_estimate
+		dataType: double
+		lineageTag: 0f667342-8b40-40a4-b26a-163e18d53124
+		summarizeBy: sum
+		sourceColumn: usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column provider_reported_cost
+		dataType: double
+		lineageTag: 8d240e37-734a-4f38-a670-38851b72f83a
+		summarizeBy: sum
+		sourceColumn: provider_reported_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_billed_cost
+		dataType: double
+		lineageTag: 87ec27fa-466f-4d65-973b-ac096f2ac937
+		summarizeBy: sum
+		sourceColumn: invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocated_invoice_billed_cost
+		dataType: double
+		lineageTag: dd64c0f6-e733-4f27-b535-673395a74174
+		summarizeBy: sum
+		sourceColumn: allocated_invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unallocated_invoice_billed_cost
+		dataType: double
+		lineageTag: 00099ee6-f46b-48ca-b764-34b11383b32e
+		summarizeBy: sum
+		sourceColumn: unallocated_invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billing_currency
+		dataType: string
+		lineageTag: 3c39b2cd-df4b-4bf8-8512-16f4006764ef
+		summarizeBy: none
+		sourceColumn: billing_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_basis
+		dataType: string
+		lineageTag: 4cf719ae-a9d4-487e-8abc-c0085d0871bb
+		summarizeBy: none
+		sourceColumn: financial_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_ai_financial_monthly = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    fact_ai_financial_monthly_Table = llm_finops_mart_Schema{[Name="fact_ai_financial_monthly",Kind="Table"]}[Data]
+				in
+				    fact_ai_financial_monthly_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

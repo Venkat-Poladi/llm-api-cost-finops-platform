@@ -1,0 +1,116 @@
+table mart_ai_control_status
+	lineageTag: ffa1ade3-4f07-4e25-b151-67f2dad92dfc
+
+	column control_id
+		dataType: string
+		lineageTag: 967da42c-b696-4ec9-a16b-0ae925c300e8
+		summarizeBy: none
+		sourceColumn: control_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column control_name
+		dataType: string
+		lineageTag: 04f9d661-5913-4988-b279-f1a93612e560
+		summarizeBy: none
+		sourceColumn: control_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column control_domain
+		dataType: string
+		lineageTag: 177c3c67-6a1c-49da-9bd5-ce2f14374ec3
+		summarizeBy: none
+		sourceColumn: control_domain
+
+		annotation SummarizationSetBy = Automatic
+
+	column severity
+		dataType: string
+		lineageTag: 67d5ae49-1f40-4790-b857-20ec1836a61e
+		summarizeBy: none
+		sourceColumn: severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_layer
+		dataType: string
+		lineageTag: 3dbb54b8-93a7-4658-977d-2d0cd49cacee
+		summarizeBy: none
+		sourceColumn: data_layer
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: d7d68952-9379-4bf3-9e94-576261a49ae6
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column pipeline_run_id
+		dataType: string
+		lineageTag: b81e801d-b263-4ef4-bc33-77b0be0932b9
+		summarizeBy: none
+		sourceColumn: pipeline_run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column violation_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d45acf5-458f-4597-b791-86fe15a3af2d
+		summarizeBy: sum
+		sourceColumn: violation_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 99b131d5-06fe-4d66-af96-538cac01186c
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column checked_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c716d20f-bd15-404d-b61e-568fe5dc549e
+		summarizeBy: none
+		sourceColumn: checked_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column pass_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 50d3587f-78fb-47cd-bd25-72b8f770e640
+		summarizeBy: sum
+		sourceColumn: pass_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column fail_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 200b0ddf-7962-4883-97e3-ec67c63403af
+		summarizeBy: sum
+		sourceColumn: fail_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_ai_control_status = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    mart_ai_control_status_Table = llm_finops_mart_Schema{[Name="mart_ai_control_status",Kind="Table"]}[Data]
+				in
+				    mart_ai_control_status_Table
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,378 @@
+table mart_ai_application_cost
+	lineageTag: 02cf57d4-3d18-4726-a7e5-092c665c5049
+
+	column application_cost_id
+		dataType: string
+		lineageTag: f242c33e-68c6-405b-80d6-a18fa46dbcfd
+		summarizeBy: none
+		sourceColumn: application_cost_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_source_scope_id
+		dataType: string
+		lineageTag: 6f6c5e81-1716-4cc9-905c-911f49d4df52
+		summarizeBy: none
+		sourceColumn: financial_source_scope_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2ff85995-1763-47d1-9277-aa4d54ec7b23
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider
+		dataType: string
+		lineageTag: 5d181d7d-62d4-42e3-8505-3ed149ca8b66
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: 5c171c33-21a4-447b-893f-b57a49050a9e
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 80e7b628-8dc6-44dd-96f9-b08af5510004
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_snapshot
+		dataType: string
+		lineageTag: 67ebd8d9-787f-458b-9eb0-cb452707a8fa
+		summarizeBy: none
+		sourceColumn: model_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: 9e0bdfab-2c7d-4b12-aad7-63823be9ca2d
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_scope
+		dataType: string
+		lineageTag: 733c8d91-56cb-4ecd-bbf5-6795aafc94ed
+		summarizeBy: none
+		sourceColumn: line_item_scope
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_type
+		dataType: string
+		lineageTag: e2e86381-db47-4374-8121-68d9c57ae33d
+		summarizeBy: none
+		sourceColumn: line_item_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column application_name
+		dataType: string
+		lineageTag: f3acb86f-da2f-4726-86f7-942563ddae85
+		summarizeBy: none
+		sourceColumn: application_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_name
+		dataType: string
+		lineageTag: 1983fe04-cb4b-4623-820a-b4c4360bbf92
+		summarizeBy: none
+		sourceColumn: department_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center
+		dataType: string
+		lineageTag: 7c5c59a5-a8be-4680-905b-d1b5479de584
+		summarizeBy: none
+		sourceColumn: cost_center
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_status
+		dataType: string
+		lineageTag: 081cd422-7eba-4b0b-aac8-da3b14c49278
+		summarizeBy: none
+		sourceColumn: allocation_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_method
+		dataType: string
+		lineageTag: dc444e16-cfad-4ea8-a579-12aee1d620ee
+		summarizeBy: none
+		sourceColumn: allocation_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column allocation_confidence
+		dataType: string
+		lineageTag: 37b00b7e-d660-4d20-a144-f57b7736c2fa
+		summarizeBy: none
+		sourceColumn: allocation_confidence
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_historical_restatement
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2594fcda-2484-4192-a3be-b980aeac5064
+		summarizeBy: none
+		sourceColumn: is_historical_restatement
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_restatement
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e727a32b-c364-4153-a524-e1101a6db375
+		summarizeBy: none
+		sourceColumn: is_restatement
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_line_count
+		dataType: int64
+		formatString: 0
+		lineageTag: c0d67b3e-097c-4dd5-8a67-5217315091d6
+		summarizeBy: sum
+		sourceColumn: source_line_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_usage_cost_estimate
+		dataType: double
+		lineageTag: eacad3c5-0fe9-474b-ace2-0a852fa55866
+		summarizeBy: sum
+		sourceColumn: driver_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column eligible_driver_denominator
+		dataType: double
+		lineageTag: 176db2a8-cc20-4035-b80e-86ccd47d0986
+		summarizeBy: sum
+		sourceColumn: eligible_driver_denominator
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column financial_allocation_share
+		dataType: double
+		lineageTag: a1358934-acf6-40a6-aa81-a8c7590af91c
+		summarizeBy: sum
+		sourceColumn: financial_allocation_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_request_count
+		dataType: double
+		lineageTag: 9f31e1b7-2657-4ce0-9fe5-2cdbe1562bd2
+		summarizeBy: sum
+		sourceColumn: distributed_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_total_input_tokens
+		dataType: double
+		lineageTag: 814bd69c-434a-4a67-b9f8-657fd7242d05
+		summarizeBy: sum
+		sourceColumn: distributed_total_input_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_output_tokens
+		dataType: double
+		lineageTag: 35693df9-f4a4-4b44-8c73-225238b90c00
+		summarizeBy: sum
+		sourceColumn: distributed_output_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distributed_reasoning_tokens
+		dataType: double
+		lineageTag: 8488b4f0-4a8f-4936-9ba5-c2630e519976
+		summarizeBy: sum
+		sourceColumn: distributed_reasoning_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column source_measure_anchor_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 59fda0dc-bacc-4117-9f24-06d70bd4859d
+		summarizeBy: none
+		sourceColumn: source_measure_anchor_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_usage_cost_estimate
+		dataType: double
+		lineageTag: 88cfc541-fa56-4671-a4b0-37d2351c6efb
+		summarizeBy: sum
+		sourceColumn: source_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column source_provider_reported_cost
+		dataType: double
+		lineageTag: f823ebc9-c8ab-4528-aa87-432a9e9db5ec
+		summarizeBy: sum
+		sourceColumn: source_provider_reported_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column source_invoice_billed_cost
+		dataType: double
+		lineageTag: da592bfc-ddf6-4efa-963e-7f5d8f90af98
+		summarizeBy: sum
+		sourceColumn: source_invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocated_usage_cost_estimate
+		dataType: double
+		lineageTag: 1c7a7ce9-7d68-4778-81b8-86d1348ab62b
+		summarizeBy: sum
+		sourceColumn: allocated_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unallocated_usage_cost_estimate
+		dataType: double
+		lineageTag: df62924a-23e5-4751-99b7-407186e5ad9a
+		summarizeBy: sum
+		sourceColumn: unallocated_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocated_provider_reported_cost
+		dataType: double
+		lineageTag: 3641ae82-a140-4d44-a3a6-118dc2526f70
+		summarizeBy: sum
+		sourceColumn: allocated_provider_reported_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unallocated_provider_reported_cost
+		dataType: double
+		lineageTag: 258a4271-3a8e-42df-a787-300a65344464
+		summarizeBy: sum
+		sourceColumn: unallocated_provider_reported_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocated_invoice_billed_cost
+		dataType: double
+		lineageTag: 51d2b2d2-455a-4789-ae97-a1ce14d22c57
+		summarizeBy: sum
+		sourceColumn: allocated_invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unallocated_invoice_billed_cost
+		dataType: double
+		lineageTag: 145a64b2-755e-4739-97e4-b6c2cd20d53b
+		summarizeBy: sum
+		sourceColumn: unallocated_invoice_billed_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column billing_currency
+		dataType: string
+		lineageTag: 60ea6454-77df-467f-a6b3-d25999d810a6
+		summarizeBy: none
+		sourceColumn: billing_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_basis
+		dataType: string
+		lineageTag: 7d9946c1-2a1d-4b65-a2a4-80d5f722f292
+		summarizeBy: none
+		sourceColumn: financial_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_basis_label
+		dataType: string
+		lineageTag: 7097bde1-ec52-4746-a710-a56530d2907a
+		summarizeBy: none
+		sourceColumn: cost_basis_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e996bdba-76cb-4331-8130-d4a159f866f5
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_ai_application_cost = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    mart_ai_application_cost_Table = llm_finops_mart_Schema{[Name="mart_ai_application_cost",Kind="Table"]}[Data]
+				in
+				    mart_ai_application_cost_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

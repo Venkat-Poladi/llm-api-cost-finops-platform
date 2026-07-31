@@ -1,0 +1,73 @@
+table 'Reconciliation Stage'
+	lineageTag: abe17311-2f5b-4298-aa3e-e03cd9955ac5
+
+	measure 'Provider Display' =
+			
+			SWITCH(
+			    dim_ai_provider[provider],
+			    "anthropic", "Anthropic",
+			    "openai", "OpenAI",
+			    dim_ai_provider[provider]
+			)
+		lineageTag: 97b4fbf7-89ea-4ff3-9a89-3aa3de52a0ee
+
+	column Stage
+		lineageTag: e4b8058f-2bc3-417e-8886-8b39ff873fcd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stage]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		formatString: 0
+		lineageTag: bf6b6155-4e46-4092-b96b-37cd9751540c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stage Display' =
+			
+			FORMAT(
+			    'Reconciliation Stage'[Sort Order],
+			    "0"
+			)
+			    & ". "
+			    & 'Reconciliation Stage'[Stage]
+		lineageTag: acfb9d79-7414-4db8-9af2-3ae1fddf4642
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Provider Name' =
+			
+			SWITCH(
+			    dim_ai_provider[provider],
+			    "anthropic", "Anthropic",
+			    "openai", "OpenAI",
+			    dim_ai_provider[provider]
+			)
+		lineageTag: 8f6275fb-b8b6-481d-8aef-65317420f611
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Reconciliation Stage' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Stage", STRING,
+				    "Sort Order", INTEGER,
+				    {
+				        { "Usage Estimate", 1 },
+				        { "Usage → Reported Variance", 2 },
+				        { "Non-Usage Reported Cost", 3 },
+				        { "Reported → Invoice Variance", 4 }
+				    }
+				)
+
+	annotation PBI_Id = a4e90762af3e4d08a9a67a407604c92e
+

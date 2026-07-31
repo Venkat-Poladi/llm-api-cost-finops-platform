@@ -1,0 +1,158 @@
+table dim_ai_experiment
+	lineageTag: abb5a4b5-57c6-42b1-b674-71b59d9c7003
+
+	column experiment_key
+		dataType: string
+		lineageTag: fb19caa9-ad4b-4482-b698-7d5f4f907724
+		summarizeBy: none
+		sourceColumn: experiment_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column experiment_id
+		dataType: string
+		lineageTag: 2e06fef1-ef40-4d78-a0ce-f87d37cf4ff4
+		summarizeBy: none
+		sourceColumn: experiment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column owner
+		dataType: string
+		lineageTag: 190d1fd5-4044-4253-ad74-ba51a5587df0
+		summarizeBy: none
+		sourceColumn: owner
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver
+		dataType: string
+		lineageTag: 28ec3769-2a27-4614-9c3c-9013ec03efa6
+		summarizeBy: none
+		sourceColumn: approver
+
+		annotation SummarizationSetBy = Automatic
+
+	column hypothesis
+		dataType: string
+		lineageTag: 90270061-4dad-424d-8423-060378c983fe
+		summarizeBy: none
+		sourceColumn: hypothesis
+
+		annotation SummarizationSetBy = Automatic
+
+	column application_name
+		dataType: string
+		lineageTag: 31a9a50e-4fb8-4e0b-a7be-816661910789
+		summarizeBy: none
+		sourceColumn: application_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center
+		dataType: string
+		lineageTag: 6857a78e-da11-4381-8126-188a2a677e06
+		summarizeBy: none
+		sourceColumn: cost_center
+
+		annotation SummarizationSetBy = Automatic
+
+	column spending_limit
+		dataType: double
+		lineageTag: f1569714-d40d-41e9-b4cf-49187185a684
+		summarizeBy: none
+		sourceColumn: spending_limit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spending_limit_period
+		dataType: string
+		lineageTag: bbf0a16a-dd7c-4e40-9210-aeba379ef725
+		summarizeBy: none
+		sourceColumn: spending_limit_period
+
+		annotation SummarizationSetBy = Automatic
+
+	column limit_currency
+		dataType: string
+		lineageTag: fd826464-6d5b-47d6-acbd-93ac486a486a
+		summarizeBy: none
+		sourceColumn: limit_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column warning_threshold
+		dataType: double
+		lineageTag: 7c2b6e45-ac7e-4e2f-bbb0-efecf0bf5ca4
+		summarizeBy: none
+		sourceColumn: warning_threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hard_stop_threshold
+		dataType: double
+		lineageTag: 61999f3e-8a10-4344-b2c7-9e7c95beef03
+		summarizeBy: none
+		sourceColumn: hard_stop_threshold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b212e833-3c59-4854-aae1-a51af448c337
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column planned_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b0dcf307-a0cd-4610-9f12-f777fb4ac833
+		summarizeBy: none
+		sourceColumn: planned_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column current_status
+		dataType: string
+		lineageTag: 0671d9a9-57d6-4730-a528-f06a6f1d45ef
+		summarizeBy: none
+		sourceColumn: current_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column override_reason
+		dataType: string
+		lineageTag: 7e027bba-d4b4-4306-b2ae-d0c5cb7a3dd9
+		summarizeBy: none
+		sourceColumn: override_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_ai_experiment = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    dim_ai_experiment_Table = llm_finops_mart_Schema{[Name="dim_ai_experiment",Kind="Table"]}[Data]
+				in
+				    dim_ai_experiment_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

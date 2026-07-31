@@ -1,0 +1,55 @@
+table dim_ai_provider
+	lineageTag: b7da8419-72e3-4614-81b9-39aa1d4943a7
+
+	column provider_key
+		dataType: string
+		lineageTag: ff348924-0fcb-4c7f-adb5-55e46fd2ecd0
+		summarizeBy: none
+		sourceColumn: provider_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider
+		dataType: string
+		lineageTag: cbce2de8-c70b-4bbc-9ddb-790ac3e42d17
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_display_name
+		dataType: string
+		lineageTag: b55d458d-6572-4d38-9cab-4aa9a12fb78c
+		summarizeBy: none
+		sourceColumn: provider_display_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Provider Display' =
+			
+			SWITCH(
+			    dim_ai_provider[provider],
+			    "anthropic", "Anthropic",
+			    "openai", "OpenAI",
+			    dim_ai_provider[provider]
+			)
+		lineageTag: b04288b7-48a7-48d3-9ef0-591d0c9acdd2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_ai_provider = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    dim_ai_provider_Table = llm_finops_mart_Schema{[Name="dim_ai_provider",Kind="Table"]}[Data]
+				in
+				    dim_ai_provider_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "llm-api-cost-finops"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f11c34e2-3a47-41ed-bcd1-10212e48c472"
+  }
+}

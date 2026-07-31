@@ -1,0 +1,34 @@
+measure_name,display_folder,format_string
+Total Invoice Cost,Financial,"$#,0.00;($#,0.00);-"
+Total Provider Reported Cost,Financial,"$#,0.00;($#,0.00);-"
+Total Usage Cost Estimate,Financial,"$#,0.00;($#,0.00);-"
+Total Usage Invoice Cost,Financial,"$#,0.00;($#,0.00);-"
+Non-Usage Invoice Cost,Financial,"$#,0.00;($#,0.00);-"
+Allocated Usage Invoice Cost,Financial,"$#,0.00;($#,0.00);-"
+Unallocated Usage Invoice Cost,Financial,"$#,0.00;($#,0.00);-"
+Allocation Coverage %,Financial,0.0%
+Invoice vs Estimate Variance,Financial,"$#,0.00;($#,0.00);-"
+Invoice vs Estimate Variance %,Financial,0.0%
+Provider Requests,Usage,"#,0"
+Total Tokens,Usage,"#,0"
+Input Tokens,Usage,"#,0"
+Output Tokens,Usage,"#,0"
+Reasoning Tokens,Usage,"#,0"
+Cache Read Share,Token Economics,0.0%
+Batch Adoption %,Token Economics,0.0%
+Estimated Retry Cost,Token Economics,"$#,0.00;($#,0.00);-"
+Estimated Failed Attempt Cost,Token Economics,"$#,0.00;($#,0.00);-"
+Estimated Cache Savings,Token Economics,"$#,0.00;($#,0.00);-"
+Estimated Batch Opportunity,Token Economics,"$#,0.00;($#,0.00);-"
+Invoice Cost per Provider Request,Unit Economics,$0.0000
+Invoice Cost per Million Tokens,Unit Economics,"$#,0.00"
+Governed Invoice Cost per Logical Request,Unit Economics,$0.0000
+Governed Invoice Cost per Successful Request,Unit Economics,$0.0000
+Telemetry Token Coverage %,Unit Economics,0.0%
+Untraceable Usage Cost,Unit Economics,"$#,0.00;($#,0.00);-"
+Identified Annualized Savings,Optimization,"$#,0.00;($#,0.00);-"
+Approved Annualized Savings,Optimization,"$#,0.00;($#,0.00);-"
+Implemented Annualized Savings,Optimization,"$#,0.00;($#,0.00);-"
+Realized Savings,Optimization,"$#,0.00;($#,0.00);-"
+Current Experiment Spend,Experiments,"$#,0.00;($#,0.00);-"
+Control Pass %,Controls,0.0%

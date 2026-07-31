@@ -1,0 +1,230 @@
+table mart_ai_telemetry_coverage_monthly
+	lineageTag: 687bb7a1-1dbb-40df-aa87-2a2b08378456
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bc6bdecf-5ebe-4662-a555-ba6ed878db34
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider
+		dataType: string
+		lineageTag: 72d522b1-a919-41e7-84e3-2d3bba756d50
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: c78485c7-7839-4cd4-9ada-b9180aa4f4df
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 809ae51c-aa5d-4311-849d-48db02cc6556
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: c0255521-1eba-4629-b972-4ff0b25630d8
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e3d0ba6-646b-4c1b-8106-ce06c36f27e5
+		summarizeBy: sum
+		sourceColumn: provider_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e02d199-485e-4410-b88b-3a9cfa86ef66
+		summarizeBy: sum
+		sourceColumn: telemetry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 955fbb52-a38e-4334-8d96-2aa73bed8392
+		summarizeBy: sum
+		sourceColumn: telemetry_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_successful_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: dcddfb86-4126-49b0-bb87-a7f7b1830c27
+		summarizeBy: sum
+		sourceColumn: telemetry_successful_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_retry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: ead9732f-aa57-4500-9013-8c690b8ab7b2
+		summarizeBy: sum
+		sourceColumn: telemetry_retry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_total_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: cd3ac672-a48e-40fc-94ad-864a77833aec
+		summarizeBy: sum
+		sourceColumn: provider_total_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_total_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: 006b72ab-e9f7-42c2-b5f7-2bad5ea3515d
+		summarizeBy: sum
+		sourceColumn: telemetry_total_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_usage_cost_estimate
+		dataType: double
+		lineageTag: db75de5e-e644-4f76-ae99-04098edd3f67
+		summarizeBy: sum
+		sourceColumn: provider_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_usage_cost_estimate
+		dataType: double
+		lineageTag: bc2b07c3-8fce-46d5-9314-1f3760110266
+		summarizeBy: sum
+		sourceColumn: telemetry_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_retry_cost_estimate
+		dataType: double
+		lineageTag: e3d13270-547b-4349-b2be-666218295f15
+		summarizeBy: sum
+		sourceColumn: telemetry_retry_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_failed_attempt_cost_estimate
+		dataType: double
+		lineageTag: 73957113-8995-4f9b-b5f1-df486a6d0cc3
+		summarizeBy: sum
+		sourceColumn: telemetry_failed_attempt_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column untraceable_provider_usage_cost_estimate
+		dataType: double
+		lineageTag: 54076d25-2432-4d19-b664-5c2e92ca2987
+		summarizeBy: sum
+		sourceColumn: untraceable_provider_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_token_coverage_pct
+		dataType: double
+		lineageTag: 5bb3e452-d4ae-44e5-8144-2cddc1b93c1c
+		summarizeBy: sum
+		sourceColumn: telemetry_token_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_request_coverage_pct
+		dataType: double
+		lineageTag: e75cd152-a5bb-4de7-8fba-a1f4555be7ac
+		summarizeBy: sum
+		sourceColumn: telemetry_request_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column request_count_variance
+		dataType: int64
+		formatString: 0
+		lineageTag: 616b22ab-69e3-4ede-8449-54c316f68c7a
+		summarizeBy: sum
+		sourceColumn: request_count_variance
+
+		annotation SummarizationSetBy = Automatic
+
+	column token_count_variance
+		dataType: int64
+		formatString: 0
+		lineageTag: 536705cd-01a2-44c5-8d4f-0c3f3a3178ba
+		summarizeBy: sum
+		sourceColumn: token_count_variance
+
+		annotation SummarizationSetBy = Automatic
+
+	column exception_day_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 531e8056-e4ba-4918-81a3-75c5270a4fd3
+		summarizeBy: sum
+		sourceColumn: exception_day_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column observed_day_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e520bb3-efaf-40ea-8d41-fc1f29381ace
+		summarizeBy: sum
+		sourceColumn: observed_day_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_ai_telemetry_coverage_monthly = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    mart_ai_telemetry_coverage_monthly_Table = llm_finops_mart_Schema{[Name="mart_ai_telemetry_coverage_monthly",Kind="Table"]}[Data]
+				in
+				    mart_ai_telemetry_coverage_monthly_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

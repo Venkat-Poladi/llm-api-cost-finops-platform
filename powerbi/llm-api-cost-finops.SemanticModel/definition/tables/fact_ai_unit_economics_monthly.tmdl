@@ -1,0 +1,294 @@
+table fact_ai_unit_economics_monthly
+	lineageTag: 34e037a9-db72-48a8-a3f8-52da4a29144a
+
+	column unit_economics_id
+		dataType: string
+		lineageTag: 4577358c-0757-424d-8907-fa503ac7bdea
+		summarizeBy: none
+		sourceColumn: unit_economics_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 00039a94-2015-45b0-9ffc-f9ca01aaac2b
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8dbe0636-3f30-4755-a790-781968229e2f
+		summarizeBy: none
+		sourceColumn: billing_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column provider_key
+		dataType: string
+		lineageTag: 5e996450-4568-43d7-8d2a-4d8e6ad5a3d2
+		summarizeBy: none
+		sourceColumn: provider_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_key
+		dataType: string
+		lineageTag: 52ed71a7-633c-40e4-95c4-100d6682256c
+		summarizeBy: none
+		sourceColumn: model_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider
+		dataType: string
+		lineageTag: 29a20549-a806-45b2-a781-0c7a4ddf91e2
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_project_id
+		dataType: string
+		lineageTag: 6fbab23f-b217-4cf6-92ef-e081d71704c3
+		summarizeBy: none
+		sourceColumn: provider_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 42c62bf0-59da-44c4-8d4c-7ffba911e894
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column model_snapshot
+		dataType: string
+		lineageTag: ab04f3d4-a9fc-44a2-a99d-1d8ff94c2e92
+		summarizeBy: none
+		sourceColumn: model_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_type
+		dataType: string
+		lineageTag: 6d005735-44aa-469c-81a2-24cd3eb5647e
+		summarizeBy: none
+		sourceColumn: usage_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: bd971f85-0e86-4b95-916b-ce697a52cd81
+		summarizeBy: sum
+		sourceColumn: provider_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_tokens
+		dataType: int64
+		formatString: 0
+		lineageTag: f0b05bdd-6160-4cdc-917f-6ea41ccba36c
+		summarizeBy: sum
+		sourceColumn: total_tokens
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_billed_usage_cost
+		dataType: double
+		lineageTag: b5184856-02e4-4f98-af09-69f40204dde6
+		summarizeBy: sum
+		sourceColumn: invoice_billed_usage_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column provider_reported_usage_cost
+		dataType: double
+		lineageTag: fc02b89d-b233-4d41-868a-7e02194d1ea3
+		summarizeBy: sum
+		sourceColumn: provider_reported_usage_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column usage_cost_estimate
+		dataType: double
+		lineageTag: 54c8ea8f-b8fb-485b-92cc-df945561ed22
+		summarizeBy: sum
+		sourceColumn: usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 1465a489-bd57-4461-b0cd-823b619aee84
+		summarizeBy: sum
+		sourceColumn: telemetry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column telemetry_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e05a457-91dc-402a-bb32-43f796e262e4
+		summarizeBy: sum
+		sourceColumn: telemetry_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column successful_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a02c00e6-6663-437e-b0f6-62987241a723
+		summarizeBy: sum
+		sourceColumn: successful_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column retry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 531e58a9-2c67-4542-a07a-33a478a8df2b
+		summarizeBy: sum
+		sourceColumn: retry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column failed_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 6116c33b-7135-49af-b374-b72d38e86770
+		summarizeBy: sum
+		sourceColumn: failed_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column estimated_retry_cost
+		dataType: double
+		lineageTag: ead7c3f6-5b02-4c27-abc4-eb18d589c603
+		summarizeBy: sum
+		sourceColumn: estimated_retry_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_failed_attempt_cost
+		dataType: double
+		lineageTag: 0939c0b8-a080-4c64-9a39-759210438a66
+		summarizeBy: sum
+		sourceColumn: estimated_failed_attempt_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column untraceable_provider_usage_cost_estimate
+		dataType: double
+		lineageTag: a797da23-2fba-4cd8-b435-653b4961509a
+		summarizeBy: sum
+		sourceColumn: untraceable_provider_usage_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_token_coverage_pct
+		dataType: double
+		lineageTag: 95d3ca38-95c1-40fb-924f-7d86b5a0cd1a
+		summarizeBy: sum
+		sourceColumn: telemetry_token_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_request_coverage_pct
+		dataType: double
+		lineageTag: 11bd8cfa-6b1f-4373-ad3f-54e45a47c2b6
+		summarizeBy: sum
+		sourceColumn: telemetry_request_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telemetry_quality_gate_passed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d0a728ad-7f07-43ac-99ea-a482055cf138
+		summarizeBy: none
+		sourceColumn: telemetry_quality_gate_passed
+
+		annotation SummarizationSetBy = Automatic
+
+	column measurement_quality_status
+		dataType: string
+		lineageTag: 7458b110-e30a-4a15-acf5-fc10625fb8a3
+		summarizeBy: none
+		sourceColumn: measurement_quality_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_economics_status
+		dataType: string
+		lineageTag: 2387ed35-22bb-4f4b-81dd-32fa2f59a33b
+		summarizeBy: none
+		sourceColumn: unit_economics_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_currency
+		dataType: string
+		lineageTag: b56d31e3-32c1-4c6f-8ff6-ff0f89e01c6e
+		summarizeBy: none
+		sourceColumn: billing_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_basis
+		dataType: string
+		lineageTag: c027c0e5-afb7-49b6-abd1-c82b009ee52f
+		summarizeBy: none
+		sourceColumn: financial_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column operational_cost_basis
+		dataType: string
+		lineageTag: bcc95b09-31ec-4146-8a05-f3636a9252dc
+		summarizeBy: none
+		sourceColumn: operational_cost_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_ai_unit_economics_monthly = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    fact_ai_unit_economics_monthly_Table = llm_finops_mart_Schema{[Name="fact_ai_unit_economics_monthly",Kind="Table"]}[Data]
+				in
+				    fact_ai_unit_economics_monthly_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

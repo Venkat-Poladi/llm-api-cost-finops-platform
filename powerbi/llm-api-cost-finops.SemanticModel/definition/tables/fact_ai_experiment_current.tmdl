@@ -1,0 +1,333 @@
+table fact_ai_experiment_current
+	lineageTag: f845d4e9-995f-48c6-a3e4-5ed0bd256b97
+
+	column experiment_governance_id
+		dataType: string
+		lineageTag: 247d5d6d-227a-4a83-93a9-2dcb8aaa1a82
+		summarizeBy: none
+		sourceColumn: experiment_governance_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column experiment_key
+		dataType: string
+		lineageTag: 38c909cb-7e77-4038-8c85-5418741e721a
+		summarizeBy: none
+		sourceColumn: experiment_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column experiment_id
+		dataType: string
+		lineageTag: 54ba8e48-e393-4bc0-b64b-acc4378b66a6
+		summarizeBy: none
+		sourceColumn: experiment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: d014a5cf-778e-485a-a694-27f671171431
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column evaluation_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 271ef2d9-dc88-4397-b992-bae21257b8d4
+		summarizeBy: none
+		sourceColumn: evaluation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column owner
+		dataType: string
+		lineageTag: a6ce80b5-353b-4709-99ff-7b07eeabb6a7
+		summarizeBy: none
+		sourceColumn: owner
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver
+		dataType: string
+		lineageTag: 00f6fe48-54ce-4d3e-982b-c4c38f5ecf94
+		summarizeBy: none
+		sourceColumn: approver
+
+		annotation SummarizationSetBy = Automatic
+
+	column application_name
+		dataType: string
+		lineageTag: 4477ad50-ad08-47ec-be03-64466025caed
+		summarizeBy: none
+		sourceColumn: application_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center
+		dataType: string
+		lineageTag: 0fdabd7b-07a4-4adf-8369-090d2d63db06
+		summarizeBy: none
+		sourceColumn: cost_center
+
+		annotation SummarizationSetBy = Automatic
+
+	column spending_limit
+		dataType: double
+		lineageTag: 7b24690e-5301-406f-b00b-e98101936847
+		summarizeBy: sum
+		sourceColumn: spending_limit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spending_limit_period
+		dataType: string
+		lineageTag: 1e45ef1f-acd8-4c94-9f86-350cbac08a0e
+		summarizeBy: none
+		sourceColumn: spending_limit_period
+
+		annotation SummarizationSetBy = Automatic
+
+	column limit_currency
+		dataType: string
+		lineageTag: d1aae58d-134c-40d1-baab-3f7e99ba8b92
+		summarizeBy: none
+		sourceColumn: limit_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_invoice_billed_experiment_cost
+		dataType: double
+		lineageTag: 31b4ff7c-d938-4f08-9a61-5c4099541d62
+		summarizeBy: sum
+		sourceColumn: period_invoice_billed_experiment_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column period_provider_reported_experiment_cost
+		dataType: double
+		lineageTag: 51b9c085-573e-4973-855d-2403f43df6fc
+		summarizeBy: sum
+		sourceColumn: period_provider_reported_experiment_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column period_driver_cost_estimate
+		dataType: double
+		lineageTag: 60f14ce3-32e8-46d5-b173-37c7850c17eb
+		summarizeBy: sum
+		sourceColumn: period_driver_cost_estimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column period_telemetry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 296846fc-36bb-4634-8b7a-dd6172a5e274
+		summarizeBy: sum
+		sourceColumn: period_telemetry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_logical_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 745d4928-023c-4e7b-9af1-ca280b30486a
+		summarizeBy: sum
+		sourceColumn: period_logical_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_successful_request_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 029aa129-9e5d-47ba-8f2d-d997f2e1fffe
+		summarizeBy: sum
+		sourceColumn: period_successful_request_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_retry_attempt_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 33077ea5-9773-497c-b2dc-51ed48d5160e
+		summarizeBy: sum
+		sourceColumn: period_retry_attempt_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_estimated_retry_cost
+		dataType: double
+		lineageTag: da0dea38-f870-4bcd-a4d0-c4ad6805c24e
+		summarizeBy: sum
+		sourceColumn: period_estimated_retry_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spend_to_limit_pct
+		dataType: double
+		lineageTag: 0811ba8e-1fa8-4a83-9dbd-f261e2872008
+		summarizeBy: sum
+		sourceColumn: spend_to_limit_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column threshold_status
+		dataType: string
+		lineageTag: 7a6aaadb-d063-4289-a808-436fcdd6e90d
+		summarizeBy: none
+		sourceColumn: threshold_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column governance_action_status
+		dataType: string
+		lineageTag: fc08868d-fe61-44f0-93dd-a30ac14b60f2
+		summarizeBy: none
+		sourceColumn: governance_action_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column decision_financial_evidence_status
+		dataType: string
+		lineageTag: 1aa9f542-81de-48c0-a4ec-6fe17eb532b5
+		summarizeBy: none
+		sourceColumn: decision_financial_evidence_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column governance_exception_status
+		dataType: string
+		lineageTag: 61d20941-1c74-4b38-8110-2413b0b96c1c
+		summarizeBy: none
+		sourceColumn: governance_exception_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column governance_exception_reason
+		dataType: string
+		lineageTag: c457dc33-0e52-4f36-95da-c536147aee87
+		summarizeBy: none
+		sourceColumn: governance_exception_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_measurement_quality_status
+		dataType: string
+		lineageTag: 118e65bc-998a-4017-983c-9f3b66460f54
+		summarizeBy: none
+		sourceColumn: period_measurement_quality_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_spend_quality_label
+		dataType: string
+		lineageTag: 727a0685-3c79-471a-b8fd-26ec9ba4c147
+		summarizeBy: none
+		sourceColumn: period_spend_quality_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column latest_decision
+		dataType: string
+		lineageTag: 86da5a35-7a9c-4607-bfb7-2f1486c4afa5
+		summarizeBy: none
+		sourceColumn: latest_decision
+
+		annotation SummarizationSetBy = Automatic
+
+	column latest_decision_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b69657fa-afcb-4354-a3fa-e7e259987e4b
+		summarizeBy: none
+		sourceColumn: latest_decision_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column decision_status_as_of_date
+		dataType: string
+		lineageTag: 8dae725d-c230-44de-84fe-6722359a5e75
+		summarizeBy: none
+		sourceColumn: decision_status_as_of_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column observed_success_rate
+		dataType: double
+		lineageTag: 976c1938-22b4-487e-86d7-cf621e9b3ca2
+		summarizeBy: sum
+		sourceColumn: observed_success_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column observed_retry_attempt_rate
+		dataType: double
+		lineageTag: fd2e186a-05e9-4250-b283-e190d9e15c23
+		summarizeBy: sum
+		sourceColumn: observed_retry_attempt_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column invoice_cost_per_successful_request
+		dataType: double
+		lineageTag: 8cd90b4f-909e-4b18-a0ed-8dac16c72274
+		summarizeBy: sum
+		sourceColumn: invoice_cost_per_successful_request
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column financial_basis
+		dataType: string
+		lineageTag: 928439e2-72ec-455e-8257-5dce0766adb1
+		summarizeBy: none
+		sourceColumn: financial_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column operational_basis
+		dataType: string
+		lineageTag: d712132b-389b-4eb4-a2fe-0d744de8af79
+		summarizeBy: none
+		sourceColumn: operational_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_ai_experiment_current = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"finops-learning-lab_Database" = Source{[Name="finops-learning-lab",Kind="Database"]}[Data],
+				    llm_finops_mart_Schema = #"finops-learning-lab_Database"{[Name="llm_finops_mart",Kind="Schema"]}[Data],
+				    fact_ai_experiment_current_Table = llm_finops_mart_Schema{[Name="fact_ai_experiment_current",Kind="Table"]}[Data]
+				in
+				    fact_ai_experiment_current_Table
+
+	annotation PBI_ResultType = Table
+
