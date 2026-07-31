@@ -1,0 +1,12 @@
+{
+  "object": "organization.usage.completions.result",
+  "input_tokens": 12000,
+  "input_cached_tokens": 4000,
+  "output_tokens": 2500,
+  "num_model_requests": 25,
+  "project_id": "proj_redacted",
+  "api_key_id": "key_redacted",
+  "model": "gpt-4o-mini-2024-07-18",
+  "batch": false,
+  "service_tier": "default"
+}

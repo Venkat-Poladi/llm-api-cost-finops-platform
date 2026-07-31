@@ -1,0 +1,16 @@
+{
+  "starting_at": "2026-06-01T00:00:00Z",
+  "ending_at": "2026-06-02T00:00:00Z",
+  "uncached_input_tokens": 4200,
+  "cache_creation": {
+    "ephemeral_5m_input_tokens": 800,
+    "ephemeral_1h_input_tokens": 200
+  },
+  "cache_read_input_tokens": 1800,
+  "output_tokens": 900,
+  "api_key_id": "apikey_redacted",
+  "workspace_id": "workspace_redacted",
+  "model": "claude-sonnet-4-20250514",
+  "service_tier": "standard",
+  "context_window": "0-200k"
+}

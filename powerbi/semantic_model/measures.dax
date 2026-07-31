@@ -1,0 +1,244 @@
+-- Create this disconnected table first:
+-- _Measures =
+-- DATATABLE("Measure Holder", STRING, {{"Measures"}})
+-- Hide _Measures[Measure Holder] after creating the measures.
+
+-- FINANCIAL
+
+Total Invoice Cost =
+SUM(fact_ai_financial_monthly[invoice_billed_cost])
+
+Total Provider Reported Cost =
+SUM(fact_ai_financial_monthly[provider_reported_cost])
+
+Total Usage Cost Estimate =
+SUM(fact_ai_financial_monthly[usage_cost_estimate])
+
+Total Usage Invoice Cost =
+CALCULATE(
+    [Total Invoice Cost],
+    fact_ai_financial_monthly[line_item_type] = "usage"
+)
+
+Non-Usage Invoice Cost =
+CALCULATE(
+    [Total Invoice Cost],
+    fact_ai_financial_monthly[line_item_type] <> "usage"
+)
+
+Allocated Usage Invoice Cost =
+CALCULATE(
+    SUM(fact_ai_financial_monthly[allocated_invoice_billed_cost]),
+    fact_ai_financial_monthly[line_item_type] = "usage"
+)
+
+Unallocated Usage Invoice Cost =
+CALCULATE(
+    SUM(fact_ai_financial_monthly[unallocated_invoice_billed_cost]),
+    fact_ai_financial_monthly[line_item_type] = "usage"
+)
+
+Allocation Coverage % =
+DIVIDE(
+    [Allocated Usage Invoice Cost],
+    [Total Usage Invoice Cost]
+)
+
+Invoice vs Estimate Variance =
+[Total Usage Invoice Cost] - [Total Usage Cost Estimate]
+
+Invoice vs Estimate Variance % =
+DIVIDE(
+    [Invoice vs Estimate Variance],
+    [Total Usage Cost Estimate]
+)
+
+-- USAGE AND TOKEN ECONOMICS
+
+Provider Requests =
+SUM(fact_ai_usage_monthly[request_count])
+
+Total Tokens =
+SUM(fact_ai_usage_monthly[total_tokens])
+
+Input Tokens =
+SUM(fact_ai_usage_monthly[normalized_total_input_tokens])
+
+Output Tokens =
+SUM(fact_ai_usage_monthly[output_tokens])
+
+Reasoning Tokens =
+SUM(fact_ai_usage_monthly[reasoning_tokens])
+
+Cache Read Tokens =
+SUM(fact_ai_usage_monthly[normalized_cache_read_tokens])
+
+Cache Read Share =
+DIVIDE(
+    [Cache Read Tokens],
+    [Input Tokens]
+)
+
+Batch Requests =
+SUM(fact_ai_usage_monthly[batch_request_count])
+
+Batch Adoption % =
+DIVIDE(
+    [Batch Requests],
+    [Provider Requests]
+)
+
+Telemetry Attempts =
+SUM(fact_ai_usage_monthly[telemetry_attempt_count])
+
+Logical Requests =
+SUM(fact_ai_usage_monthly[telemetry_logical_request_count])
+
+Successful Requests =
+SUM(fact_ai_usage_monthly[successful_logical_request_count])
+
+Retry Attempts =
+SUM(fact_ai_usage_monthly[retry_attempt_count])
+
+Failed Attempts =
+SUM(fact_ai_usage_monthly[failed_attempt_count])
+
+Estimated Retry Cost =
+SUM(fact_ai_usage_monthly[estimated_retry_cost])
+
+Estimated Failed Attempt Cost =
+SUM(fact_ai_usage_monthly[estimated_failed_attempt_cost])
+
+Estimated Cache Savings =
+SUM(fact_ai_usage_monthly[estimated_cache_savings])
+
+Estimated Batch Opportunity =
+SUM(fact_ai_usage_monthly[estimated_batch_savings_opportunity])
+
+-- UNIT ECONOMICS
+
+Invoice Cost per Provider Request =
+DIVIDE(
+    SUM(fact_ai_unit_economics_monthly[invoice_billed_usage_cost]),
+    SUM(fact_ai_unit_economics_monthly[provider_request_count])
+)
+
+Invoice Cost per Million Tokens =
+DIVIDE(
+    SUM(fact_ai_unit_economics_monthly[invoice_billed_usage_cost]) * 1000000,
+    SUM(fact_ai_unit_economics_monthly[total_tokens])
+)
+
+Governed Invoice Cost per Logical Request =
+DIVIDE(
+    CALCULATE(
+        SUM(fact_ai_unit_economics_monthly[invoice_billed_usage_cost]),
+        fact_ai_unit_economics_monthly[measurement_quality_status] = "SUFFICIENT"
+    ),
+    CALCULATE(
+        SUM(fact_ai_unit_economics_monthly[telemetry_logical_request_count]),
+        fact_ai_unit_economics_monthly[measurement_quality_status] = "SUFFICIENT"
+    )
+)
+
+Governed Invoice Cost per Successful Request =
+DIVIDE(
+    CALCULATE(
+        SUM(fact_ai_unit_economics_monthly[invoice_billed_usage_cost]),
+        fact_ai_unit_economics_monthly[measurement_quality_status] = "SUFFICIENT"
+    ),
+    CALCULATE(
+        SUM(fact_ai_unit_economics_monthly[successful_logical_request_count]),
+        fact_ai_unit_economics_monthly[measurement_quality_status] = "SUFFICIENT"
+    )
+)
+
+Telemetry Token Coverage % =
+DIVIDE(
+    SUMX(
+        fact_ai_unit_economics_monthly,
+        fact_ai_unit_economics_monthly[telemetry_token_coverage_pct]
+            * fact_ai_unit_economics_monthly[total_tokens]
+    ),
+    SUM(fact_ai_unit_economics_monthly[total_tokens])
+)
+
+Untraceable Usage Cost =
+SUM(
+    fact_ai_unit_economics_monthly[untraceable_provider_usage_cost_estimate]
+)
+
+-- OPTIMIZATION GOVERNANCE
+
+Identified Annualized Savings =
+SUM(fact_ai_optimization_monthly[identified_annualized_savings])
+
+Approved Annualized Savings =
+SUM(fact_ai_optimization_monthly[approved_annualized_savings])
+
+Implemented Annualized Savings =
+SUM(fact_ai_optimization_monthly[implemented_annualized_savings])
+
+Realized Savings =
+SUM(fact_ai_optimization_monthly[realized_savings])
+
+Ready Recommendations =
+CALCULATE(
+    COUNTROWS(fact_ai_optimization_monthly),
+    fact_ai_optimization_monthly[evaluation_gate_status] = "READY_FOR_EVALUATION"
+)
+
+Data-Hold Recommendations =
+CALCULATE(
+    COUNTROWS(fact_ai_optimization_monthly),
+    fact_ai_optimization_monthly[evaluation_gate_status] = "HOLD_FOR_DATA"
+)
+
+-- EXPERIMENT GOVERNANCE
+
+Current Experiment Spend =
+SUM(fact_ai_experiment_current[period_invoice_billed_experiment_cost])
+
+Experiments at Warning =
+CALCULATE(
+    DISTINCTCOUNT(fact_ai_experiment_current[experiment_id]),
+    fact_ai_experiment_current[threshold_status] = "WARNING"
+)
+
+Experiments at Hard Stop =
+CALCULATE(
+    DISTINCTCOUNT(fact_ai_experiment_current[experiment_id]),
+    fact_ai_experiment_current[threshold_status] = "HARD_STOP"
+)
+
+Experiment Governance Exceptions =
+CALCULATE(
+    DISTINCTCOUNT(fact_ai_experiment_current[experiment_id]),
+    fact_ai_experiment_current[governance_exception_status] = "EXCEPTION"
+)
+
+-- CONTROLS
+
+Passed Controls =
+CALCULATE(
+    COUNTROWS(mart_ai_control_status),
+    mart_ai_control_status[status] = "PASS"
+)
+
+Failed Controls =
+CALCULATE(
+    COUNTROWS(mart_ai_control_status),
+    mart_ai_control_status[status] = "FAIL"
+)
+
+Control Pass % =
+DIVIDE(
+    [Passed Controls],
+    [Passed Controls] + [Failed Controls]
+)
+
+Failed Pipelines =
+CALCULATE(
+    COUNTROWS(mart_ai_pipeline_status),
+    mart_ai_pipeline_status[status] <> "PASS"
+)

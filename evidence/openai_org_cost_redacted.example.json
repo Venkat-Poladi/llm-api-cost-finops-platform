@@ -1,0 +1,9 @@
+{
+  "object": "organization.costs.result",
+  "amount": {
+    "value": 1.24,
+    "currency": "usd"
+  },
+  "line_item": "Text models",
+  "project_id": "proj_redacted"
+}

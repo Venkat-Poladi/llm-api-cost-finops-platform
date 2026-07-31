@@ -1,0 +1,16 @@
+{
+  "id": "resp_redacted",
+  "model": "gpt-5-2025-08-07",
+  "service_tier": "default",
+  "usage": {
+    "input_tokens": 2100,
+    "input_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "output_tokens": 700,
+    "output_tokens_details": {
+      "reasoning_tokens": 300
+    },
+    "total_tokens": 2800
+  }
+}

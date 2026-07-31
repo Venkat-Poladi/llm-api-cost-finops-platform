@@ -1,0 +1,16 @@
+from_table,from_column,to_table,to_column,cardinality,cross_filter_direction,status
+dim_ai_date,date_key,fact_ai_financial_monthly,date_key,1:*,Single,Active
+dim_ai_date,date_key,fact_ai_usage_monthly,date_key,1:*,Single,Active
+dim_ai_date,date_key,fact_ai_unit_economics_monthly,date_key,1:*,Single,Active
+dim_ai_date,date_key,fact_ai_optimization_monthly,date_key,1:*,Single,Active
+dim_ai_date,date_key,fact_ai_experiment_current,date_key,1:*,Single,Active
+dim_ai_provider,provider_key,fact_ai_financial_monthly,provider_key,1:*,Single,Active
+dim_ai_provider,provider_key,fact_ai_usage_monthly,provider_key,1:*,Single,Active
+dim_ai_provider,provider_key,fact_ai_unit_economics_monthly,provider_key,1:*,Single,Active
+dim_ai_provider,provider_key,fact_ai_optimization_monthly,provider_key,1:*,Single,Active
+dim_ai_model,model_key,fact_ai_financial_monthly,model_key,1:*,Single,Active
+dim_ai_model,model_key,fact_ai_usage_monthly,model_key,1:*,Single,Active
+dim_ai_model,model_key,fact_ai_unit_economics_monthly,model_key,1:*,Single,Active
+dim_ai_model,model_key,fact_ai_optimization_monthly,model_key,1:*,Single,Active
+dim_ai_application,application_key,fact_ai_financial_monthly,application_key,1:*,Single,Active
+dim_ai_experiment,experiment_key,fact_ai_experiment_current,experiment_key,1:*,Single,Active
