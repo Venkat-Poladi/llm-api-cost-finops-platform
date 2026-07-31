@@ -6,7 +6,7 @@ SELECT
   row_count_difference,
   status,
   checked_at
-FROM `finops-learning-lab.llm_finops_control.raw_load_reconciliation`
+FROM `{{PROJECT_ID}}.{{CONTROL_DATASET}}.raw_load_reconciliation`
 QUALIFY ROW_NUMBER() OVER (
   PARTITION BY table_name
   ORDER BY checked_at DESC
