@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_cost`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_cost`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, line_item_type, model
 AS
@@ -28,4 +28,4 @@ SELECT
     WHEN UPPER(billing_currency) = 'USD' THEN 'Valid'
     ELSE 'Invalid currency'
   END AS financial_validation_status
-FROM `{{PROJECT_ID}}.llm_finops_raw.raw_ai_provider_cost`;
+FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.raw_ai_provider_cost`;

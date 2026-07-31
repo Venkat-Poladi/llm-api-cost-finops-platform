@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_request_telemetry`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_request_telemetry`
 PARTITION BY usage_date
 CLUSTER BY provider, model, provider_project_id, application_name
 AS
@@ -32,4 +32,4 @@ SELECT
       THEN 'Invalid cached input'
     ELSE 'Valid'
   END AS telemetry_validation_status
-FROM `{{PROJECT_ID}}.llm_finops_raw.fct_ai_request_telemetry`;
+FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.fct_ai_request_telemetry`;

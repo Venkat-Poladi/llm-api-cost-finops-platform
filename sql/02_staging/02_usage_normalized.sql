@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_normalized`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_normalized`
 PARTITION BY usage_date
 CLUSTER BY provider, usage_type, model, provider_project_id
 AS
@@ -29,7 +29,7 @@ WITH source AS (
         m.effective_start,
         m.effective_end,
         m.reasoning_capable
-      FROM `{{PROJECT_ID}}.llm_finops_raw.dim_ai_model_map` AS m
+      FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.dim_ai_model_map` AS m
       WHERE m.provider = u.provider
         AND m.usage_type = u.usage_type
         AND m.provider_model_name = u.model
@@ -38,12 +38,12 @@ WITH source AS (
     ARRAY(
       SELECT AS STRUCT
         t.normalized_processing_tier
-      FROM `{{PROJECT_ID}}.llm_finops_staging.dim_ai_service_tier_map` AS t
+      FROM `{{PROJECT_ID}}.{{STAGING_DATASET}}.dim_ai_service_tier_map` AS t
       WHERE t.provider = u.provider
         AND t.provider_service_tier = u.provider_service_tier
         AND t.is_batch = u.is_batch
     ) AS tier_matches
-  FROM `{{PROJECT_ID}}.llm_finops_raw.raw_ai_provider_usage` AS u
+  FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.raw_ai_provider_usage` AS u
 ),
 resolved AS (
   SELECT

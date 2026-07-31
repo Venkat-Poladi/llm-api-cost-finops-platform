@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE `{{PROJECT_ID}}.llm_finops_staging.dim_ai_service_tier_map` AS
+CREATE OR REPLACE TABLE `{{PROJECT_ID}}.{{STAGING_DATASET}}.dim_ai_service_tier_map` AS
 SELECT *
 FROM UNNEST([
   STRUCT(

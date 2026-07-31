@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_priced`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_priced`
 PARTITION BY usage_date
 CLUSTER BY provider, usage_type, model_snapshot, provider_project_id
 AS
@@ -20,7 +20,7 @@ WITH candidates AS (
         r.rate_basis,
         r.rate_source,
         r.rate_status
-      FROM `{{PROJECT_ID}}.llm_finops_raw.dim_ai_model_rate` AS r
+      FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.dim_ai_model_rate` AS r
       WHERE r.provider = n.provider
         AND r.usage_type = n.usage_type
         AND r.model_snapshot = n.model_snapshot
@@ -30,7 +30,7 @@ WITH candidates AS (
         AND n.usage_date BETWEEN r.effective_start AND r.effective_end
     ) AS rate_matches
   FROM
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_provider_usage_normalized` AS n
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_provider_usage_normalized` AS n
 ),
 resolved AS (
   SELECT
