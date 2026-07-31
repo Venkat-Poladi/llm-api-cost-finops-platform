@@ -14,4 +14,4 @@ telemetry_quality_gate:
 sql_files:
 - sql/04_marts/05_unit_economics.sql
 expected_objects:
-- llm_finops_mart.mart_ai_unit_economics
+- "{{MART_DATASET}}.mart_ai_unit_economics"

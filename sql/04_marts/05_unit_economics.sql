@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_unit_economics`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_unit_economics`
 PARTITION BY billing_month
 CLUSTER BY provider, model, measurement_quality_status, usage_type
 AS
@@ -15,7 +15,7 @@ WITH financial_usage AS (
     SUM(invoice_billed_cost) AS invoice_billed_usage_cost,
     ANY_VALUE(billing_currency) AS billing_currency,
     LOGICAL_AND(is_synthetic) AS is_synthetic
-  FROM `{{PROJECT_ID}}.llm_finops_core.fct_ai_cost_reconciliation`
+  FROM `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_cost_reconciliation`
   WHERE line_item_type = 'usage'
   GROUP BY
     billing_month,
@@ -66,14 +66,14 @@ base AS (
     f.is_synthetic,
     c.telemetry_token_coverage_pct BETWEEN 0.95 AND 1.05
       AS telemetry_quality_gate_passed
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics` AS t
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics` AS t
   JOIN financial_usage AS f
     ON t.billing_month = f.billing_month
     AND t.provider = f.provider
     AND t.provider_project_id = f.provider_project_id
     AND t.model = f.model
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_mart.mart_ai_telemetry_coverage_monthly` AS c
+    `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_telemetry_coverage_monthly` AS c
     ON t.billing_month = c.billing_month
     AND t.provider = c.provider
     AND t.provider_project_id = c.provider_project_id
