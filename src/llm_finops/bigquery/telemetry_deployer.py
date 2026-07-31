@@ -5,10 +5,15 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 import json
-import uuid
 
 import yaml
 from google.cloud import bigquery
+
+from llm_finops.bigquery.pipeline_logging import (
+    current_pipeline_run_id,
+    current_pipeline_started_at,
+    pipeline_run_guard,
+)
 
 
 def load_config(path: Path) -> dict[str, Any]:
@@ -314,6 +319,7 @@ def telemetry_summary(
     }
 
 
+@pipeline_run_guard("M10_TELEMETRY_RECONCILIATION")
 def deploy_m10(
     *,
     project_root: Path,
@@ -326,8 +332,8 @@ def deploy_m10(
     datasets = config["datasets"]
     client = bigquery.Client(project=project_id)
 
-    pipeline_run_id = str(uuid.uuid4())
-    started_at = datetime.now(timezone.utc)
+    pipeline_run_id = current_pipeline_run_id()
+    started_at = current_pipeline_started_at()
 
     for relative_path in config["sql_files"]:
         client.query(

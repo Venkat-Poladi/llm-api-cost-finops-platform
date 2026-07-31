@@ -4,10 +4,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 import json
-import uuid
 
 import yaml
 from google.cloud import bigquery
+
+from llm_finops.bigquery.pipeline_logging import (
+    current_pipeline_run_id,
+    current_pipeline_started_at,
+    pipeline_run_guard,
+)
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -419,6 +424,7 @@ def ensure_result_table(
     client.create_table(table, exists_ok=True)
 
 
+@pipeline_run_guard("M16_AUTOMATED_CONTROLS_CI")
 def deploy_m16(
     *,
     project_root: Path,
@@ -442,8 +448,8 @@ def deploy_m16(
     if set(catalog_ids) != set(query_map):
         raise ValueError("The control registry and executable query map do not match.")
 
-    pipeline_run_id = str(uuid.uuid4())
-    started_at = datetime.now(timezone.utc)
+    pipeline_run_id = current_pipeline_run_id()
+    started_at = current_pipeline_started_at()
 
     replace_control_catalog(
         client,
@@ -490,21 +496,6 @@ def deploy_m16(
 
     failed = [row for row in result_rows if row["status"] != "PASS"]
     if failed:
-        completed_at = datetime.now(timezone.utc)
-        client.insert_rows_json(
-            f"{project_id}.{datasets['control']}.pipeline_run_log",
-            [
-                {
-                    "pipeline_run_id": pipeline_run_id,
-                    "pipeline_name": "M16_AUTOMATED_CONTROLS_CI",
-                    "started_at": started_at.isoformat(),
-                    "completed_at": completed_at.isoformat(),
-                    "status": "FAIL",
-                    "loaded_table_count": 2,
-                    "error_message": json.dumps(failed)[:1000],
-                }
-            ],
-        )
         raise RuntimeError(f"M16 controls failed: {failed}")
 
     for relative_path in config["sql_files"]:
