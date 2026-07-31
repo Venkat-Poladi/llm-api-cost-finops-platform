@@ -2,7 +2,7 @@
 
 A portfolio-grade AI FinOps platform for measuring, reconciling, allocating, governing, and optimizing direct LLM API consumption across OpenAI and Anthropic.
 
-**Status:** Complete through Milestone 19  
+**Status:** Complete portfolio implementation  
 **Data:** Controlled synthetic enterprise dataset  
 **Core stack:** Python, Google BigQuery, Power BI, GitHub Actions
 
@@ -274,9 +274,9 @@ Ownership and governance mappings ────┘
 ├── .github/workflows/       # GitHub Actions quality workflow
 ├── config/                  # Pricing, controls, experiments, and deployment configuration
 ├── data/                    # Raw placeholders and locally generated data
-├── docs/                    # Architecture, contracts, financial definitions, and milestone documentation
+├── docs/                    # Architecture, contracts, financial definitions, operating guides, and release documentation
 ├── powerbi/screenshots/     # Final Power BI dashboard screenshots
-├── scripts/                 # Milestone execution, deployment, and CI scripts
+├── scripts/                 # Deployment, validation, recovery, and CI scripts
 ├── sql/
 │   ├── 00_setup/            # BigQuery dataset setup
 │   ├── 01_raw/              # Raw-layer definitions
@@ -286,7 +286,7 @@ Ownership and governance mappings ────┘
 │   ├── 05_controls/         # Financial and data-quality controls
 │   └── 06_semantic/         # Power BI semantic tables
 ├── src/llm_finops/          # Python generation, validation, and BigQuery deployment code
-├── tests/                   # Automated milestone tests
+├── tests/                   # Automated unit, integration, SQL, and repository-quality tests
 └── README.md
 ```
 
@@ -304,65 +304,46 @@ cd llm-api-cost-finops-platform
 ### 2. Create the Python environment
 
 ```powershell
-py -3.13 -m venv .venv
+py -3.11 -m venv .venv
 & .\.venv\Scripts\python.exe -m pip install --upgrade pip
 & .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-### 3. Run the automated tests
+### 3. Generate the deterministic source data
+
+```powershell
+& .\.venv\Scripts\python.exe .\scripts\generate_sources.py --overwrite
+```
+
+### 4. Run the automated tests
 
 ```powershell
 & .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-### 4. Run repository quality validation
+### 5. Run the complete repository validation
 
 ```powershell
-& .\.venv\Scripts\python.exe scripts/run_repo_ci.py
+& .\.venv\Scripts\python.exe .\scripts\run_repo_ci.py
 ```
 
-### 5. Review milestone execution instructions
+The local workflow validates source generation, schema contracts, SQL
+hardening, controls, semantic-model artifacts, linting, and automated tests.
+BigQuery deployment requires an authenticated Google Cloud project and the
+configuration files under `config/`.
 
-Each milestone includes a dedicated installation guide, configuration, scripts, SQL, tests, and validation criteria.
+## Implementation Status
 
-Examples:
-
-```text
-M5_INSTALL.md   Source generation
-M6_INSTALL.md   BigQuery raw ingestion
-M8_INSTALL.md   Monthly cost reconciliation
-M11_INSTALL.md  Token economics
-M15_INSTALL.md  Experiment governance
-M17_INSTALL.md  Power BI semantic model
-```
-
----
-
-## Milestone Completion
-
-| Milestone | Capability | Status |
-|---|---|---|
-| M1 | Development environment | Complete |
-| M2 | Architecture and data contracts | Complete |
-| M3 | Provider evidence and pricing controls | Complete |
-| M4 | Synthetic source design | Complete |
-| M5 | Synthetic source generation | Complete |
-| M6 | BigQuery raw ingestion layer | Complete |
-| M7 | Staging, normalization, and pricing | Complete |
-| M8 | Monthly cost reconciliation | Complete |
-| M9 | Daily usage allocation | Complete |
-| M10 | Telemetry reconciliation | Complete |
-| M11 | Token economics | Complete |
-| M12 | Application cost and chargeback | Complete |
-| M13 | Optimization evaluation gates | Complete |
-| M14 | AI unit economics | Complete |
-| M15 | Experiment financial governance | Complete |
-| M16 | Automated controls and CI | Complete |
-| M17 | Power BI semantic model | Complete |
-| M18 | Power BI executive reporting | Complete |
-| M19 | Portfolio documentation and release | Complete |
-
----
+| Capability | Status |
+|---|---|
+| Provider evidence and controlled synthetic source generation | Complete |
+| BigQuery raw ingestion, normalization, and effective-dated pricing | Complete |
+| Financial reconciliation, allocation, showback, and chargeback | Complete |
+| Token, request, application, and unit economics | Complete |
+| Optimization evaluation and experiment financial governance | Complete |
+| Automated controls, identifier validation, failure logging, and CI | Complete |
+| Power BI semantic model and executive reporting | Complete |
+| Portfolio documentation and reproducible release artifacts | Complete |
 
 ## Financial and Data Disclaimer
 
