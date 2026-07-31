@@ -1,6 +1,6 @@
 
 google-cloud-bigquery
-numpy
+numpy==2.4.6
 pandas
 pyarrow
 pydantic
