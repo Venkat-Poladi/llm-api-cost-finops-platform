@@ -80,3 +80,14 @@ def test_m6_uses_the_existing_bigquery_project_and_us_location() -> None:
 
     assert config["project_id"] == "finops-learning-lab"
     assert config["location"] == "US"
+
+
+def test_m6_uses_shared_pipeline_guard_and_success_logging() -> None:
+    source = Path(
+        "src/llm_finops/bigquery/raw_loader.py"
+    ).read_text(encoding="utf-8")
+
+    assert '@pipeline_run_guard("M6_BIGQUERY_RAW_LAYER")' in source
+    assert "current_pipeline_run_id()" in source
+    assert "write_pipeline_success(" in source
+    assert "import uuid" not in source

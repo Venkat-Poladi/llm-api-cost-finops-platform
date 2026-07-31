@@ -10,10 +10,12 @@ from llm_finops.bigquery.pipeline_logging import (
     current_pipeline_run_id,
     current_pipeline_started_at,
     pipeline_run_guard,
+    set_pipeline_loaded_table_count,
 )
 
 
 DEPLOYERS = {
+    "raw_loader.py": "M6_BIGQUERY_RAW_LAYER",
     "staging_deployer.py": "M7_STAGING_NORMALIZATION_PRICING",
     "reconciliation_deployer.py": "M8_MONTHLY_COST_RECONCILIATION",
     "allocation_deployer.py": "M9_DAILY_USAGE_ALLOCATION",
@@ -25,6 +27,11 @@ DEPLOYERS = {
     "experiment_deployer.py": "M15_EXPERIMENT_GOVERNANCE",
     "control_deployer.py": "M16_AUTOMATED_CONTROLS_CI",
     "semantic_model_deployer.py": "M17_POWER_BI_SEMANTIC_MODEL",
+}
+
+SQL_DEPLOYERS = set(DEPLOYERS) - {
+    "raw_loader.py",
+    "control_deployer.py",
 }
 
 
@@ -70,6 +77,7 @@ def test_pipeline_guard_logs_failure(
     ) -> None:
         assert current_pipeline_run_id()
         assert current_pipeline_started_at()
+        set_pipeline_loaded_table_count(3)
         raise ValueError("expected failure")
 
     with pytest.raises(ValueError, match="expected failure"):
@@ -87,7 +95,7 @@ def test_pipeline_guard_logs_failure(
     assert len(rows) == 1
     assert rows[0]["pipeline_name"] == "TEST_PIPELINE"
     assert rows[0]["status"] == "FAIL"
-    assert rows[0]["loaded_table_count"] == 0
+    assert rows[0]["loaded_table_count"] == 3
     assert rows[0]["error_message"] == "expected failure"
 
 
@@ -132,7 +140,7 @@ def test_pipeline_guard_does_not_mask_original_failure(
         failing_deploy(config_path=config_path)
 
 
-def test_m7_to_m17_use_shared_failure_logging() -> None:
+def test_m6_to_m17_use_shared_failure_logging_and_runner() -> None:
     source_root = (
         Path(__file__).parents[1]
         / "src"
@@ -141,20 +149,27 @@ def test_m7_to_m17_use_shared_failure_logging() -> None:
     )
 
     for filename, pipeline_name in DEPLOYERS.items():
-        source = (source_root / filename).read_text(
-            encoding="utf-8"
-        )
-
-        assert (
-            f'@pipeline_run_guard("{pipeline_name}")'
-            in source
-        )
-        assert (
-            "pipeline_run_id = current_pipeline_run_id()"
-            in source
-        )
-        assert (
-            "started_at = current_pipeline_started_at()"
-            in source
-        )
+        source = (source_root / filename).read_text(encoding="utf-8")
+        assert f'@pipeline_run_guard("{pipeline_name}")' in source
         assert "import uuid" not in source
+
+        if filename in SQL_DEPLOYERS:
+            assert "run_sql_pipeline(" in source
+            assert "def load_config(" not in source
+            assert "def render_sql(" not in source
+            assert "def query_scalar(" not in source
+            assert "def ensure_control_table(" not in source
+
+    raw_loader = (source_root / "raw_loader.py").read_text(
+        encoding="utf-8"
+    )
+    assert "write_pipeline_success(" in raw_loader
+    assert "current_pipeline_run_id()" in raw_loader
+    assert "try:" not in raw_loader.split("def execute_raw_load", 1)[1]
+
+    control_deployer = (source_root / "control_deployer.py").read_text(
+        encoding="utf-8"
+    )
+    assert "execute_sql_files(" in control_deployer
+    assert "evaluate_controls(" in control_deployer
+    assert "write_pipeline_success(" in control_deployer

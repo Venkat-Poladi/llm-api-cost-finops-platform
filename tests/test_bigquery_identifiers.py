@@ -11,6 +11,9 @@ from llm_finops.bigquery.identifiers import (
     validate_project_id,
     validate_table_id,
 )
+from llm_finops.bigquery.pipeline_logging import (
+    load_validated_configuration,
+)
 
 
 def test_valid_repository_identifiers_are_accepted() -> None:
@@ -103,7 +106,7 @@ def test_all_bigquery_configs_use_safe_identifiers() -> None:
         )
 
 
-def test_m6_and_shared_guard_call_identifier_validation() -> None:
+def test_shared_guard_validates_m6_to_m17_identifiers() -> None:
     source_root = (
         Path(__file__).parents[1]
         / "src"
@@ -118,6 +121,34 @@ def test_m6_and_shared_guard_call_identifier_validation() -> None:
         source_root / "pipeline_logging.py"
     ).read_text(encoding="utf-8")
 
-    assert "validate_bigquery_identifiers(" in raw_loader
-    assert "table_names=config.get(" in raw_loader
+    assert '@pipeline_run_guard("M6_BIGQUERY_RAW_LAYER")' in raw_loader
     assert "validate_bigquery_identifiers(" in pipeline_logging
+    assert 'table_names=config.get("tables", {}).keys()' in pipeline_logging
+
+
+def test_project_id_resolution_precedence(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text(
+        "project_id: configured-project\n"
+        "datasets:\n"
+        "  control: configured_control\n",
+        encoding="utf-8",
+    )
+
+    monkeypatch.setenv("GOOGLE_CLOUD_PROJECT", "environment-project")
+
+    _, environment_project, _ = load_validated_configuration(config_path)
+    assert environment_project == "environment-project"
+
+    _, override_project, _ = load_validated_configuration(
+        config_path,
+        "override-project",
+    )
+    assert override_project == "override-project"
+
+    monkeypatch.delenv("GOOGLE_CLOUD_PROJECT")
+    _, configured_project, _ = load_validated_configuration(config_path)
+    assert configured_project == "configured-project"

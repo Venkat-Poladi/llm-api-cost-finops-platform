@@ -3,73 +3,28 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-import json
 
-import yaml
 from google.cloud import bigquery
 
+from llm_finops.bigquery.deployment_runner import (
+    assert_controls_pass,
+    evaluate_controls,
+    execute_sql_files,
+    insert_rows_or_raise,
+    load_yaml_document,
+    render_object_name,
+    write_json_manifest,
+    write_pipeline_success,
+)
 from llm_finops.bigquery.pipeline_logging import (
+    current_pipeline_configuration,
+    current_pipeline_datasets,
+    current_pipeline_project_id,
     current_pipeline_run_id,
     current_pipeline_started_at,
     pipeline_run_guard,
+    set_pipeline_loaded_table_count,
 )
-
-
-def load_yaml(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing configuration: {path}")
-    return yaml.safe_load(path.read_text(encoding="utf-8"))
-
-
-def render_sql(
-    path: Path,
-    project_id: str,
-    datasets: dict[str, str],
-) -> str:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing SQL file: {path}")
-
-    replacements = {
-        "{{PROJECT_ID}}": project_id,
-        "{{RAW_DATASET}}": datasets["raw"],
-        "{{STAGING_DATASET}}": datasets["staging"],
-        "{{CORE_DATASET}}": datasets["core"],
-        "{{MART_DATASET}}": datasets["mart"],
-        "{{CONTROL_DATASET}}": datasets["control"],
-    }
-
-    sql = path.read_text(encoding="utf-8")
-
-    for placeholder, value in replacements.items():
-        sql = sql.replace(placeholder, value)
-
-    return sql
-
-
-def render_object_name(
-    value: str,
-    datasets: dict[str, str],
-) -> str:
-    replacements = {
-        "{{MART_DATASET}}": datasets["mart"],
-        "{{CONTROL_DATASET}}": datasets["control"],
-    }
-
-    for placeholder, replacement in replacements.items():
-        value = value.replace(placeholder, replacement)
-
-    return value
-
-
-def query_scalar(
-    client: bigquery.Client,
-    sql: str,
-    location: str,
-) -> int:
-    rows = list(client.query(sql, location=location).result())
-    if len(rows) != 1:
-        raise RuntimeError("Control query did not return exactly one row.")
-    return int(rows[0]["violation_count"])
 
 
 def end_to_end_queries(
@@ -423,8 +378,9 @@ def ensure_result_table(
     )
     client.create_table(table, exists_ok=True)
 
-
 @pipeline_run_guard("M16_AUTOMATED_CONTROLS_CI")
+
+
 def deploy_m16(
     *,
     project_root: Path,
@@ -432,24 +388,29 @@ def deploy_m16(
     registry_path: Path,
     project_id_override: str | None = None,
 ) -> dict[str, Any]:
-    config = load_yaml(config_path)
-    registry = load_yaml(registry_path)
-    project_id = project_id_override or config["project_id"]
+    config = current_pipeline_configuration()
+    project_id = current_pipeline_project_id()
+    datasets = current_pipeline_datasets()
     location = config["location"]
-    datasets = config["datasets"]
     client = bigquery.Client(project=project_id)
+    started_at = current_pipeline_started_at()
 
+    registry = load_yaml_document(
+        registry_path,
+        label="M16 control registry",
+    )
     catalog_rows = registry["controls"]
     query_map = end_to_end_queries(project_id, datasets)
     catalog_ids = [row["control_id"] for row in catalog_rows]
 
     if len(catalog_ids) != 18 or len(set(catalog_ids)) != 18:
-        raise ValueError("The M16 control registry must contain exactly 18 unique controls.")
+        raise ValueError(
+            "The M16 control registry must contain exactly 18 unique controls."
+        )
     if set(catalog_ids) != set(query_map):
-        raise ValueError("The control registry and executable query map do not match.")
-
-    pipeline_run_id = current_pipeline_run_id()
-    started_at = current_pipeline_started_at()
+        raise ValueError(
+            "The control registry and executable query map do not match."
+        )
 
     replace_control_catalog(
         client,
@@ -463,69 +424,42 @@ def deploy_m16(
         datasets["control"],
     )
 
-    checked_at = datetime.now(timezone.utc)
-    result_rows: list[dict[str, Any]] = []
-
-    for control_id in catalog_ids:
-        violation_count = query_scalar(
-            client,
-            query_map[control_id],
-            location,
-        )
-        result_rows.append(
-            {
-                "pipeline_run_id": pipeline_run_id,
-                "control_id": control_id,
-                "violation_count": violation_count,
-                "status": "PASS" if violation_count == 0 else "FAIL",
-                "checked_at": checked_at.isoformat(),
-            }
-        )
-
-    insert_errors = client.insert_rows_json(
-        (
+    result_rows = evaluate_controls(
+        client=client,
+        query_map={control_id: query_map[control_id] for control_id in catalog_ids},
+        location=location,
+        control_key="control_id",
+    )
+    insert_rows_or_raise(
+        client=client,
+        table_id=(
             f"{project_id}.{datasets['control']}."
             "m16_end_to_end_control_result"
         ),
-        result_rows,
+        rows=result_rows,
+        error_message="Could not write M16 control results",
     )
-    if insert_errors:
-        raise RuntimeError(
-            f"Could not write M16 control results: {insert_errors}"
-        )
+    assert_controls_pass(
+        result_rows,
+        pipeline_name="M16_AUTOMATED_CONTROLS_CI",
+    )
 
-    failed = [row for row in result_rows if row["status"] != "PASS"]
-    if failed:
-        raise RuntimeError(f"M16 controls failed: {failed}")
+    execute_sql_files(
+        client=client,
+        project_root=project_root,
+        relative_paths=config["sql_files"],
+        project_id=project_id,
+        datasets=datasets,
+        location=location,
+    )
 
-    for relative_path in config["sql_files"]:
-        client.query(
-            render_sql(
-                project_root / relative_path,
-                project_id,
-                datasets,
-            ),
-            location=location,
-        ).result()
+    created_objects = [
+        render_object_name(object_name, datasets)
+        for object_name in config["expected_objects"]
+    ]
+    set_pipeline_loaded_table_count(len(created_objects))
 
     completed_at = datetime.now(timezone.utc)
-    run_errors = client.insert_rows_json(
-        f"{project_id}.{datasets['control']}.pipeline_run_log",
-        [
-            {
-                "pipeline_run_id": pipeline_run_id,
-                "pipeline_name": "M16_AUTOMATED_CONTROLS_CI",
-                "started_at": started_at.isoformat(),
-                "completed_at": completed_at.isoformat(),
-                "status": "PASS",
-                "loaded_table_count": len(config["expected_objects"]),
-                "error_message": None,
-            }
-        ],
-    )
-    if run_errors:
-        raise RuntimeError(f"Could not write M16 pipeline log: {run_errors}")
-
     summary = {
         "registered_control_count": len(catalog_rows),
         "executed_control_count": len(result_rows),
@@ -536,31 +470,32 @@ def deploy_m16(
             row["status"] == "FAIL" for row in result_rows
         ),
     }
-
     manifest = {
-        "pipeline_run_id": pipeline_run_id,
+        "pipeline_run_id": current_pipeline_run_id(),
         "pipeline_name": "M16_AUTOMATED_CONTROLS_CI",
         "project_id": project_id,
         "location": location,
         "started_at": started_at.isoformat(),
         "completed_at": completed_at.isoformat(),
         "status": "PASS",
-        "created_objects": [
-            render_object_name(object_name, datasets)
-            for object_name in config["expected_objects"]
-        ],
+        "created_objects": created_objects,
         "controls": result_rows,
         "summary": summary,
     }
 
-    manifest_path = (
-        project_root
-        / "data"
-        / "generated"
-        / "m16_automated_controls_manifest.json"
+    write_json_manifest(
+        project_root=project_root,
+        filename="m16_automated_controls_manifest.json",
+        manifest=manifest,
     )
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True),
-        encoding="utf-8",
+    write_pipeline_success(
+        client=client,
+        project_id=project_id,
+        control_dataset=datasets["control"],
+        pipeline_name="M16_AUTOMATED_CONTROLS_CI",
+        started_at=started_at,
+        completed_at=completed_at,
+        loaded_table_count=len(created_objects),
     )
+
     return manifest

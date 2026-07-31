@@ -4,22 +4,26 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 import csv
-import json
-import uuid
 
-import yaml
 from google.api_core.exceptions import NotFound
 from google.cloud import bigquery
 
-from llm_finops.bigquery.identifiers import (
-    validate_bigquery_identifiers,
+from llm_finops.bigquery.deployment_runner import (
+    assert_controls_pass,
+    evaluate_controls,
+    insert_rows_or_raise,
+    write_json_manifest,
+    write_pipeline_success,
 )
-
-
-def load_configuration(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing BigQuery configuration: {path}")
-    return yaml.safe_load(path.read_text(encoding="utf-8"))
+from llm_finops.bigquery.pipeline_logging import (
+    current_pipeline_configuration,
+    current_pipeline_datasets,
+    current_pipeline_project_id,
+    current_pipeline_run_id,
+    current_pipeline_started_at,
+    pipeline_run_guard,
+    set_pipeline_loaded_table_count,
+)
 
 
 def count_csv_rows(path: Path) -> int:
@@ -156,17 +160,6 @@ def load_csv_table(
     return int(table.num_rows)
 
 
-def run_query_count(
-    client: bigquery.Client,
-    sql: str,
-    location: str,
-) -> int:
-    rows = list(client.query(sql, location=location).result())
-    if len(rows) != 1:
-        raise RuntimeError("A control query did not return exactly one row.")
-    return int(rows[0]["violation_count"])
-
-
 def raw_control_queries(project_id: str, raw_dataset: str) -> dict[str, str]:
     prefix = f"`{project_id}.{raw_dataset}"
 
@@ -251,27 +244,20 @@ def raw_control_queries(project_id: str, raw_dataset: str) -> dict[str, str]:
         """,
     }
 
-
+@pipeline_run_guard("M6_BIGQUERY_RAW_LAYER")
 def execute_raw_load(
     *,
     project_root: Path,
     config_path: Path,
     project_id_override: str | None = None,
 ) -> dict[str, Any]:
-    config = load_configuration(config_path)
-    project_id = project_id_override or config["project_id"]
+    config = current_pipeline_configuration()
+    project_id = current_pipeline_project_id()
+    datasets = current_pipeline_datasets()
     location = config["location"]
-    datasets = config["datasets"]
-
-    validate_bigquery_identifiers(
-        project_id,
-        datasets,
-        table_names=config.get("tables", {}).keys(),
-    )
-
     client = bigquery.Client(project=project_id)
-    started_at = datetime.now(timezone.utc)
-    pipeline_run_id = str(uuid.uuid4())
+    started_at = current_pipeline_started_at()
+    pipeline_run_id = current_pipeline_run_id()
 
     for layer, dataset_name in datasets.items():
         ensure_dataset(client, dataset_name, location, layer)
@@ -280,152 +266,101 @@ def execute_raw_load(
 
     loaded_tables: list[dict[str, Any]] = []
     reconciliation_rows: list[dict[str, Any]] = []
-    control_rows: list[dict[str, Any]] = []
 
-    try:
-        for table_name, table_config in config["tables"].items():
-            source_path = project_root / table_config["source_file"]
-            if not source_path.exists():
-                raise FileNotFoundError(
-                    f"Source file is missing for {table_name}: {source_path}"
-                )
-
-            source_row_count = count_csv_rows(source_path)
-            bigquery_row_count = load_csv_table(
-                client,
-                source_path=source_path,
-                table_name=table_name,
-                raw_dataset=datasets["raw"],
-                table_config=table_config,
-                location=location,
+    for table_name, table_config in config["tables"].items():
+        source_path = project_root / table_config["source_file"]
+        if not source_path.exists():
+            raise FileNotFoundError(
+                f"Source file is missing for {table_name}: {source_path}"
             )
 
-            difference = bigquery_row_count - source_row_count
-            status = "PASS" if difference == 0 else "FAIL"
-            reconciliation_rows.append(
-                {
-                    "pipeline_run_id": pipeline_run_id,
-                    "table_name": table_name,
-                    "source_row_count": source_row_count,
-                    "bigquery_row_count": bigquery_row_count,
-                    "row_count_difference": difference,
-                    "status": status,
-                    "checked_at": datetime.now(timezone.utc).isoformat(),
-                }
-            )
-            loaded_tables.append(
-                {
-                    "table_name": table_name,
-                    "table_id": (
-                        f"{project_id}.{datasets['raw']}.{table_name}"
-                    ),
-                    "source_row_count": source_row_count,
-                    "bigquery_row_count": bigquery_row_count,
-                }
-            )
-
-        reconciliation_errors = client.insert_rows_json(
-            (
-                f"{project_id}.{datasets['control']}."
-                "raw_load_reconciliation"
-            ),
-            reconciliation_rows,
+        source_row_count = count_csv_rows(source_path)
+        bigquery_row_count = load_csv_table(
+            client,
+            source_path=source_path,
+            table_name=table_name,
+            raw_dataset=datasets["raw"],
+            table_config=table_config,
+            location=location,
         )
-        if reconciliation_errors:
-            raise RuntimeError(
-                f"Could not write reconciliation rows: {reconciliation_errors}"
-            )
 
-        failed_reconciliations = [
-            row for row in reconciliation_rows if row["status"] != "PASS"
-        ]
-        if failed_reconciliations:
-            raise RuntimeError(
-                f"Row counts did not reconcile: {failed_reconciliations}"
-            )
-
-        for control_name, sql in raw_control_queries(
-            project_id,
-            datasets["raw"],
-        ).items():
-            violation_count = run_query_count(client, sql, location)
-            status = "PASS" if violation_count == 0 else "FAIL"
-            control_rows.append(
-                {
-                    "pipeline_run_id": pipeline_run_id,
-                    "control_name": control_name,
-                    "violation_count": violation_count,
-                    "status": status,
-                    "checked_at": datetime.now(timezone.utc).isoformat(),
-                }
-            )
-
-        control_errors = client.insert_rows_json(
-            (
-                f"{project_id}.{datasets['control']}."
-                "raw_load_control_result"
-            ),
-            control_rows,
+        difference = bigquery_row_count - source_row_count
+        status = "PASS" if difference == 0 else "FAIL"
+        reconciliation_rows.append(
+            {
+                "pipeline_run_id": pipeline_run_id,
+                "table_name": table_name,
+                "source_row_count": source_row_count,
+                "bigquery_row_count": bigquery_row_count,
+                "row_count_difference": difference,
+                "status": status,
+                "checked_at": datetime.now(timezone.utc).isoformat(),
+            }
         )
-        if control_errors:
-            raise RuntimeError(
-                f"Could not write control results: {control_errors}"
-            )
-
-        failed_controls = [
-            row for row in control_rows if row["status"] != "PASS"
-        ]
-        if failed_controls:
-            raise RuntimeError(f"Raw controls failed: {failed_controls}")
-
-        completed_at = datetime.now(timezone.utc)
-        run_row = {
-            "pipeline_run_id": pipeline_run_id,
-            "pipeline_name": "M6_BIGQUERY_RAW_LAYER",
-            "started_at": started_at.isoformat(),
-            "completed_at": completed_at.isoformat(),
-            "status": "PASS",
-            "loaded_table_count": len(loaded_tables),
-            "error_message": None,
-        }
-        run_errors = client.insert_rows_json(
-            f"{project_id}.{datasets['control']}.pipeline_run_log",
-            [run_row],
+        loaded_tables.append(
+            {
+                "table_name": table_name,
+                "table_id": f"{project_id}.{datasets['raw']}.{table_name}",
+                "source_row_count": source_row_count,
+                "bigquery_row_count": bigquery_row_count,
+            }
         )
-        if run_errors:
-            raise RuntimeError(f"Could not write run log: {run_errors}")
+        set_pipeline_loaded_table_count(len(loaded_tables))
 
-        manifest = {
-            "pipeline_run_id": pipeline_run_id,
-            "project_id": project_id,
-            "location": location,
-            "status": "PASS",
-            "loaded_at": completed_at.isoformat(),
-            "loaded_tables": loaded_tables,
-            "controls": control_rows,
-        }
-        manifest_path = (
-            project_root / "data" / "generated" / "m6_bigquery_manifest.json"
-        )
-        manifest_path.write_text(
-            json.dumps(manifest, indent=2, sort_keys=True),
-            encoding="utf-8",
-        )
-        return manifest
+    insert_rows_or_raise(
+        client=client,
+        table_id=(
+            f"{project_id}.{datasets['control']}.raw_load_reconciliation"
+        ),
+        rows=reconciliation_rows,
+        error_message="Could not write raw-load reconciliation rows",
+    )
+    assert_controls_pass(
+        reconciliation_rows,
+        pipeline_name="M6_RAW_LOAD_RECONCILIATION",
+    )
 
-    except Exception as exc:
-        completed_at = datetime.now(timezone.utc)
-        failure_row = {
-            "pipeline_run_id": pipeline_run_id,
-            "pipeline_name": "M6_BIGQUERY_RAW_LAYER",
-            "started_at": started_at.isoformat(),
-            "completed_at": completed_at.isoformat(),
-            "status": "FAIL",
-            "loaded_table_count": len(loaded_tables),
-            "error_message": str(exc)[:1000],
-        }
-        client.insert_rows_json(
-            f"{project_id}.{datasets['control']}.pipeline_run_log",
-            [failure_row],
-        )
-        raise
+    control_rows = evaluate_controls(
+        client=client,
+        query_map=raw_control_queries(project_id, datasets["raw"]),
+        location=location,
+    )
+    insert_rows_or_raise(
+        client=client,
+        table_id=(
+            f"{project_id}.{datasets['control']}.raw_load_control_result"
+        ),
+        rows=control_rows,
+        error_message="Could not write M6 control results",
+    )
+    assert_controls_pass(
+        control_rows,
+        pipeline_name="M6_BIGQUERY_RAW_LAYER",
+    )
+
+    completed_at = datetime.now(timezone.utc)
+    manifest = {
+        "pipeline_run_id": pipeline_run_id,
+        "project_id": project_id,
+        "location": location,
+        "status": "PASS",
+        "loaded_at": completed_at.isoformat(),
+        "loaded_tables": loaded_tables,
+        "controls": control_rows,
+    }
+    write_json_manifest(
+        project_root=project_root,
+        filename="m6_bigquery_manifest.json",
+        manifest=manifest,
+    )
+    write_pipeline_success(
+        client=client,
+        project_id=project_id,
+        control_dataset=datasets["control"],
+        pipeline_name="M6_BIGQUERY_RAW_LAYER",
+        started_at=started_at,
+        completed_at=completed_at,
+        loaded_table_count=len(loaded_tables),
+    )
+
+    return manifest

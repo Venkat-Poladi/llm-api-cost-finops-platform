@@ -285,7 +285,7 @@ Ownership and governance mappings ────┘
 │   ├── 04_marts/            # Analytical marts
 │   ├── 05_controls/         # Financial and data-quality controls
 │   └── 06_semantic/         # Power BI semantic tables
-├── src/llm_finops/          # Python generation, validation, and BigQuery deployment code
+├── src/llm_finops/          # Python generation, validation, and guarded shared BigQuery runner
 ├── tests/                   # Automated unit, integration, SQL, and repository-quality tests
 └── README.md
 ```
@@ -330,7 +330,11 @@ py -3.11 -m venv .venv
 The local workflow validates source generation, schema contracts, SQL
 hardening, controls, semantic-model artifacts, linting, and automated tests.
 BigQuery deployment requires an authenticated Google Cloud project and the
-configuration files under `config/`.
+configuration files under `config/`. Deployment entry points share one guarded
+runner for configuration resolution, identifier validation, SQL execution,
+control evaluation, manifest creation, and pipeline logging. Set
+`GOOGLE_CLOUD_PROJECT` to override the repository default without editing YAML;
+an explicit `--project-id` argument takes precedence over the environment.
 
 ## Implementation Status
 
@@ -341,7 +345,7 @@ configuration files under `config/`.
 | Financial reconciliation, allocation, showback, and chargeback | Complete |
 | Token, request, application, and unit economics | Complete |
 | Optimization evaluation and experiment financial governance | Complete |
-| Automated controls, identifier validation, failure logging, and CI | Complete |
+| Shared guarded deployment runner, identifier validation, failure logging, and CI | Complete |
 | Power BI semantic model and executive reporting | Complete |
 | Portfolio documentation and reproducible release artifacts | Complete |
 
