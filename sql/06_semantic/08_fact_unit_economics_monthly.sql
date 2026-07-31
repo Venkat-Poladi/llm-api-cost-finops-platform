@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.fact_ai_unit_economics_monthly`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.fact_ai_unit_economics_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider_key, model_key, measurement_quality_status
 AS
@@ -33,7 +33,7 @@ WITH normalized AS (
     billing_currency,
     financial_basis,
     operational_cost_basis
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_unit_economics`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_unit_economics`
 )
 SELECT
   unit_economics_id,

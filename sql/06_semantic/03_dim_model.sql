@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.dim_ai_model`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.dim_ai_model`
 AS
 WITH models AS (
   SELECT DISTINCT
@@ -7,7 +7,7 @@ WITH models AS (
     COALESCE(model, 'Not applicable') AS model,
     COALESCE(model_snapshot, 'Not applicable') AS model_snapshot,
     COALESCE(usage_type, 'Not applicable') AS usage_type
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics`
 
   UNION DISTINCT
 
@@ -16,7 +16,7 @@ WITH models AS (
     COALESCE(model, 'Not applicable') AS model,
     COALESCE(model_snapshot, 'Not applicable') AS model_snapshot,
     COALESCE(usage_type, 'Not applicable') AS usage_type
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_application_cost`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_application_cost`
 )
 SELECT
   TO_HEX(

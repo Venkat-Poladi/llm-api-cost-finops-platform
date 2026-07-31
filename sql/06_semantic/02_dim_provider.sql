@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.dim_ai_provider`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.dim_ai_provider`
 AS
 SELECT DISTINCT
   TO_HEX(SHA256(provider)) AS provider_key,
@@ -11,8 +11,8 @@ SELECT DISTINCT
   END AS provider_display_name
 FROM (
   SELECT provider
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics`
   UNION DISTINCT
   SELECT provider
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_application_cost`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_application_cost`
 );

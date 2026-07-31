@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.fact_ai_usage_monthly`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.fact_ai_usage_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider_key, model_key, usage_type
 AS
@@ -42,7 +42,7 @@ WITH normalized AS (
     estimated_mid_generation_failure_cost,
     billing_currency,
     financial_basis
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_token_economics`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_token_economics`
 )
 SELECT
   usage_monthly_id,

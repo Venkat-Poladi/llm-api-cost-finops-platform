@@ -16,13 +16,26 @@ def load_config(path: Path) -> dict[str, Any]:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
-def render_sql(path: Path, project_id: str) -> str:
+def render_sql(
+    path: Path,
+    project_id: str,
+    datasets: dict[str, str],
+) -> str:
     if not path.exists():
         raise FileNotFoundError(f"Missing SQL file: {path}")
-    return path.read_text(encoding="utf-8").replace(
-        "{{PROJECT_ID}}",
-        project_id,
-    )
+
+    replacements = {
+        "{{PROJECT_ID}}": project_id,
+        "{{RAW_DATASET}}": datasets["raw"],
+        "{{MART_DATASET}}": datasets["mart"],
+    }
+
+    sql = path.read_text(encoding="utf-8")
+
+    for placeholder, value in replacements.items():
+        sql = sql.replace(placeholder, value)
+
+    return sql
 
 
 def query_scalar(
@@ -36,8 +49,11 @@ def query_scalar(
     return int(rows[0]["violation_count"])
 
 
-def control_queries(project_id: str) -> dict[str, str]:
-    mart = f"`{project_id}.llm_finops_mart"
+def control_queries(
+    project_id: str,
+    datasets: dict[str, str],
+) -> dict[str, str]:
+    mart = f"`{project_id}.{datasets['mart']}"
 
     return {
         "date_dimension_is_unique_and_complete": f"""
@@ -223,9 +239,10 @@ def control_queries(project_id: str) -> dict[str, str]:
 def ensure_control_table(
     client: bigquery.Client,
     project_id: str,
+    control_dataset: str,
 ) -> None:
     table = bigquery.Table(
-        f"{project_id}.llm_finops_control.m17_semantic_control_result",
+        f"{project_id}.{control_dataset}.m17_semantic_control_result",
         schema=[
             bigquery.SchemaField("pipeline_run_id", "STRING", mode="REQUIRED"),
             bigquery.SchemaField("control_name", "STRING", mode="REQUIRED"),
@@ -246,6 +263,7 @@ def deploy_m17(
     config = load_config(config_path)
     project_id = project_id_override or config["project_id"]
     location = config["location"]
+    datasets = config["datasets"]
     client = bigquery.Client(project=project_id)
 
     pipeline_run_id = str(uuid.uuid4())
@@ -253,16 +271,27 @@ def deploy_m17(
 
     for relative_path in config["sql_files"]:
         client.query(
-            render_sql(project_root / relative_path, project_id),
+            render_sql(
+                project_root / relative_path,
+                project_id,
+                datasets,
+            ),
             location=location,
         ).result()
 
-    ensure_control_table(client, project_id)
+    ensure_control_table(
+        client,
+        project_id,
+        datasets["control"],
+    )
 
     checked_at = datetime.now(timezone.utc)
     control_rows: list[dict[str, Any]] = []
 
-    for control_name, sql in control_queries(project_id).items():
+    for control_name, sql in control_queries(
+        project_id,
+        datasets,
+    ).items():
         violation_count = query_scalar(client, sql, location)
         control_rows.append(
             {
@@ -275,7 +304,10 @@ def deploy_m17(
         )
 
     errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.m17_semantic_control_result",
+        (
+            f"{project_id}.{datasets['control']}."
+            "m17_semantic_control_result"
+        ),
         control_rows,
     )
     if errors:
@@ -310,7 +342,7 @@ def deploy_m17(
     )
 
     run_errors = client.insert_rows_json(
-        f"{project_id}.llm_finops_control.pipeline_run_log",
+        f"{project_id}.{datasets['control']}.pipeline_run_log",
         [
             {
                 "pipeline_run_id": pipeline_run_id,

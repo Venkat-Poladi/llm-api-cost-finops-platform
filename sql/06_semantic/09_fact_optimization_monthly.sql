@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.fact_ai_optimization_monthly`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.fact_ai_optimization_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider_key, model_key, optimization_type, evaluation_gate_status
 AS
@@ -35,7 +35,7 @@ WITH normalized AS (
     recommendation_generated_date,
     financial_basis,
     billing_currency
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_optimization`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_optimization`
 )
 SELECT
   recommendation_id,

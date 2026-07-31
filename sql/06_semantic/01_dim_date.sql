@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.dim_ai_date`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.dim_ai_date`
 AS
 SELECT
   CAST(FORMAT_DATE('%Y%m%d', calendar_date) AS INT64) AS date_key,

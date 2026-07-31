@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.fact_ai_financial_monthly`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.fact_ai_financial_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider_key, model_key, application_key, line_item_type
 AS
@@ -44,7 +44,7 @@ WITH normalized AS (
       AS unallocated_invoice_billed_cost,
     billing_currency,
     financial_basis
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_application_cost`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_application_cost`
 ),
 aggregated AS (
   SELECT

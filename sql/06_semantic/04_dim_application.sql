@@ -1,12 +1,12 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.dim_ai_application`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.dim_ai_application`
 AS
 WITH applications AS (
   SELECT DISTINCT
     COALESCE(application_name, 'Unallocated') AS application_name,
     COALESCE(department_name, 'Unallocated') AS department_name,
     COALESCE(cost_center, 'UNALLOCATED') AS cost_center
-  FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_application_cost`
+  FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_application_cost`
 )
 SELECT
   TO_HEX(

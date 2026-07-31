@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.fact_ai_experiment_current`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.fact_ai_experiment_current`
 CLUSTER BY experiment_key, threshold_status, governance_action_status
 AS
 SELECT
@@ -39,7 +39,7 @@ SELECT
   invoice_cost_per_successful_request,
   financial_basis,
   operational_basis
-FROM `{{PROJECT_ID}}.llm_finops_mart.mart_ai_experiments`
+FROM `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_experiments`
 QUALIFY ROW_NUMBER() OVER (
   PARTITION BY experiment_id
   ORDER BY evaluation_date DESC, experiment_governance_id DESC

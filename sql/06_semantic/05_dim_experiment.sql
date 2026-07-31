@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.dim_ai_experiment`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.dim_ai_experiment`
 AS
 SELECT
   experiment_id AS experiment_key,
@@ -18,4 +18,4 @@ SELECT
   planned_end_date,
   current_status,
   override_reason
-FROM `{{PROJECT_ID}}.llm_finops_raw.dim_ai_experiment_control`;
+FROM `{{PROJECT_ID}}.{{RAW_DATASET}}.dim_ai_experiment_control`;
