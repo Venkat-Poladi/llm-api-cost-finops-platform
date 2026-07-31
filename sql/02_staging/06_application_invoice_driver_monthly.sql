@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_staging.stg_ai_application_invoice_driver_monthly`
+  `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_application_invoice_driver_monthly`
 PARTITION BY billing_month
 CLUSTER BY provider, provider_project_id, model, application_name
 AS
@@ -38,7 +38,7 @@ SELECT
   ) AS driver_usage_cost_estimate,
   ANY_VALUE(billing_currency) AS billing_currency,
   LOGICAL_AND(is_synthetic) AS is_synthetic
-FROM `{{PROJECT_ID}}.llm_finops_core.fct_ai_usage_daily`
+FROM `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_usage_daily`
 GROUP BY
   billing_month,
   provider,

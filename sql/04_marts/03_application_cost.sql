@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE
-  `{{PROJECT_ID}}.llm_finops_mart.mart_ai_application_cost`
+  `{{PROJECT_ID}}.{{MART_DATASET}}.mart_ai_application_cost`
 PARTITION BY billing_month
 CLUSTER BY provider, application_name, department_name, line_item_type
 AS
@@ -18,7 +18,7 @@ WITH usage_invoice_scope AS (
     ANY_VALUE(billing_currency) AS billing_currency,
     LOGICAL_OR(is_restatement) AS is_restatement,
     LOGICAL_AND(is_synthetic) AS is_synthetic
-  FROM `{{PROJECT_ID}}.llm_finops_core.fct_ai_cost_reconciliation`
+  FROM `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_cost_reconciliation`
   WHERE line_item_type = 'usage'
   GROUP BY
     billing_month,
@@ -56,7 +56,7 @@ driver_with_scope AS (
     ) AS eligible_driver_denominator
   FROM usage_invoice_scope AS i
   LEFT JOIN
-    `{{PROJECT_ID}}.llm_finops_staging.stg_ai_application_invoice_driver_monthly`
+    `{{PROJECT_ID}}.{{STAGING_DATASET}}.stg_ai_application_invoice_driver_monthly`
       AS d
     ON i.billing_month = d.billing_month
     AND i.provider = d.provider
@@ -294,7 +294,7 @@ non_usage_scope AS (
     ANY_VALUE(billing_currency) AS billing_currency,
     LOGICAL_OR(is_restatement) AS is_restatement,
     LOGICAL_AND(is_synthetic) AS is_synthetic
-  FROM `{{PROJECT_ID}}.llm_finops_core.fct_ai_cost_reconciliation`
+  FROM `{{PROJECT_ID}}.{{CORE_DATASET}}.fct_ai_cost_reconciliation`
   WHERE line_item_type != 'usage'
   GROUP BY
     billing_month,

@@ -10,8 +10,8 @@ sql_files:
 - sql/02_staging/06_application_invoice_driver_monthly.sql
 - sql/04_marts/03_application_cost.sql
 expected_objects:
-- llm_finops_staging.stg_ai_application_invoice_driver_monthly
-- llm_finops_mart.mart_ai_application_cost
+- "{{STAGING_DATASET}}.stg_ai_application_invoice_driver_monthly"
+- "{{MART_DATASET}}.mart_ai_application_cost"
 allocation_policy:
   usage_lines: Allocate within billing month + provider + provider project + model using each application row's
     share of usage_cost_estimate.
