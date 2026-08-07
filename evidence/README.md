@@ -1,15 +1,28 @@
 # Evidence Package
 
-These files are synthetic, redacted examples of the verified source shapes. They are not represented as actual user billing records.
+The provider-shape examples in this folder are synthetic, redacted examples. They are not represented as actual user billing records.
 
-Replace or supplement them only when you have permission to access real organization-level provider APIs.
+## V1 release evidence
+
+The immutable M20 evidence package is under [`releases/v1.0.0/`](releases/v1.0.0/):
+
+- `generation_manifest.json` — deterministic source counts, totals, hashes, generator version, and seed.
+- `repository_validation.txt` — baseline commit, clean/synchronized state, source-generation result, and repository-CI result.
+- `powerbi_artifact_hashes.sha256` — hashes for the committed v1 PBIP, semantic support files, and four screenshots.
+
+The related narrative evidence is under [`docs/releases/`](../docs/releases/).
+
+## Safety rules
+
+Replace or supplement provider examples only when permission exists to access real organization-level provider APIs.
 
 Never commit:
 
-- API keys
-- Admin keys
+- API keys or admin keys
+- Cloud credentials
 - Organization identifiers
 - Unredacted project or workspace identifiers
 - Prompt or response content containing private information
+- Confidential invoices, contracts, client names, or customer information
 
-The project does not require real provider access to continue because its main dataset is deliberately synthetic.
+The project does not require real provider access because its portfolio dataset is deliberately controlled and non-confidential.

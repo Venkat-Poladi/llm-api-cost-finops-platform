@@ -2,7 +2,7 @@
 
 A portfolio-grade AI FinOps platform for measuring, reconciling, allocating, governing, and optimizing direct LLM API consumption across OpenAI and Anthropic.
 
-**Status:** Complete portfolio implementation  
+**Status:** v1.0.0 complete; Phase 2 foundation begins on `phase-2`  
 **Data:** Controlled synthetic enterprise dataset  
 **Core stack:** Python, Google BigQuery, Power BI, GitHub Actions
 
@@ -349,6 +349,20 @@ an explicit `--project-id` argument takes precedence over the environment.
 | Power BI semantic model and executive reporting | Complete |
 | Portfolio documentation and reproducible release artifacts | Complete |
 
+## Releases and Phase 2
+
+- **v1.0.0** freezes the completed OpenAI and Anthropic implementation, governed metrics, Power BI evidence, and clean-repository validation.
+- The implementation baseline is commit `c2a2449`; the `v1.0.0` tag contains the M20 documentation and evidence freeze without changing v1 analytical logic.
+- Phase 2 continues on branch `phase-2` and extends the platform through governed milestones rather than rebuilding working v1 capabilities.
+
+Release evidence:
+
+- [`docs/releases/v1.0.0.md`](docs/releases/v1.0.0.md)
+- [`docs/releases/v1_metric_baseline.md`](docs/releases/v1_metric_baseline.md)
+- [`docs/releases/v1_reconciliation_evidence.md`](docs/releases/v1_reconciliation_evidence.md)
+- [`docs/capability_status.md`](docs/capability_status.md)
+- [`docs/v2_build_plan.md`](docs/v2_build_plan.md)
+
 ## Financial and Data Disclaimer
 
 This repository uses controlled synthetic data designed to represent realistic enterprise LLM usage, pricing, telemetry, allocation, invoice, and governance patterns.
@@ -382,20 +396,21 @@ Modeled optimization opportunities are not claimed as realized savings. Business
 
 ---
 
-## Future Extensions
+## Phase 2 Roadmap and Boundaries
 
-Potential future work includes:
+Phase 2 is planned to add:
 
-- Azure OpenAI and additional providers
-- RAG and vector-database infrastructure cost
-- AI-agent and tool-call cost attribution
-- GPU and provisioned-throughput economics
-- Fine-tuning and training cost
-- Multimodal usage
-- Forecasting and budget management
-- Provider-side automated spending enforcement
-- Production anomaly alerting
-- AI adoption and business-value measurement
+- Amazon Bedrock and Vertex AI/Gemini provider channels
+- Limited supporting AWS and GCP infrastructure cost
+- One small hosted-inference/GPU endpoint
+- A governed annual AI budget of **$76,438.52**
+- Driver-based forecasting and explainable variance
+- Fully loaded workload cost
+- Quality, latency, anomaly, and guardrail analysis
+- Provider and contract economics
+- Expanded Power BI, Excel, and PowerPoint decision support
+
+Phase 2 explicitly excludes Azure OpenAI, large-scale training, a large GPU fleet, multiple currencies, autonomous provider-side shutdown, an AI FinOps chatbot, and unverified business-ROI claims. See [`docs/v2_build_plan.md`](docs/v2_build_plan.md) and [`docs/v2_known_limitations.md`](docs/v2_known_limitations.md).
 
 ---
 

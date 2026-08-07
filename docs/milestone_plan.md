@@ -415,17 +415,31 @@ Each milestone must satisfy four rules before moving forward:
 
 ---
 
-## M20 — Optional Retail FinOps Integration
+## M20 — Freeze and Release v1
 
-**Goal:** Compare LLM invoiced cost with total cloud cost from Project 1.
+**Goal:** Freeze the completed OpenAI and Anthropic implementation before Phase 2 changes providers, tables, metrics, and reporting.
 
 **Deliverables**
-- Shared calendar/provider/business dimensions
-- LLM cost as percentage of total cloud cost
-- Combined executive page
-- Cross-project reconciliation
+- Corrected milestone tracker
+- Immutable v1 metric baseline
+- V1 capability-status document
+- Reconciliation and Power BI evidence manifest
+- Repository-validation evidence
+- Metric-change log
+- Phase 2 build plan and known-limitations register
+- `v1.0.0` release tag
+- `phase-2` development branch
 
 **Acceptance**
-- Financial bases are comparable
-- Integration does not change source grains
-- Both projects remain independently runnable
+- README, tracker, backlog, and capability status agree
+- Source generation and full repository CI pass
+- Required Power BI artifacts and screenshots are tracked
+- Baseline implementation commit is recorded
+- Local `main` and `origin/main` are synchronized
+- V1 release is tagged before Phase 2 implementation begins
+
+---
+
+## Phase 2 Continuation
+
+Milestones M21 through M35 are governed by [`v2_build_plan.md`](v2_build_plan.md). The optional cross-project retail integration remains a future integration boundary rather than a v1 milestone.

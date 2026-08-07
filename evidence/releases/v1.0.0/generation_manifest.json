@@ -1,0 +1,61 @@
+{
+  "files": {
+    "bridge_ai_usage_attribution.csv": {
+      "row_count": 13,
+      "sha256": "64b6a3a9959c5379a13e21e67a5f5058e325ca11056582daf0bbb0717a5b9aa5",
+      "size_bytes": 2394
+    },
+    "dim_ai_experiment_control.csv": {
+      "row_count": 4,
+      "sha256": "6ba48634a2364d09534ef1cd9c95789eedcb7368e6bf9eb0c40c323ff6497691",
+      "size_bytes": 1081
+    },
+    "fct_ai_experiment_decision.csv": {
+      "row_count": 9,
+      "sha256": "ccf7531acb639a70a99abb9dec7a39d14b1a5bcb273f6a64a54dcd90a8e047cb",
+      "size_bytes": 1206
+    },
+    "fct_ai_request_telemetry.csv": {
+      "failed_logical_request_count": 8597,
+      "logical_request_count": 347775,
+      "retry_attempt_count": 22146,
+      "row_count": 369921,
+      "sha256": "73c2d9bd2c03cb04cabc66e289fa7a9817eee49209c6685cf27fad05b35e337a",
+      "size_bytes": 68799906,
+      "successful_logical_request_count": 339178,
+      "usage_cost_estimate": 22318.045998
+    },
+    "raw_ai_provider_cost.csv": {
+      "invoice_billed_cost": 20340.146796,
+      "non_usage_line_count": 5,
+      "provider_reported_cost": 20243.727255,
+      "row_count": 135,
+      "sha256": "090e2c0dd168b161b1e51ba7d29adca0e85b43b6a1a711f099a6e2849b80c78f",
+      "size_bytes": 20273,
+      "usage_line_count": 130
+    },
+    "raw_ai_provider_usage.csv": {
+      "provider_row_counts": {
+        "anthropic": 1645,
+        "openai": 2786
+      },
+      "row_count": 4431,
+      "sha256": "970446db26db46cbd1d8abbd5ab6f46ac820261fe53fec3f9f79df33d9ba01f8",
+      "size_bytes": 616556
+    }
+  },
+  "generator_version": "1.0.0",
+  "master_seed": 42,
+  "profile": "full",
+  "reporting_period": {
+    "end_date": "2026-06-30",
+    "start_date": "2025-01-01"
+  },
+  "source_streams": {
+    "attribution": 4401,
+    "experiments": 4501,
+    "provider_cost": 4201,
+    "provider_usage": 4101,
+    "request_telemetry": 4301
+  }
+}

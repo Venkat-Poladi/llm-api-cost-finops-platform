@@ -1,0 +1,29 @@
+M20 V1 REPOSITORY VALIDATION
+Captured: 2026-08-06T21:46:03-04:00
+
+BASELINE IMPLEMENTATION COMMIT
+c2a2449c5e8dbba0237dd9abd8be3b747a247e26
+Refactor: centralize BigQuery deployment runner
+
+LOCAL VS ORIGIN
+Ahead: 0
+Behind: 0
+
+WORKING TREE
+CLEAN
+
+LOCAL VALIDATION
+SOURCE GENERATION PASSED
+189 TESTS PASSED
+ALL CHECKS PASSED
+REPOSITORY CI PASSED
+
+TRACKED WORKFLOWS
+.github/workflows/ci.yml
+.github/workflows/quality.yml
+
+TAG STATE AT CAPTURE
+NO TAGS
+
+M20 ACTION
+Create and push tag v1.0.0 only after the M20 release-evidence commit passes validation.
