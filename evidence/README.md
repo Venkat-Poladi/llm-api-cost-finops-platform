@@ -26,3 +26,8 @@ Never commit:
 - Confidential invoices, contracts, client names, or customer information
 
 The project does not require real provider access because its portfolio dataset is deliberately controlled and non-confidential.
+
+## Phase 2 evidence
+
+- `evidence/m21/m21_foundation_summary.json` records deterministic counts and configuration hashes for the M21 enterprise workload and provider foundation.
+- M21 contains no new financial outputs and does not replace the frozen v1 release evidence.

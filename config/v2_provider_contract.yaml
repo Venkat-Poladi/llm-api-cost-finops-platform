@@ -1,0 +1,92 @@
+contract_version: 2.0.0
+reporting_currency: USD
+identity_fields:
+  - dataset_release_id
+  - generator_version
+  - generator_seed
+  - generator_config_hash
+  - schema_version
+  - pricing_version
+  - provider_mapping_version
+  - allocation_rule_version
+  - source_code_commit
+  - generation_timestamp
+common_usage_fields:
+  - usage_timestamp
+  - usage_date
+  - provider_channel_id
+  - provider_account_scope
+  - provider_project_scope
+  - provider_request_id
+  - logical_request_id
+  - application_id
+  - feature_id
+  - environment
+  - provider_model_identifier
+  - normalized_model_key
+  - region
+  - processing_tier
+  - is_batch
+  - input_tokens
+  - output_tokens
+  - cache_read_tokens
+  - cache_write_tokens
+  - request_count
+  - attempt_number
+  - request_status
+  - latency_ms
+  - quality_score
+common_financial_fields:
+  - billing_period
+  - invoice_month
+  - provider_channel_id
+  - financial_line_id
+  - line_item_type
+  - usage_unit
+  - usage_amount
+  - usage_cost_estimate
+  - provider_reported_cost
+  - cloud_billed_cost
+  - invoice_billed_cost
+  - credit_amount
+  - adjustment_amount
+  - currency
+  - pricing_version
+provider_extensions:
+  OPENAI_DIRECT:
+    - openai_project_id
+    - openai_api_key_id
+    - openai_service_tier
+    - openai_batch_id
+  ANTHROPIC_DIRECT:
+    - anthropic_workspace_id
+    - anthropic_api_key_id
+    - anthropic_service_tier
+    - anthropic_cache_creation_5m_tokens
+    - anthropic_cache_creation_1h_tokens
+  AMAZON_BEDROCK:
+    - aws_account_id
+    - aws_region
+    - bedrock_inference_profile_id
+    - aws_usage_type
+    - aws_operation
+    - aws_unblended_cost
+    - aws_effective_cost
+    - aws_resource_tags
+  VERTEX_AI_GEMINI:
+    - gcp_billing_account_id
+    - gcp_project_id
+    - gcp_service
+    - gcp_sku
+    - gcp_resource_name
+    - gcp_credits
+    - gcp_labels
+  HOSTED_OPEN_SOURCE:
+    - endpoint_id
+    - gpu_type
+    - provisioned_gpu_hours
+    - active_gpu_hours
+    - idle_gpu_hours
+    - minimum_replicas
+    - autoscaling_enabled
+retention_rule: Provider-specific attributes must remain available after normalization and must not be discarded merely because they are not shared across channels.

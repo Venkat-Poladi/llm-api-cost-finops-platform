@@ -16,6 +16,10 @@ The only predetermined financial output is the approved annual AI budget:
 
 Actual cost, forecast, variances, opportunities, implemented run-rate, and verified modeled savings must be generated from documented assumptions and must not be manually targeted after generation.
 
+## Current status
+
+M21 enterprise workload and provider foundation is complete. M22 budget foundation is next. M21 changes governance contracts only and does not change published v1 metrics.
+
 ## Milestone sequence
 
 ### M21 — Enterprise Workload and Provider Foundation

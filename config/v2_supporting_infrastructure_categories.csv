@@ -1,0 +1,8 @@
+infrastructure_category_id,infrastructure_category_name,cost_class,primary_allocation_driver,fallback_allocation_driver,included_in_fully_loaded_cost,report_separately,planned_milestone
+DIRECT_MODEL,Direct model inference,DIRECT_MODEL,DIRECT_RESOURCE_MAPPING,REQUESTS,true,true,M23_M24
+RETRIEVAL,Vector and retrieval services,SUPPORTING_INFRASTRUCTURE,VECTOR_QUERIES,REQUESTS,true,true,M25
+ORCHESTRATION,Functions containers and workflow orchestration,SUPPORTING_INFRASTRUCTURE,COMPUTE_TIME,REQUESTS,true,true,M25
+OBSERVABILITY,Logging monitoring and traces,SUPPORTING_INFRASTRUCTURE,LOG_VOLUME,REQUESTS,true,true,M25
+STORAGE,Object and document storage,SUPPORTING_INFRASTRUCTURE,STORAGE_GB_MONTH,DOCUMENTS,true,true,M25
+NETWORK,Cross-region and provider data transfer,SUPPORTING_INFRASTRUCTURE,NETWORK_GB,REQUESTS,true,true,M25
+HOSTED_INFERENCE,Hosted endpoint and GPU capacity,SUPPORTING_INFRASTRUCTURE,ACTIVE_GPU_HOURS,REQUESTS,true,true,M25
