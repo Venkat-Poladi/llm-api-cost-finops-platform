@@ -1,0 +1,5 @@
+governance_policy_id,data_sensitivity,allowed_region_policy,allowed_environment,provider_review_required,logging_content_policy,retention_policy,restriction_summary
+GOV-INTERNAL-US,INTERNAL,US_ONLY,PRODUCTION_OR_EXPERIMENT,false,METADATA_ONLY,STANDARD_90_DAYS,Internal data may use approved US-hosted routes with metadata-only logging.
+GOV-CONFIDENTIAL-US,CONFIDENTIAL,US_ONLY,PRODUCTION_OR_EXPERIMENT,true,METADATA_ONLY,RESTRICTED_30_DAYS,Confidential data requires approved route and restricted retention.
+GOV-PII-US,CONFIDENTIAL,US_ONLY,PRODUCTION_OR_EXPERIMENT,true,NO_PROMPT_CONTENT,RESTRICTED_30_DAYS,PII workloads prohibit prompt-content logging and require approved US routes.
+GOV-RESTRICTED-US,RESTRICTED,US_ONLY,PRODUCTION,true,NO_PROMPT_CONTENT,RESTRICTED_30_DAYS,Restricted risk data requires production-only approved routes and formal review.

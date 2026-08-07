@@ -1,0 +1,31 @@
+{
+  "approved_route_count": 12,
+  "budget_amount_status": "PENDING_M22",
+  "config_sha256": {
+    "v2_approved_routes.csv": "c1b616baa96cabe2aa888acef80e44dadb0ee16dbce740ef81f47812eb677aa5",
+    "v2_data_governance_policies.csv": "a9268ff6ea67e421204d5d1ce6c833301bd314c33aca8f94ebac485fa617f40a",
+    "v2_provider_channels.csv": "2925b84b1d8c4beb916977fb60ebb6031c64c9489566e63091267a6780929333",
+    "v2_provider_contract.yaml": "cc0004131a81806007e2ecf1866f12bc12d18e1ba62c28883c10edbaa30742e7",
+    "v2_rate_card_contract.yaml": "afdec290933721cf8a9f28ef97286f3c83ab6114342c8a036c07d7de4081152e",
+    "v2_risk_control_matrix.csv": "d3bc80171e7ee1106387f1dd74b1e72e4c7bb41cbd3e444766e20b582a2fcf81",
+    "v2_supporting_infrastructure_categories.csv": "0469055b33050b94f0f837c1f6beb58745906bd52a74227eabe33993ae324ed1",
+    "v2_workload_inventory.csv": "1e2f58da7a006ebc336545c851529c8547d0d0b4a9dc0a784267ee7feca4cadf",
+    "v2_workload_thresholds.csv": "18fe502b4d340ced6178657a41ce8c3b05f4a622038a5866c67c7014b4748089"
+  },
+  "department_count": 4,
+  "experiment_count": 4,
+  "foundation_contract_version": "2.0.0",
+  "governance_policy_count": 4,
+  "infrastructure_category_count": 7,
+  "milestone": "M21",
+  "production_workload_count": 8,
+  "provider_channel_count": 5,
+  "published_metric_change": false,
+  "risk_control_count": 20,
+  "status": "PASS",
+  "team_count": 6,
+  "threshold_policy_count": 12,
+  "tier_1_control_count": 9,
+  "tier_2_control_count": 8,
+  "tier_3_control_count": 3
+}

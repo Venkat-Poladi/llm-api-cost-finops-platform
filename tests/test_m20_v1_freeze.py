@@ -60,7 +60,8 @@ def test_tracker_and_readme_agree_on_release_status() -> None:
         assert f"M{milestone} —" in tracker
     assert "v1.0.0 complete" in readme
     assert "Release tag | `v1.0.0`" in status
-    assert "Phase 2 implementation | Planned; not yet implemented" in status
+    assert "Phase 2 implementation |" in status
+    assert "M21 complete" in status
 
 
 def test_phase_2_plan_locks_only_the_approved_budget() -> None:

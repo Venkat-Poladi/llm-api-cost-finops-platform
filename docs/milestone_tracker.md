@@ -33,20 +33,20 @@ Completed milestones link to committed implementation or release evidence.
 
 Phase 2 milestones are defined in [`v2_build_plan.md`](v2_build_plan.md).
 
-| Milestone | Status | Development branch |
-|---|---|---|
-| M21 — Enterprise Workload and Provider Foundation | Planned | `phase-2` |
-| M22 — Budget Foundation | Planned | `phase-2` |
-| M23 — Amazon Bedrock Adapter | Planned | `phase-2` |
-| M24 — Vertex AI/Gemini Adapter | Planned | `phase-2` |
-| M25 — Supporting Infrastructure and GPU Economics | Planned | `phase-2` |
-| M26 — Multi-Channel Reconciliation and Allocation | Planned | `phase-2` |
-| M27 — Driver-Based Budgeting and Forecasting | Planned | `phase-2` |
-| M28 — Quality, Latency, and Reliability | Planned | `phase-2` |
-| M29 — Anomalies and Financial Guardrails | Planned | `phase-2` |
-| M30 — Optimization and Experiment Governance v2 | Planned | `phase-2` |
-| M31 — Unit Economics and Provider Economics | Planned | `phase-2` |
-| M32 — Power BI Semantic Model v2 | Planned | `phase-2` |
-| M33 — Power BI Management Reporting v2 | Planned | `phase-2` |
-| M34 — Excel and PowerPoint Decision Deliverables | Planned | `phase-2` |
-| M35 — Final Enterprise Release | Planned | `phase-2` |
+| Milestone | Status | Development branch | Evidence |
+|---|---|---|---|
+| M21 — Enterprise Workload and Provider Foundation | Complete | `phase-2` | [`m21_enterprise_workload_provider_foundation.md`](m21_enterprise_workload_provider_foundation.md), [`m21_foundation_summary.json`](../evidence/m21/m21_foundation_summary.json) |
+| M22 — Budget Foundation | Planned | `phase-2`  | |
+| M23 — Amazon Bedrock Adapter | Planned | `phase-2`  | |
+| M24 — Vertex AI/Gemini Adapter | Planned | `phase-2`  | |
+| M25 — Supporting Infrastructure and GPU Economics | Planned | `phase-2`  | |
+| M26 — Multi-Channel Reconciliation and Allocation | Planned | `phase-2`  | |
+| M27 — Driver-Based Budgeting and Forecasting | Planned | `phase-2`  | |
+| M28 — Quality, Latency, and Reliability | Planned | `phase-2`  | |
+| M29 — Anomalies and Financial Guardrails | Planned | `phase-2`  | |
+| M30 — Optimization and Experiment Governance v2 | Planned | `phase-2`  | |
+| M31 — Unit Economics and Provider Economics | Planned | `phase-2`  | |
+| M32 — Power BI Semantic Model v2 | Planned | `phase-2`  | |
+| M33 — Power BI Management Reporting v2 | Planned | `phase-2`  | |
+| M34 — Excel and PowerPoint Decision Deliverables | Planned | `phase-2`  | |
+| M35 — Final Enterprise Release | Planned | `phase-2`  | |

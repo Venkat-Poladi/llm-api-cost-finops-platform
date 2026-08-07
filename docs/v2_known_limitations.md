@@ -8,6 +8,7 @@ These limitations apply unless a later milestone explicitly closes them with imp
 | No production credentials in the repository | Provider and cloud access must use external secrets and authenticated environments. |
 | Public CI does not execute billable BigQuery workloads | Static, formula, contract, artifact, and repository tests run publicly; authenticated cloud execution remains separate. |
 | Provider contract assumptions are illustrative | Do not claim actual negotiated pricing or contractual terms without real evidence. |
+| M21 is a governance foundation, not a provider integration | Bedrock, Vertex, and hosted routes marked approved for design do not claim deployed adapters, verified native model identifiers, billing reconciliation, or new financial results. |
 | Supporting infrastructure is intentionally limited | Include only the components required to demonstrate fully loaded AI cost. |
 | Hosted inference is one small endpoint | Do not generalize results to a large GPU fleet. |
 | Guardrail enforcement is simulated unless implemented | Detection, recommendation, and provider-side enforcement must remain distinct. |

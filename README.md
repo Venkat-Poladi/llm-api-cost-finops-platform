@@ -2,7 +2,7 @@
 
 A portfolio-grade AI FinOps platform for measuring, reconciling, allocating, governing, and optimizing direct LLM API consumption across OpenAI and Anthropic.
 
-**Status:** v1.0.0 complete; Phase 2 foundation begins on `phase-2`  
+**Status:** v1.0.0 complete and frozen; M21 enterprise foundation complete on `phase-2`  
 **Data:** Controlled synthetic enterprise dataset  
 **Core stack:** Python, Google BigQuery, Power BI, GitHub Actions
 
@@ -354,6 +354,7 @@ an explicit `--project-id` argument takes precedence over the environment.
 - **v1.0.0** freezes the completed OpenAI and Anthropic implementation, governed metrics, Power BI evidence, and clean-repository validation.
 - The implementation baseline is commit `c2a2449`; the `v1.0.0` tag contains the M20 documentation and evidence freeze without changing v1 analytical logic.
 - Phase 2 continues on branch `phase-2` and extends the platform through governed milestones rather than rebuilding working v1 capabilities.
+- M21 establishes five provider channels, eight production workloads, four controlled experiments, effective-dated approved routes, quality/latency/reliability thresholds, data-governance policies, common provider and rate-card contracts, infrastructure categories, and a risk-based control matrix. It does not introduce new financial metrics.
 
 Release evidence:
 
@@ -362,6 +363,7 @@ Release evidence:
 - [`docs/releases/v1_reconciliation_evidence.md`](docs/releases/v1_reconciliation_evidence.md)
 - [`docs/capability_status.md`](docs/capability_status.md)
 - [`docs/v2_build_plan.md`](docs/v2_build_plan.md)
+- [`docs/m21_enterprise_workload_provider_foundation.md`](docs/m21_enterprise_workload_provider_foundation.md)
 
 ## Financial and Data Disclaimer
 
@@ -398,7 +400,7 @@ Modeled optimization opportunities are not claimed as realized savings. Business
 
 ## Phase 2 Roadmap and Boundaries
 
-Phase 2 is planned to add:
+Phase 2 M21 foundation is complete. The remaining milestones add:
 
 - Amazon Bedrock and Vertex AI/Gemini provider channels
 - Limited supporting AWS and GCP infrastructure cost

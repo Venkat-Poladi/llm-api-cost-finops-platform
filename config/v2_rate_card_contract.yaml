@@ -1,0 +1,43 @@
+rate_card_version: 2.0.0
+reporting_currency: USD
+rate_key:
+  - provider_channel_id
+  - normalized_model_key
+  - region
+  - processing_tier
+  - is_batch
+  - cache_treatment
+  - capacity_mode
+  - effective_start
+  - effective_end
+required_metadata:
+  - rate_source
+  - source_retrieved_date
+  - pricing_version
+  - approval_status
+  - contract_discount_status
+rate_components:
+  input_tokens_per_million: nullable_by_applicability
+  output_tokens_per_million: nullable_by_applicability
+  cache_read_tokens_per_million: nullable_by_applicability
+  cache_write_tokens_per_million: nullable_by_applicability
+  embedding_tokens_per_million: nullable_by_applicability
+  requests_per_thousand: nullable_by_applicability
+  provisioned_capacity_hour: nullable_by_applicability
+  gpu_hour: nullable_by_applicability
+  endpoint_hour: nullable_by_applicability
+  storage_gb_month: nullable_by_applicability
+  network_gb: nullable_by_applicability
+controls:
+  - No overlapping effective windows for the same complete rate key.
+  - Every priced usage row resolves to exactly one effective rate.
+  - Missing or unapproved rates block governed financial publication.
+  - Public list price and contracted effective price remain separately reportable.
+  - Credits and invoice adjustments are not embedded silently in token rates.
+  - Direct model cost and supporting infrastructure cost remain separately reportable.
+implementation_status:
+  OPENAI_DIRECT: PRESERVE_V1_EFFECTIVE_DATED_RATES
+  ANTHROPIC_DIRECT: PRESERVE_V1_EFFECTIVE_DATED_RATES
+  AMAZON_BEDROCK: IMPLEMENT_M23
+  VERTEX_AI_GEMINI: IMPLEMENT_M24
+  HOSTED_OPEN_SOURCE: IMPLEMENT_M25
